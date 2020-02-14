@@ -21,9 +21,15 @@
     <ClCompile Include="Win32Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Dx11Render.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11Render.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
