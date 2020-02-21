@@ -34,7 +34,7 @@ public:
 
 	void present() const
 	{
-		mSwapChain->Present(1, 0);
+		mSwapChain->Present(0, 0);
 	}
 
 	void getDevice(Microsoft::WRL::ComPtr<ID3D11Device> & pDevice) const

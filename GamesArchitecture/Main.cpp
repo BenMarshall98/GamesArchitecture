@@ -9,6 +9,10 @@
 #include "FragmentShader.h"
 #include "ConstantBuffer.h"
 
+#include "DearImGui/imgui.h"
+#include "DearImGui/imgui_impl_win32.h"
+#include "DearImGui/imgui_impl_dx11.h"
+
 struct ModelMatrix
 {
 	DirectX::XMFLOAT4X4 mModel;
@@ -25,6 +29,24 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 	const auto window = Win32Window::instance(pHInstance, pCmdShow);
 	window->run();
 	const auto render = Dx11Render::instance();
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO & io = ImGui::GetIO(); (void)io;
+
+	ImGui::StyleColorsDark();
+
+	ImGui_ImplWin32_Init(window->getHwnd());
+
+	{
+		Microsoft::WRL::ComPtr<ID3D11Device> device;
+		Dx11Render::instance()->getDevice(device);
+
+		Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext;
+		Dx11Render::instance()->getDeviceContext(deviceContext);
+
+		ImGui_ImplDX11_Init(device.Get(), deviceContext.Get());
+	}
 
 	auto model = std::make_shared<Model>();
 	ModelLoader::loadModelFromFile("Assets/Models/sphere.obj", model);
@@ -62,14 +84,34 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 
 	while (window->windowEvents())
 	{
+		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
+
+		ImGui::Begin("Hello, world!");
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::End();
+
+		ImGui::Render();
+
 		render->clearRenderTargetView(DirectX::Colors::CornflowerBlue);
 
 		vertexShader->UseProgram();
 		fragmentShader->UseProgram();
-		model->render();
+
+		for (int i = 0; i < 1000; i++)
+		{
+			model->render();
+		}
+
+		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 		render->present();
 	}
+
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
 
 	delete render;
 	delete window;

@@ -1,6 +1,9 @@
 #include "Win32Window.h"
 #include <string>
 
+#include "DearImGui/imgui.h"
+#include "DearImGui/imgui_impl_win32.h"
+
 Win32Window * Win32Window::mInstance = nullptr;
 
 Win32Window::Win32Window(const HINSTANCE pHInstance, const int pCmdShow) : mCmdShow(pCmdShow)
@@ -53,8 +56,15 @@ Win32Window * Win32Window::instance(const HINSTANCE pHInstance, const int pCmdSh
 	return mInstance;
 }
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT CALLBACK Win32Window::windowProcedure(const HWND pHwnd, const UINT pMessage, const WPARAM pWParam, const LPARAM pLParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(pHwnd, pMessage, pWParam, pLParam))
+	{
+		return true;
+	}
+		
 	PAINTSTRUCT paintStruct;
 	HDC hdc;
 
