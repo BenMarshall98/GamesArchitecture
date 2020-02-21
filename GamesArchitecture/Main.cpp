@@ -100,7 +100,7 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 		vertexShader->UseProgram();
 		fragmentShader->UseProgram();
 
-		model->render(7000);
+		model->render(42925);
 
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
