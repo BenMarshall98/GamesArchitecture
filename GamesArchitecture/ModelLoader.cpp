@@ -9,11 +9,11 @@
 #include "assimp/Importer.hpp"
 #include "assimp/postprocess.h"
 
-void ModelLoader::loadModelFromFile(const std::string& pModelFile, std::shared_ptr<Model> & pModel)
+void ModelLoader::loadModelFromFile(const std::string& pModelFile, std::shared_ptr<ModelInstanced> & pModel)
 {
 	Assimp::Importer importer;
 	const auto scene = importer.ReadFile(pModelFile,
-		aiProcess_Triangulate | aiProcess_CalcTangentSpace);
+		aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
@@ -36,18 +36,18 @@ void ModelLoader::loadModelFromFile(const std::string& pModelFile, std::shared_p
 			vertex.mVertex = DirectX::XMFLOAT3(x, y, z);
 		}
 
-		{
-			const auto x = mesh->mTextureCoords[0][i].x;
-			const auto y = mesh->mTextureCoords[0][i].y;
-			vertex.mTexCoord = DirectX::XMFLOAT2(x, y);
-		}
-
-		{
-			const auto x = mesh->mNormals[i].x;
-			const auto y = mesh->mNormals[i].y;
-			const auto z = mesh->mNormals[i].z;
-			vertex.mNormal = DirectX::XMFLOAT3(x, y, z);
-		}
+		//{
+		//	const auto x = mesh->mTextureCoords[0][i].x;
+		//	const auto y = mesh->mTextureCoords[0][i].y;
+		//	vertex.mTexCoord = DirectX::XMFLOAT2(x, y);
+		//}
+		//
+		//{
+		//	const auto x = mesh->mNormals[i].x;
+		//	const auto y = mesh->mNormals[i].y;
+		//	const auto z = mesh->mNormals[i].z;
+		//	vertex.mNormal = DirectX::XMFLOAT3(x, y, z);
+		//}
 
 		vertexData.push_back(vertex);
 	}
@@ -64,7 +64,7 @@ void ModelLoader::loadModelFromFile(const std::string& pModelFile, std::shared_p
 		}
 	}
 
-	pModel = std::make_shared<Model>();
+	pModel = std::make_shared<ModelInstanced>();
 
 	if (!pModel->loadModel(vertexData, indices))
 	{

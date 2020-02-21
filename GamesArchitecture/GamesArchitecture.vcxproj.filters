@@ -51,6 +51,9 @@
     <ClCompile Include="ConstantBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ModelInstanced.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32Window.h">
@@ -77,6 +80,9 @@
     <ClInclude Include="ConstantBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ModelInstanced.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -87,11 +93,7 @@
     </Object>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="SimpleVertexProgram.hlsl">
-      <Filter>Assets\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="SimpleFragmentProgram.hlsl">
-      <Filter>Assets\Shader</Filter>
-    </FxCompile>
+    <CopyFileToFolders Include="SimpleFragmentProgram.hlsl" />
+    <CopyFileToFolders Include="SimpleVertexProgram.hlsl" />
   </ItemGroup>
 </Project>

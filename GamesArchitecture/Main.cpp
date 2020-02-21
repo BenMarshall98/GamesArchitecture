@@ -12,6 +12,7 @@
 #include "DearImGui/imgui.h"
 #include "DearImGui/imgui_impl_win32.h"
 #include "DearImGui/imgui_impl_dx11.h"
+#include "ModelInstanced.h"
 
 struct ModelMatrix
 {
@@ -48,7 +49,7 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 		ImGui_ImplDX11_Init(device.Get(), deviceContext.Get());
 	}
 
-	auto model = std::make_shared<Model>();
+	auto model = std::make_shared<ModelInstanced>();
 	ModelLoader::loadModelFromFile("Assets/Models/sphere.obj", model);
 
 	auto vertexShader = std::make_unique<VertexShader>(L"SimpleVertexProgram.hlsl");
@@ -99,10 +100,7 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 		vertexShader->UseProgram();
 		fragmentShader->UseProgram();
 
-		for (int i = 0; i < 1000; i++)
-		{
-			model->render();
-		}
+		model->render(7000);
 
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
