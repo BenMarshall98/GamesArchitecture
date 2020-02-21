@@ -7,6 +7,18 @@
 #include "Model.h"
 #include "VertexShader.h"
 #include "FragmentShader.h"
+#include "ConstantBuffer.h"
+
+struct ModelMatrix
+{
+	DirectX::XMFLOAT4X4 mModel;
+};
+
+struct ViewProjectionMatrix
+{
+	DirectX::XMFLOAT4X4 mView;
+	DirectX::XMFLOAT4X4 mProjection;
+};
 
 int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCmdShow)
 {
@@ -22,6 +34,31 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 
 	auto result = vertexShader->Load();
 	result = fragmentShader->Load();
+
+	auto modelBuffer = std::make_unique<ConstantBuffer<ModelMatrix>>(0);
+	auto vpBuffer = std::make_unique<ConstantBuffer<ViewProjectionMatrix>>(1);
+
+	modelBuffer->Load();
+	vpBuffer->Load();
+
+	ModelMatrix modelMat;
+
+	XMStoreFloat4x4(&modelMat.mModel, DirectX::XMMatrixTranspose(DirectX::XMMatrixIdentity()));
+
+	ViewProjectionMatrix vpMat;
+
+	XMStoreFloat4x4(&vpMat.mView, DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtLH(
+		DirectX::XMVectorSet(5.0f, 5.0f, 5.0f, 1.0f),
+		DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f),
+		DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 1.0f)
+	)));
+
+	XMStoreFloat4x4(&vpMat.mProjection, DirectX::XMMatrixTranspose(DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2,
+		static_cast<float>(window->getWidth()) / static_cast<float>(window->getHeight()),
+		0.01f, 1000.0f)));
+
+	modelBuffer->UpdateBuffer(modelMat);
+	vpBuffer->UpdateBuffer(vpMat);
 
 	while (window->windowEvents())
 	{

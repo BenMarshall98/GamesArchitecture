@@ -1,3 +1,14 @@
+cbuffer modelBuffer : register(b0)
+{
+	matrix model;
+}
+
+cbuffer cameraBuffer : register(b1)
+{
+	matrix view;
+	matrix projection;
+}
+
 struct VS_INPUT
 {
 	float3 Pos : POSITION;
@@ -14,7 +25,10 @@ VS_OUTPUT main(VS_INPUT input)
 {
 	VS_OUTPUT output = (VS_OUTPUT) 0;
 
-	output.Pos = float4(input.Pos.x, input.Pos.y, 0.0f, 1.0f);
+	output.Pos = float4(input.Pos, 1.0f);
+	output.Pos = mul(output.Pos, model);
+	output.Pos = mul(output.Pos, view);
+	output.Pos = mul(output.Pos, projection);
 
 	return output;
 }
