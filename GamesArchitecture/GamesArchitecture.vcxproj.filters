@@ -52,11 +52,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <Object Include="Assets\Models\sphere.obj">
       <Filter>Assets\Models</Filter>
     </Object>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

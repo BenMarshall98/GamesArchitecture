@@ -23,7 +23,7 @@ void ModelLoader::loadModelFromFile(const std::string& pModelFile, std::shared_p
 
 	const auto mesh = scene->mMeshes[0];
 
-	std::vector<VertexData> mesh;
+	std::vector<VertexData> vertexData;
 
 	for (auto i = 0u; i < mesh->mNumVertices; i++)
 	{
@@ -48,6 +48,8 @@ void ModelLoader::loadModelFromFile(const std::string& pModelFile, std::shared_p
 			const auto z = mesh->mNormals[i].z;
 			vertex.mNormal = DirectX::XMFLOAT3(x, y, z);
 		}
+
+		vertexData.push_back(vertex);
 	}
 
 	std::vector<unsigned int> indices;
@@ -64,7 +66,7 @@ void ModelLoader::loadModelFromFile(const std::string& pModelFile, std::shared_p
 
 	pModel = std::make_shared<Model>();
 
-	if (!pModel->loadModel(mesh, indices))
+	if (!pModel->loadModel(vertexData, indices))
 	{
 		pModel.reset();
 	}
