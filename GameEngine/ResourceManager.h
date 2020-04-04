@@ -11,6 +11,8 @@
 
 class ResourceManager
 {
+	friend Shader;
+	
 	std::map<std::string, std::shared_ptr<Model>> mModels;
 	std::map<std::string, std::shared_ptr<VertexShader>> mVertexShaders;
 	std::map<std::string, std::shared_ptr<FragmentShader>> mFragmentShaders;

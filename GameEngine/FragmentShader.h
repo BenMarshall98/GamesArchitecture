@@ -10,7 +10,7 @@ class FragmentShader : public ShaderProgram
 	Microsoft::WRL::ComPtr<ID3D11PixelShader> mPixelShader;
 
 public:
-	FragmentShader(const std::wstring & pFilename) : ShaderProgram(pFilename) {};
+	FragmentShader(const std::string & pFilename) : ShaderProgram(pFilename) {};
 	~FragmentShader() { Reset(); };
 
 	bool Load() override;

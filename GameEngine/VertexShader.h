@@ -11,7 +11,7 @@ class VertexShader : public ShaderProgram
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> mInputLayout;
 
 public:
-	VertexShader(const std::wstring & pFilename) : ShaderProgram(pFilename) {};
+	VertexShader(const std::string & pFilename) : ShaderProgram(pFilename) {};
 	~VertexShader() = default;
 
 	bool Load() override;

@@ -5,11 +5,11 @@
 
 class ShaderProgram
 {
-	std::wstring mFilename;
+	std::string mFilename;
 
 public:
-	ShaderProgram(const std::wstring & pFilename) : mFilename(pFilename) {};
-	virtual ~ShaderProgram() {};
+	ShaderProgram(const std::string & pFilename) : mFilename(pFilename) {}
+	virtual ~ShaderProgram() = default;
 
 	virtual bool Load() = 0;
 	virtual void Reset() = 0;

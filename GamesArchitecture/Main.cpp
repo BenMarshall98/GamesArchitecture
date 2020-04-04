@@ -1,6 +1,7 @@
 #include "Win32Window.h"
 #include "Dx11Render.h"
 #include <DirectXColors.h>
+#include <DirectXMath.h>
 #include <memory>
 
 #include "ModelLoader.h"
@@ -52,8 +53,8 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 	auto model = std::make_shared<ModelInstanced>();
 	ModelLoader::loadModelFromFile("Assets/Models/sphere.obj", model);
 
-	auto vertexShader = std::make_unique<VertexShader>(L"SimpleVertexProgram.hlsl");
-	auto fragmentShader = std::make_unique<FragmentShader>(L"SimpleFragmentProgram.hlsl");
+	auto vertexShader = std::make_unique<VertexShader>("SimpleVertexProgram.hlsl");
+	auto fragmentShader = std::make_unique<FragmentShader>("SimpleFragmentProgram.hlsl");
 
 	auto result = vertexShader->Load();
 	result = fragmentShader->Load();
