@@ -34,7 +34,6 @@ ConstantBuffer<T>::~ConstantBuffer()
 template<class T>
 bool ConstantBuffer<T>::Load()
 {
-
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof bd);
 
@@ -47,12 +46,14 @@ bool ConstantBuffer<T>::Load()
 	Microsoft::WRL::ComPtr<ID3D11Device> device;
 	Dx11Render::instance()->getDevice(device);
 
-	auto result = device->CreateBuffer(&bd, nullptr, mConstantBuffer.ReleaseAndGetAddressOf());
+	const auto result = device->CreateBuffer(&bd, nullptr, mConstantBuffer.ReleaseAndGetAddressOf());
 
 	if (FAILED(result))
 	{
 		return false;
 	}
+	
+	return true;
 }
 
 template<class T>

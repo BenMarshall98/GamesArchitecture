@@ -12,7 +12,7 @@ class VertexShader : public ShaderProgram
 
 public:
 	VertexShader(const std::wstring & pFilename) : ShaderProgram(pFilename) {};
-	~VertexShader() { Reset(); };
+	~VertexShader() = default;
 
 	bool Load() override;
 	void Reset() override;

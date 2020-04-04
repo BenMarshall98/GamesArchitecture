@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\538704\source\repos\BenMarshall98\GamesArchitecture\External\DearImGui\include;C:\Users\538704\source\repos\BenMarshall98\GamesArchitecture\packages\Assimp.3.0.0\build\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\GameEngine;$(SolutionDir)\External\DearImGui\include;$(SolutionDir)\packages\Assimp.3.0.0\build\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>D3D11.lib;D3DCompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -88,7 +88,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\538704\source\repos\BenMarshall98\GamesArchitecture\External\DearImGui\include;C:\Users\538704\source\repos\BenMarshall98\GamesArchitecture\packages\Assimp.3.0.0\build\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\GameEngine;$(SolutionDir)\External\DearImGui\include;$(SolutionDir)\packages\Assimp.3.0.0\build\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>D3D11.lib;D3DCompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -102,7 +102,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\538704\source\repos\BenMarshall98\GamesArchitecture\External\DearImGui\include;C:\Users\538704\source\repos\BenMarshall98\GamesArchitecture\packages\Assimp.3.0.0\build\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\GameEngine;$(SolutionDir)\External\DearImGui\include;$(SolutionDir)\packages\Assimp.3.0.0\build\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -118,7 +118,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\538704\source\repos\BenMarshall98\GamesArchitecture\External\DearImGui\include;C:\Users\538704\source\repos\BenMarshall98\GamesArchitecture\packages\Assimp.3.0.0\build\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\GameEngine;$(SolutionDir)\External\DearImGui\include;$(SolutionDir)\packages\Assimp.3.0.0\build\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -127,27 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ConstantBuffer.cpp" />
-    <ClCompile Include="Dx11Render.cpp" />
-    <ClCompile Include="FragmentShader.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="ModelInstanced.cpp" />
-    <ClCompile Include="ModelLoader.cpp" />
-    <ClCompile Include="ShaderProgram.cpp" />
-    <ClCompile Include="VertexShader.cpp" />
-    <ClCompile Include="Win32Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ConstantBuffer.h" />
-    <ClInclude Include="Dx11Render.h" />
-    <ClInclude Include="FragmentShader.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="ModelInstanced.h" />
-    <ClInclude Include="ModelLoader.h" />
-    <ClInclude Include="ShaderProgram.h" />
-    <ClInclude Include="VertexShader.h" />
-    <ClInclude Include="Win32Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -187,6 +167,9 @@
   <ItemGroup>
     <ProjectReference Include="..\External\DearImGui\DearImGui.vcxproj">
       <Project>{8d8924ac-46ac-4d68-b8bb-259780859522}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\GameEngine\GameEngine.vcxproj">
+      <Project>{82353cbb-1588-457c-ba8c-8032fbf2a96a}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

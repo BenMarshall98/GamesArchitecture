@@ -64,7 +64,7 @@ LRESULT CALLBACK Win32Window::windowProcedure(const HWND pHwnd, const UINT pMess
 	{
 		return true;
 	}
-		
+
 	PAINTSTRUCT paintStruct;
 	HDC hdc;
 

@@ -6,7 +6,6 @@ bool ModelInstanced::loadModel(const std::vector<VertexData>& pMesh, const std::
 	Microsoft::WRL::ComPtr<ID3D11Device> device;
 	Dx11Render::instance()->getDevice(device);
 
-
 	//None changing data for Vertex Buffers;
 	D3D11_BUFFER_DESC bufferDesc;
 	ZeroMemory(&bufferDesc, sizeof bufferDesc);
