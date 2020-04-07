@@ -76,14 +76,15 @@ std::shared_ptr<Texture> ResourceManager::LoadTexture(const std::string& pTextur
 		return it->second;
 	}
 
-	auto texture = std::make_shared<Texture>(pTextureFile);
-
-	if (texture->Load())
-	{
-		mTextures.insert(std::pair<std::string, std::shared_ptr<Texture>>(pTextureFile, texture));
-
-		return texture;
-	}
+	//TODO
+	//auto texture = std::make_shared<Texture>(pTextureFile);
+	//
+	//if (texture->Load())
+	//{
+	//	mTextures.insert(std::pair<std::string, std::shared_ptr<Texture>>(pTextureFile, texture));
+	//
+	//	return texture;
+	//}
 
 	return nullptr;
 }
@@ -97,14 +98,15 @@ std::shared_ptr<Model> ResourceManager::LoadModel(const std::string& pModelFile)
 		return it->second;
 	}
 
-	auto model = std::make_shared<Model>(pModelFile);
-
-	if (model->Load())
-	{
-		mModels.insert(std::pair<std::string, std::shared_ptr<Model>>(pModelFile, model));
-
-		return model;
-	}
+	//TODO
+	//auto model = std::make_shared<Model>(pModelFile);
+	//
+	//if (model->Load())
+	//{
+	//	mModels.insert(std::pair<std::string, std::shared_ptr<Model>>(pModelFile, model));
+	//
+	//	return model;
+	//}
 
 	return nullptr;
 }
