@@ -9,7 +9,7 @@
 #include "assimp/Importer.hpp"
 #include "assimp/postprocess.h"
 
-void ModelLoader::loadModelFromFile(const std::string& pModelFile, std::shared_ptr<ModelInstanced> & pModel)
+void ModelLoader::LoadModelFromFile(const std::string & pModelFile, std::vector<VertexData> & pMesh, std::vector<unsigned int> & pIndices)
 {
 	Assimp::Importer importer;
 	const auto scene = importer.ReadFile(pModelFile,
@@ -62,12 +62,5 @@ void ModelLoader::loadModelFromFile(const std::string& pModelFile, std::shared_p
 		{
 			indices.push_back(face.mIndices[j]);
 		}
-	}
-
-	pModel = std::make_shared<ModelInstanced>();
-
-	if (!pModel->loadModel(vertexData, indices))
-	{
-		pModel.reset();
 	}
 }

@@ -11,7 +11,7 @@ class PositionComponent final : public Component
 
 public:
 	PositionComponent(const glm::vec3 & pPosition, const glm::vec3 & pScale);
-	~PositionComponent();
+	~PositionComponent() = default;
 
 	PositionComponent(const PositionComponent &) = delete;
 	PositionComponent(PositionComponent&&) = delete;

@@ -1,11 +1,20 @@
 #include "Model.h"
 
-#include "Model.h"
 #include "DX11Render.h"
+#include "ModelLoader.h"
 
-bool Model::loadModel(const std::vector<VertexData> & pMesh, const std::vector<unsigned int> & pIndices)
+Model::Model(const std::string & pModelFile) : mModelFile(pModelFile)
 {
-	mIndicesSize = pIndices.size();
+}
+
+bool Model::Load()
+{
+	std::vector<VertexData> mesh;
+	std::vector<unsigned int> indices;
+
+	ModelLoader::LoadModelFromFile(mModelFile, mesh, indices);
+	
+	mIndicesSize = indices.size();
 
 	Microsoft::WRL::ComPtr<ID3D11Device> device;
 	Dx11Render::instance()->getDevice(device);
@@ -22,8 +31,8 @@ bool Model::loadModel(const std::vector<VertexData> & pMesh, const std::vector<u
 	ZeroMemory(&initData, sizeof initData);
 
 	//Create Position Buffer
-	bufferDesc.ByteWidth = sizeof(VertexData) * pMesh.size();
-	initData.pSysMem = pMesh.data();
+	bufferDesc.ByteWidth = sizeof(VertexData) * mesh.size();
+	initData.pSysMem = mesh.data();
 
 	auto result = device->CreateBuffer(&bufferDesc, &initData, &mMeshBuffer);
 
@@ -34,11 +43,11 @@ bool Model::loadModel(const std::vector<VertexData> & pMesh, const std::vector<u
 	}
 
 	//Create Index Buffer
-	bufferDesc.ByteWidth = sizeof(unsigned int) * pIndices.size();
+	bufferDesc.ByteWidth = sizeof(unsigned int) * indices.size();
 	bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
 	ZeroMemory(&initData, sizeof initData);
-	initData.pSysMem = pIndices.data();
+	initData.pSysMem = indices.data();
 
 	result = device->CreateBuffer(&bufferDesc, &initData, &mIndicesBuffer);
 
@@ -51,7 +60,7 @@ bool Model::loadModel(const std::vector<VertexData> & pMesh, const std::vector<u
 	return true;
 }
 
-void Model::render()
+void Model::Render()
 {
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext;
 	Dx11Render::instance()->getDeviceContext(deviceContext);

@@ -19,9 +19,9 @@ public:
 	Entity & operator= (const Entity &) = delete;
 	Entity & operator= (Entity&&) = delete;
 
-	void AddComponent(std::shared_ptr<Component> pComponent);
-	void RemoveComponent(std::shared_ptr<Component> pComponent);
+	void AddComponent(const std::shared_ptr<Component> & pComponent);
+	void RemoveComponent(const std::shared_ptr<Component> & pComponent);
 	std::shared_ptr<Component> GetComponentByType(ComponentType pType);
-	bool HasComponents(std::vector<ComponentType> pTypes);
+	bool HasComponents(const std::vector<ComponentType> & pTypes) const;
 };
 

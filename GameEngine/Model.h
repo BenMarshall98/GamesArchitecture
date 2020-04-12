@@ -14,13 +14,15 @@ struct VertexData
 
 class Model
 {
+	std::string mModelFile;
+	
 	Microsoft::WRL::ComPtr<ID3D11Buffer> mMeshBuffer = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> mIndicesBuffer = nullptr;
 
 	unsigned int mIndicesSize = 0u;
 
 public:
-	Model() = default;
+	Model(const std::string & pModelFile);
 	~Model() = default;
 
 	Model(const Model&) = delete;
@@ -28,7 +30,7 @@ public:
 	Model & operator= (const Model &) = delete;
 	Model & operator= (Model &&) = delete;
 
-	bool loadModel(const std::vector<VertexData> & pMesh, const std::vector<unsigned int> & pIndices);
+	bool Load();
 
-	void render();
+	void Render();
 };

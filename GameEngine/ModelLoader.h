@@ -8,5 +8,5 @@
 class ModelLoader
 {
 public:
-	static void loadModelFromFile(const std::string & pModelFile, std::shared_ptr<ModelInstanced> & pModel);
+	static void LoadModelFromFile(const std::string & pModelFile, std::vector<VertexData> & pMesh, std::vector<unsigned int> & pIndices);
 };

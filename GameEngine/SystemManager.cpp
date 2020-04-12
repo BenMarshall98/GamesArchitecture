@@ -1,1 +1,53 @@
 #include "SystemManager.h"
+
+void SystemManager::AddUpdateSystem(std::unique_ptr<System> & pUpdateSystem)
+{
+	mUpdateSystems.emplace_back(std::move(pUpdateSystem));
+}
+
+void SystemManager::AddRenderSystem(std::unique_ptr<System> & pRenderSystem)
+{
+	mRenderSystems.emplace_back(std::move(pRenderSystem));
+}
+
+void SystemManager::Update(const float pDeltaTime)
+{
+	for (auto & updateSystem : mUpdateSystems)
+	{
+		updateSystem->Action(pDeltaTime);
+	}
+}
+
+void SystemManager::Render()
+{
+	for (auto & renderSystem : mRenderSystems)
+	{
+		renderSystem->Action(0.0f);
+	}
+}
+
+void SystemManager::AddEntity(const std::shared_ptr<Entity>& pEntity)
+{
+	for (auto & updateSystem : mUpdateSystems)
+	{
+		updateSystem->AddEntity(pEntity);
+	}
+
+	for (auto & renderSystem : mRenderSystems)
+	{
+		renderSystem->AddEntity(pEntity);
+	}
+}
+
+void SystemManager::UpdateEntity(const std::shared_ptr<Entity>& pEntity)
+{
+	for (auto & updateSystem : mUpdateSystems)
+	{
+		updateSystem->UpdateEntity(pEntity);
+	}
+
+	for (auto & renderSystem : mRenderSystems)
+	{
+		renderSystem->UpdateEntity(pEntity);
+	}
+}
