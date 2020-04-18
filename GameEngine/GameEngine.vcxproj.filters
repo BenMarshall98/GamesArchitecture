@@ -28,6 +28,9 @@
     <Filter Include="Systems">
       <UniqueIdentifier>{bb2e1762-dfa8-41e0-b6ed-1f6bb5c38a0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PhysicsTree">
+      <UniqueIdentifier>{9b959543-ca8e-404d-9c07-9b5e863593a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VertexShader.cpp">
@@ -109,6 +112,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DDSTextureLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsTree.cpp">
+      <Filter>PhysicsTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Octree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -198,6 +207,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DDSTextureLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsTree.h">
+      <Filter>PhysicsTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Octree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

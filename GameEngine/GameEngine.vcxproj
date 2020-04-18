@@ -137,8 +137,10 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelInstanced.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
+    <ClCompile Include="Octree.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
+    <ClCompile Include="PhysicsTree.cpp" />
     <ClCompile Include="PlaneObject.cpp" />
     <ClCompile Include="PositionComponent.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
@@ -167,8 +169,10 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelInstanced.h" />
     <ClInclude Include="ModelLoader.h" />
+    <ClInclude Include="Octree.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="PhysicsManager.h" />
+    <ClInclude Include="PhysicsTree.h" />
     <ClInclude Include="PlaneObject.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="RenderComponent.h" />
