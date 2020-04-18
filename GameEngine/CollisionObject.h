@@ -5,6 +5,12 @@
 class PlaneObject;
 class SphereObject;
 
+struct CollisionData
+{
+	glm::vec3 mCollisionNormal;
+	float mTime;
+};
+
 enum class RigidBodyType
 {
 	DYNAMIC,
@@ -13,6 +19,7 @@ enum class RigidBodyType
 
 class CollisionObject
 {
+protected:
 	glm::vec3 mLastPosition;
 	glm::vec3 mCurrentPosition;
 	
@@ -21,11 +28,11 @@ class CollisionObject
 
 	float mMass;
 
-	RigidBodyType pType;
+	RigidBodyType mType;
 
 public:
 	CollisionObject(const glm::vec3 & pPosition, const glm::vec3 & pVelocity, float pMass = 0.0f);
-	~CollisionObject() = default;
+	virtual ~CollisionObject() = default;
 
 	CollisionObject(const CollisionObject &) = delete;
 	CollisionObject(CollisionObject&&) = delete;
@@ -41,12 +48,10 @@ public:
 	void Update();
 	void Swap();
 
-	bool Collision(CollisionObject * pCollisionObject);
-	bool CollisionSphere(SphereObject * pSphereObject);
-	bool CollisionPlane(PlaneObject * pPlaneObject);
+	virtual bool Collision(CollisionObject * pCollisionObject, CollisionData & pData) = 0;
+	virtual bool CollisionSphere(SphereObject * pSphereObject, CollisionData & pData) = 0;
+	virtual bool CollisionPlane(PlaneObject * pPlaneObject, CollisionData & pData) = 0;
 
-	void CollisionResponse(CollisionObject * pCollisionObject);
-	void CollisionResponseSphere(SphereObject * pSphereObject);
-	void CollisionResponsePlane(PlaneObject * pPlaneObject);
+	void CollisionResponse(CollisionObject * pCollisionObject, const CollisionData & pData);
 };
 
