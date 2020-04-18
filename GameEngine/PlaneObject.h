@@ -10,7 +10,8 @@ class PlaneObject final : public CollisionObject
 	glm::vec3 mNormal;
 
 public:
-	PlaneObject(const glm::vec3 & pPosition, const glm::vec3 & pNormal);
+	PlaneObject(Entity * pParent, const glm::vec3 & pPosition, const glm::vec3 & pNormal,
+		const std::function<void(CollisionObject*, CollisionObject*)> & pFunction = [](CollisionObject*, CollisionObject*) {});
 	~PlaneObject() = default;
 
 	PlaneObject(const PlaneObject &) = delete;

@@ -2,8 +2,8 @@
 
 #include "SphereObject.h"
 
-PlaneObject::PlaneObject(const glm::vec3& pPosition, const glm::vec3& pNormal) :
-	CollisionObject(pPosition, glm::vec3(0.0f), 0.0f), mNormal(pNormal)
+PlaneObject::PlaneObject(Entity * pEntity, const glm::vec3& pPosition, const glm::vec3& pNormal, const std::function<void(CollisionObject*, CollisionObject*)> & pFunction) :
+	CollisionObject(pEntity, pPosition, glm::vec3(0.0f), 0.0f, pFunction), mNormal(pNormal)
 {
 }
 

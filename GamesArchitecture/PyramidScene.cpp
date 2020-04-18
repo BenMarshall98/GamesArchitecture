@@ -2,7 +2,6 @@
 
 #include <DirectXColors.h>
 
-
 #include "ConstantBuffer.h"
 #include "DearImGui/imgui.h"
 #include "DearImGui/imgui_impl_dx11.h"
@@ -12,10 +11,7 @@
 
 void PyramidScene::Load()
 {
-	const auto window = Win32Window::instance();
-
-	mModel = std::make_shared<ModelInstanced>();
-	ModelLoader::LoadModelFromFile("Assets/Models/sphere.obj", mModel);
+	const auto window = Win32Window::Instance();
 
 	mVertexShader = std::make_unique<VertexShader>("SimpleVertexProgram.hlsl");
 	mFragmentShader = std::make_unique<FragmentShader>("SimpleFragmentProgram.hlsl");
@@ -35,7 +31,7 @@ void PyramidScene::Load()
 	)));
 
 	XMStoreFloat4x4(&vpMat.mProjection, DirectX::XMMatrixTranspose(DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2,
-		static_cast<float>(window->getWidth()) / static_cast<float>(window->getHeight()),
+		static_cast<float>(window->GetWidth()) / static_cast<float>(window->GetHeight()),
 		0.01f, 1000.0f)));
 
 	vpBuffer->UpdateBuffer(vpMat);
@@ -50,6 +46,7 @@ void PyramidScene::Render()
 
 	ImGui::Begin("Hello, world!");
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::Text("Current Size of Pyramid %i. Size of Pyramid After Reset %i", mCurrentSizePyramid, mNextSizePyramid);
 	ImGui::End();
 
 	ImGui::Render();
@@ -59,7 +56,7 @@ void PyramidScene::Render()
 	mVertexShader->UseProgram();
 	mFragmentShader->UseProgram();
 
-	mModel->render(42925);
+	//mModel->render(42925);
 
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
@@ -68,10 +65,76 @@ void PyramidScene::Render()
 
 void PyramidScene::Update(float pDeltaTime)
 {
+	//Check Key Presses
 
+	{
+		static auto delay = 0.0f;
+		delay -= pDeltaTime;
+
+		const auto status = Win32Window::Instance()->GetKeyStatus('R');
+
+		if (delay <= 0.0f && status)
+		{
+			delay = 0.5f;
+			Reset();
+		}
+		else if (!status)
+		{
+			delay = 0.0f;
+		}
+	}
+
+	{
+		static auto delay = 0.0f;
+		delay -= pDeltaTime;
+
+		const auto status = Win32Window::Instance()->GetKeyStatus('T');
+
+		if (delay <= 0.0f && status)
+		{
+			delay = 0.1f;
+			mNextSizePyramid++;
+
+			if (mNextSizePyramid > 50)
+			{
+				mNextSizePyramid = 50;
+			}
+		}
+		else if (!status)
+		{
+			delay = 0.0f;
+		}
+	}
+
+	{
+		static auto delay = 0.0f;
+		delay -= pDeltaTime;
+
+		const auto status = Win32Window::Instance()->GetKeyStatus('G');
+
+		if (delay <= 0.0f && status)
+		{
+			delay = 0.1f;
+			mNextSizePyramid--;
+
+			if (mNextSizePyramid < 3)
+			{
+				mNextSizePyramid = 3;
+			}
+		}
+		else if (!status)
+		{
+			delay = 0.0f;
+		}
+	}
 }
 
 void PyramidScene::Unload()
 {
 
+}
+
+void PyramidScene::Reset()
+{
+	mCurrentSizePyramid = mNextSizePyramid;
 }

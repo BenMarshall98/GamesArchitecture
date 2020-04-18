@@ -1,6 +1,7 @@
 #pragma once
 
 #define NOMINMAX
+#include <map>
 #include <Windows.h>
 
 class Win32Window
@@ -11,35 +12,38 @@ class Win32Window
 	int mHeight = 600;
 	int mCmdShow;
 
+	std::map<WPARAM, bool> mStatus;
+
 	static Win32Window * mInstance;
 
 	Win32Window(HINSTANCE pHInstance, int pCmdShow);
+	void SetKeyState(WPARAM pKey, bool pStatus);
 
-	static LRESULT CALLBACK windowProcedure(HWND pHwnd, UINT pMessage, WPARAM pWParam, LPARAM pLParam);
+	static LRESULT CALLBACK WindowProcedure(HWND pHwnd, UINT pMessage, WPARAM pWParam, LPARAM pLParam);
 
 public:
 
-	static Win32Window * instance();
-	static Win32Window * instance(HINSTANCE pHInstance, int pCmdShow);
+	static Win32Window * Instance();
+	static Win32Window * Instance(HINSTANCE pHInstance, int pCmdShow);
 
-	static bool windowEvents();
+	static bool WindowEvents();
 
-	int getWidth() const
+	int GetWidth() const
 	{
 		return mWidth;
 	}
 
-	int getHeight() const
+	int GetHeight() const
 	{
 		return mHeight;
 	}
 
-	HWND getHwnd() const
+	HWND GetHwnd() const
 	{
 		return mHwnd;
 	}
 
-	void run() const
+	void Run() const
 	{
 		ShowWindow(mHwnd, mCmdShow);
 	}
@@ -50,4 +54,6 @@ public:
 	Win32Window(Win32Window &&) = delete;
 	Win32Window & operator= (const Win32Window &) = delete;
 	Win32Window & operator= (Win32Window &&) = delete;
+
+	bool GetKeyStatus(WPARAM pKey);
 };

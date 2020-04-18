@@ -18,6 +18,10 @@ class PyramidScene final : public Scene
 	std::shared_ptr<ModelInstanced> mModel;
 	std::shared_ptr<VertexShader> mVertexShader;
 	std::shared_ptr<FragmentShader> mFragmentShader;
+	int mCurrentSizePyramid = 3;
+	int mNextSizePyramid = 3;
+
+	void Reset();
 
 public:
 	PyramidScene() = default;

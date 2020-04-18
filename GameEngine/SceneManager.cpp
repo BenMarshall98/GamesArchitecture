@@ -9,7 +9,15 @@ void SceneManager::Run(const std::shared_ptr<Scene>& pScene)
 	mScenes.push(pScene);
 	mScenes.top()->Load();
 
-	while (Win32Window::windowEvents())
+	LARGE_INTEGER timer;
+	QueryPerformanceFrequency(&timer);
+
+	const auto freq = timer.QuadPart;
+
+	QueryPerformanceCounter(&timer);
+	auto start = timer.QuadPart;
+
+	while (Win32Window::WindowEvents())
 	{
 		if (mNextScene)
 		{
@@ -26,9 +34,15 @@ void SceneManager::Run(const std::shared_ptr<Scene>& pScene)
 
 			mCloseScene = false;
 		}
+		
+		QueryPerformanceCounter(&timer);
+		const auto stop = timer.QuadPart;
 
-		//TODO: Calculate Delta Time
-		mScenes.top()->Update(0.016f);
+		const auto deltaTime = static_cast<double>(stop - start) / freq;
+
+		start = stop;
+		
+		mScenes.top()->Update(deltaTime);
 		mScenes.top()->Render();
 	}
 }

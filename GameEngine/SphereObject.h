@@ -10,7 +10,8 @@ class SphereObject final : public CollisionObject
 	float mRadius;
 	
 public:
-	SphereObject(const glm::vec3 & pPosition, const glm::vec3 & pVelocity, float pMass, float pRadius);
+	SphereObject(Entity * pParent, const glm::vec3 & pPosition, const glm::vec3 & pVelocity, float pMass, float pRadius,
+		const std::function<void(CollisionObject*, CollisionObject*)> & pFunction = [](CollisionObject*, CollisionObject*){});
 	~SphereObject() = default;
 
 	SphereObject(const SphereObject &) = delete;

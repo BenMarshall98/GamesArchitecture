@@ -1,8 +1,9 @@
 #include "SphereObject.h"
 #include "PlaneObject.h"
 
-SphereObject::SphereObject(const glm::vec3& pPosition, const glm::vec3& pVelocity, float pMass, float pRadius)
-	: CollisionObject(pPosition, pVelocity, pMass), mRadius(pRadius)
+SphereObject::SphereObject(Entity * pParent, const glm::vec3& pPosition, const glm::vec3& pVelocity, const float pMass, const float pRadius,
+	const std::function<void(CollisionObject*, CollisionObject*)> & pFunction) : CollisionObject(pParent, pPosition, pVelocity, pMass, pFunction),
+	mRadius(pRadius)
 {
 }
 

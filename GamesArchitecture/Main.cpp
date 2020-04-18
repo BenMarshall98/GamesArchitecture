@@ -13,8 +13,8 @@
 
 int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCmdShow)
 {
-	const auto window = Win32Window::instance(pHInstance, pCmdShow);
-	window->run();
+	const auto window = Win32Window::Instance(pHInstance, pCmdShow);
+	window->Run();
 	const auto render = Dx11Render::instance();
 
 	IMGUI_CHECKVERSION();
@@ -23,7 +23,7 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 
 	ImGui::StyleColorsDark();
 
-	ImGui_ImplWin32_Init(window->getHwnd());
+	ImGui_ImplWin32_Init(window->GetHwnd());
 
 	{
 		Microsoft::WRL::ComPtr<ID3D11Device> device;

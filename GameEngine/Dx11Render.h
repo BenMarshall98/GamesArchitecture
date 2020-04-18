@@ -50,8 +50,8 @@ public:
 	void defaultViewport()
 	{
 		D3D11_VIEWPORT viewport;
-		viewport.Width = static_cast<float>(Win32Window::instance()->getWidth());
-		viewport.Height = static_cast<float>(Win32Window::instance()->getHeight());
+		viewport.Width = static_cast<float>(Win32Window::Instance()->GetWidth());
+		viewport.Height = static_cast<float>(Win32Window::Instance()->GetHeight());
 		viewport.MinDepth = 0.0f;
 		viewport.MaxDepth = 1.0f;
 		viewport.TopLeftX = 0;

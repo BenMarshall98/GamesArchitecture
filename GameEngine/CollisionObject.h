@@ -1,5 +1,9 @@
 #pragma once
 
+#include <functional>
+
+
+#include "Entity.h"
 #include "glm/glm.hpp"
 
 class PlaneObject;
@@ -30,8 +34,13 @@ protected:
 
 	RigidBodyType mType;
 
+	std::function<void(CollisionObject*, CollisionObject*)> mFunction;
+
+	Entity * mParent;
+
 public:
-	CollisionObject(const glm::vec3 & pPosition, const glm::vec3 & pVelocity, float pMass = 0.0f);
+	CollisionObject(Entity * pParent, const glm::vec3 & pPosition, const glm::vec3 & pVelocity, float pMass = 0.0f,
+		const std::function<void(CollisionObject*, CollisionObject*)> & pFunction = [](CollisionObject*, CollisionObject*){});
 	virtual ~CollisionObject() = default;
 
 	CollisionObject(const CollisionObject &) = delete;

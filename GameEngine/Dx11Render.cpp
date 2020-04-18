@@ -12,7 +12,7 @@ mRasterizerState(nullptr)
 
 bool Dx11Render::loadRender()
 {
-	const auto window = Win32Window::instance();
+	const auto window = Win32Window::Instance();
 
 	std::vector<D3D_FEATURE_LEVEL> featureLevels;
 	featureLevels.emplace_back(D3D_FEATURE_LEVEL_11_1);
@@ -71,15 +71,15 @@ bool Dx11Render::loadRender()
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc;
 	ZeroMemory(&swapChainDesc, sizeof swapChainDesc);
 
-	swapChainDesc.Width = window->getWidth();
-	swapChainDesc.Height = window->getHeight();
+	swapChainDesc.Width = window->GetWidth();
+	swapChainDesc.Height = window->GetHeight();
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.SampleDesc.Quality = 0;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.BufferCount = 1;
 
-	dxgiFactory2->CreateSwapChainForHwnd(mDevice.Get(), window->getHwnd(), &swapChainDesc, nullptr, nullptr, &mSwapChain1);
+	dxgiFactory2->CreateSwapChainForHwnd(mDevice.Get(), window->GetHwnd(), &swapChainDesc, nullptr, nullptr, &mSwapChain1);
 
 	result = mSwapChain1->QueryInterface(IID_PPV_ARGS(&mSwapChain));
 
@@ -106,8 +106,8 @@ bool Dx11Render::loadRender()
 
 	//Create Depth / Stencil BackBuffer
 	D3D11_TEXTURE2D_DESC depthTextureDesc;
-	depthTextureDesc.Width = window->getWidth();
-	depthTextureDesc.Height = window->getHeight();
+	depthTextureDesc.Width = window->GetWidth();
+	depthTextureDesc.Height = window->GetHeight();
 	depthTextureDesc.MipLevels = 1;
 	depthTextureDesc.ArraySize = 1;
 	depthTextureDesc.Format = DXGI_FORMAT_D32_FLOAT;
@@ -172,8 +172,8 @@ bool Dx11Render::loadRender()
 	mDeviceContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthView.Get());
 
 	D3D11_VIEWPORT viewport;
-	viewport.Width = static_cast<float>(window->getWidth());
-	viewport.Height = static_cast<float>(window->getHeight());
+	viewport.Width = static_cast<float>(window->GetWidth());
+	viewport.Height = static_cast<float>(window->GetHeight());
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	viewport.TopLeftX = 0;
