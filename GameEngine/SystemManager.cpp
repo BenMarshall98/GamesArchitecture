@@ -66,3 +66,16 @@ void SystemManager::RemoveEntity(const std::shared_ptr<Entity>& pEntity)
 		renderSystem->RemoveEntity(pEntity);
 	}
 }
+
+void SystemManager::Reset()
+{
+	for (auto & updateSystem : mUpdateSystems)
+	{
+		updateSystem->Reset();
+	}
+
+	for (auto & renderSystem : mRenderSystems)
+	{
+		renderSystem->Reset();
+	}
+}

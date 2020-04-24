@@ -36,4 +36,5 @@ public:
 	void Update(float pDeltaTime);
 	void Render();
 	void Swap();
+	void Reset();
 };

@@ -63,3 +63,11 @@ void EntityManager::Swap()
 		entity->Swap();
 	}
 }
+
+void EntityManager::Reset()
+{
+	SystemManager::Instance()->Reset();
+
+	mEntities.clear();
+	mEntities.shrink_to_fit();
+}

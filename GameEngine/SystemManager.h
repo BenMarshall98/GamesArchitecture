@@ -36,4 +36,5 @@ public:
 	void AddEntity(const std::shared_ptr<Entity> & pEntity);
 	void UpdateEntity(const std::shared_ptr<Entity> & pEntity);
 	void RemoveEntity(const std::shared_ptr<Entity> & pEntity);
+	void Reset();
 };

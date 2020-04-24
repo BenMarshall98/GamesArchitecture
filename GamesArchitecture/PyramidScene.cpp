@@ -27,12 +27,9 @@ void PyramidScene::Load()
 	auto renderSystem = std::make_unique<RenderSystem>();
 	systemManager->AddRenderSystem(std::move(renderSystem));
 
-	auto entityManager = EntityManager::Instance();
+	Reset();
 
-	entityManager->AddEntity(std::make_shared<UserEntity>(glm::vec3(0.0f, 0.0f, 5.0f)));
-	entityManager->AddEntity(std::make_shared<PyramidShapeEntity>(glm::vec3(0.0f), true));
-
-	CameraManager::Instance()->SetPerspective(0.1f, 100.0f);
+	CameraManager::Instance()->SetPerspective(0.01f, 100.0f);
 }
 
 void PyramidScene::Render()
@@ -134,4 +131,32 @@ void PyramidScene::Unload()
 void PyramidScene::Reset()
 {
 	mCurrentSizePyramid = mNextSizePyramid;
+
+	auto entityManager = EntityManager::Instance();
+
+	entityManager->Reset();
+
+	entityManager->AddEntity(std::make_shared<UserEntity>(glm::vec3(1.0f, 0.5f, 1.0f)));
+
+	const auto offset = 1.0f / sqrt(2.0f) * 0.02f;
+
+	auto mass = false;
+
+	for (auto i = 1; i <= mCurrentSizePyramid; i++)
+	{
+		const auto y = static_cast<float>(mCurrentSizePyramid - i) * offset;
+
+		for (auto j = 0; j < i; j++)
+		{
+			for (auto k = 0; k < i; k++)
+			{
+				const auto x = j * 0.02f - static_cast<float>(i) * 0.02f / 2.0f;
+				const auto z = k * 0.02f - static_cast<float>(i) * 0.02f / 2.0f;
+
+				entityManager->AddEntity(std::make_shared<PyramidShapeEntity>(glm::vec3(x, y, z), mass));
+			}
+		}
+
+		mass = true;
+	}
 }

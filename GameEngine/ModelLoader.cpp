@@ -34,18 +34,18 @@ void ModelLoader::LoadModelFromFile(const std::string & pModelFile, std::vector<
 			vertex.mVertex = DirectX::XMFLOAT3(x, y, z);
 		}
 
-		//{
-		//	const auto x = mesh->mTextureCoords[0][i].x;
-		//	const auto y = mesh->mTextureCoords[0][i].y;
-		//	vertex.mTexCoord = DirectX::XMFLOAT2(x, y);
-		//}
-		//
-		//{
-		//	const auto x = mesh->mNormals[i].x;
-		//	const auto y = mesh->mNormals[i].y;
-		//	const auto z = mesh->mNormals[i].z;
-		//	vertex.mNormal = DirectX::XMFLOAT3(x, y, z);
-		//}
+		{
+			const auto x = mesh->mTextureCoords[0][i].x;
+			const auto y = mesh->mTextureCoords[0][i].y;
+			vertex.mTexCoord = DirectX::XMFLOAT2(x, y);
+		}
+		
+		{
+			const auto x = mesh->mNormals[i].x;
+			const auto y = mesh->mNormals[i].y;
+			const auto z = mesh->mNormals[i].z;
+			vertex.mNormal = DirectX::XMFLOAT3(x, y, z);
+		}
 
 		pMesh.push_back(vertex);
 	}

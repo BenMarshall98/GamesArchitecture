@@ -8,8 +8,8 @@
 struct VertexData
 {
 	DirectX::XMFLOAT3 mVertex;
-	//DirectX::XMFLOAT2 mTexCoord;
-	//DirectX::XMFLOAT3 mNormal;
+	DirectX::XMFLOAT2 mTexCoord;
+	DirectX::XMFLOAT3 mNormal;
 };
 
 class Model

@@ -12,13 +12,15 @@ cbuffer cameraBuffer : register(b1)
 struct VS_INPUT
 {
 	float3 Pos : POSITION;
-	//float2 TexCoord : TEXCOORD;
-	//float3 Normal : NORMAL;
+	float2 TexCoord : TEXCOORD;
+	float3 Normal : NORMAL;
 };
 
 struct VS_OUTPUT
 {
 	float4 Pos : SV_POSITION;
+	float3 Normal : NORMAL0;
+	float3 FragPos : POSITION0;
 };
 
 VS_OUTPUT main(VS_INPUT input)
@@ -26,9 +28,14 @@ VS_OUTPUT main(VS_INPUT input)
 	VS_OUTPUT output = (VS_OUTPUT) 0;
 
 	output.Pos = float4(input.Pos, 1.0f);
-	output.Pos = mul(output.Pos, model);
+	output.Pos = mul(model, output.Pos);
+
+	output.FragPos = output.Pos.xyz;
+
 	output.Pos = mul(view, output.Pos);
 	output.Pos = mul(projection, output.Pos);
+
+	output.Normal = input.Normal;
 
 	return output;
 }

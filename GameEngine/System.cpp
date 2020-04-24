@@ -58,3 +58,13 @@ void System::RemoveEntity(const std::shared_ptr<Entity>& pEntity)
 {
 	mRemoveEntities.push_back(pEntity);
 }
+
+void System::Reset()
+{
+	mEntities.clear();
+	mNewEntities.clear();
+	mRemoveEntities.clear();
+	mEntities.shrink_to_fit();
+	mNewEntities.shrink_to_fit();
+	mRemoveEntities.shrink_to_fit();
+}
