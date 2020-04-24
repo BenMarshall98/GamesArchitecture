@@ -14,11 +14,17 @@ class UserCamera final : public Camera
 	bool mRotateRight = false;
 	bool mRotateUp = false;
 	bool mRotateDown = false;
+	bool mPanLeft = false;
+	bool mPanRight = false;
+	bool mPanUp = false;
+	bool mPanDown = false;
 	bool mPanForward = false;
 	bool mPanBackward = false;
 
 	void RotateLeftRight(float pDeltaTime, bool pLeft = true);
 	void RotateUpDown(float pDeltaTime, bool pUp = true);
+	void PanLeftRight(float pDeltaTime, bool pLeft = true);
+	void PanUpDown(float pDeltaTime, bool pUp = true);
 	void PanForwardBackward(float pDeltaTime, bool pForward = true);
 
 public:
@@ -48,6 +54,26 @@ public:
 	void RotateDown(const bool pKeyPressed)
 	{
 		mRotateDown = pKeyPressed;
+	}
+
+	void PanLeft(const bool pPan)
+	{
+		mPanLeft = pPan;
+	}
+
+	void PanRight(const bool pPan)
+	{
+		mPanRight = pPan;
+	}
+
+	void PanUp(const bool pPan)
+	{
+		mPanUp = pPan;
+	}
+
+	void PanDown(const bool pPan)
+	{
+		mPanDown = pPan;
 	}
 
 	void PanForward(const bool pKeyPressed)

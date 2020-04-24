@@ -3,11 +3,12 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 UserCamera::UserCamera(const glm::vec3 & pEyePosition, const glm::vec3 & pUpDirection, const glm::vec3 & pTargetPosition, const float pAngleSpeed, const float pMovementSpeed) :
-	Camera(pEyePosition, pUpDirection, pTargetPosition), mAngleSpeed(pAngleSpeed), mMovementSpeed(pMovementSpeed)
+	Camera(pEyePosition, pUpDirection, pTargetPosition), mUpdateViewMatrix(mViewMatrix), mUpdateUpDirection(pUpDirection),
+	mUpdateEyePosition(pEyePosition), mUpdateTargetPosition(pTargetPosition), mAngleSpeed(pAngleSpeed), mMovementSpeed(pMovementSpeed)
 {
 }
 
-void UserCamera::RotateLeftRight(const float pDeltaTime, bool pLeft)
+void UserCamera::RotateLeftRight(const float pDeltaTime, const bool pLeft)
 {
 	auto angleChange = mAngleSpeed * pDeltaTime;
 
@@ -16,13 +17,13 @@ void UserCamera::RotateLeftRight(const float pDeltaTime, bool pLeft)
 		angleChange = -angleChange;
 	}
 
-	const auto zAxis = normalize(mTargetPosition - mEyePosition);
-	const auto xAxis = normalize(cross(zAxis, mUpDirection));
+	const auto zAxis = normalize(mUpdateTargetPosition - mUpdateEyePosition);
+	const auto xAxis = normalize(cross(zAxis, mUpdateUpDirection));
 	const auto yAxis = cross(zAxis, xAxis);
 
 	const auto leftRightMat = rotate(glm::mat4(1.0f), glm::radians(angleChange), yAxis);
 
-	mTargetPosition = mEyePosition + glm::vec3(leftRightMat * glm::vec4(zAxis, 0.0f));
+	mUpdateTargetPosition = mUpdateEyePosition + glm::vec3(leftRightMat * glm::vec4(zAxis, 0.0f));
 }
 
 void UserCamera::RotateUpDown(const float pDeltaTime, const bool pUp)
@@ -34,13 +35,50 @@ void UserCamera::RotateUpDown(const float pDeltaTime, const bool pUp)
 		angleChange = -angleChange;
 	}
 
-	const auto zAxis = normalize(mTargetPosition - mEyePosition);
-	const auto xAxis = normalize(cross(zAxis, mUpDirection));
+	const auto zAxis = normalize(mUpdateTargetPosition - mUpdateEyePosition);
+	const auto xAxis = normalize(cross(zAxis, mUpdateUpDirection));
 
 	const auto leftRightMat = rotate(glm::mat4(1.0f), glm::radians(angleChange), xAxis);
 
-	mTargetPosition = mEyePosition + glm::vec3(leftRightMat * glm::vec4(zAxis, 0.0f));
-	mUpDirection = glm::vec3(leftRightMat * glm::vec4(mUpDirection, 0.0f));
+	mUpdateTargetPosition = mUpdateEyePosition + glm::vec3(leftRightMat * glm::vec4(zAxis, 0.0f));
+	mUpdateUpDirection = glm::vec3(leftRightMat * glm::vec4(mUpdateUpDirection, 0.0f));
+}
+
+void UserCamera::PanLeftRight(const float pDeltaTime, const bool pLeft)
+{
+	auto movementChange = mMovementSpeed * pDeltaTime;
+
+	if (!pLeft)
+	{
+		movementChange = -movementChange;
+	}
+
+	const auto zAxis = normalize(mUpdateTargetPosition - mUpdateEyePosition);
+	const auto xAxis = normalize(cross(zAxis, mUpdateUpDirection));
+
+	const auto movement = xAxis * movementChange;
+
+	mUpdateEyePosition = mUpdateEyePosition + movement;
+	mUpdateTargetPosition = mUpdateTargetPosition + movement;
+}
+
+void UserCamera::PanUpDown(const float pDeltaTime, const bool pUp)
+{
+	auto movementChange = mMovementSpeed * pDeltaTime;
+
+	if (!pUp)
+	{
+		movementChange = -movementChange;
+	}
+
+	const auto zAxis = normalize(mUpdateTargetPosition - mUpdateEyePosition);
+	const auto xAxis = normalize(cross(zAxis, mUpdateUpDirection));
+	const auto yAxis = cross(zAxis, xAxis);
+
+	const auto movement = yAxis * movementChange;
+
+	mUpdateEyePosition = mUpdateEyePosition + movement;
+	mUpdateTargetPosition = mUpdateTargetPosition + movement;
 }
 
 void UserCamera::PanForwardBackward(const float pDeltaTime, const bool pForward)
@@ -52,11 +90,11 @@ void UserCamera::PanForwardBackward(const float pDeltaTime, const bool pForward)
 		movementChange = -movementChange;
 	}
 
-	const auto zAxis = normalize(mTargetPosition - mEyePosition);
+	const auto zAxis = normalize(mUpdateTargetPosition - mUpdateEyePosition);
 	const auto movement = zAxis * movementChange;
 
-	mEyePosition = mEyePosition + movement;
-	mTargetPosition = mTargetPosition + movement;
+	mUpdateEyePosition = mUpdateEyePosition + movement;
+	mUpdateTargetPosition = mUpdateTargetPosition + movement;
 }
 
 void UserCamera::Update(const float pDeltaTime)
@@ -79,6 +117,24 @@ void UserCamera::Update(const float pDeltaTime)
 		RotateUpDown(pDeltaTime, false);
 	}
 
+	if (mPanLeft && !mPanRight)
+	{
+		PanLeftRight(true);
+	}
+	else if (!mPanLeft && mPanRight)
+	{
+		PanLeftRight(false);
+	}
+
+	if (mPanUp && !mPanDown)
+	{
+		PanUpDown(true);
+	}
+	else if (!mPanUp && mPanDown)
+	{
+		PanUpDown(false);
+	}
+
 	if (mPanForward && !mPanBackward)
 	{
 		PanForwardBackward(pDeltaTime, true);
@@ -88,5 +144,13 @@ void UserCamera::Update(const float pDeltaTime)
 		PanForwardBackward(pDeltaTime, false);
 	}
 
-	mViewMatrix = lookAt(mEyePosition, mTargetPosition, mUpDirection);
+	mUpdateViewMatrix = lookAt(mUpdateEyePosition, mUpdateTargetPosition, mUpdateUpDirection);
+}
+
+void UserCamera::Swap()
+{
+	mViewMatrix = mUpdateViewMatrix;
+	mUpDirection = mUpdateUpDirection;
+	mEyePosition = mUpdateEyePosition;
+	mTargetPosition = mUpdateTargetPosition;
 }

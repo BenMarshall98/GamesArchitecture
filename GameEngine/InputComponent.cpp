@@ -14,12 +14,12 @@ void InputComponent::PlayInputs(const float pDeltaTime)
 		
 		if(input.mKey1)
 		{
-			pressed &= !input.mAntiKey1 && Win32Window::Instance()->GetKeyStatus(input.mKey1);
+			pressed &= !input.mAntiKey1 == Win32Window::Instance()->GetKeyStatus(input.mKey1);
 		}
 
 		if(input.mKey2)
 		{
-			pressed &= !input.mAntiKey2 && Win32Window::Instance()->GetKeyStatus(input.mKey2);
+			pressed &= !input.mAntiKey2 == Win32Window::Instance()->GetKeyStatus(input.mKey2);
 		}
 
 		input.mFunction(pressed, pDeltaTime);

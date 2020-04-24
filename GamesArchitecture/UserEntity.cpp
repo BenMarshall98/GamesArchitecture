@@ -1,0 +1,192 @@
+#include "UserEntity.h"
+
+#include <Windows.h>
+
+#include "CameraManager.h"
+#include "InputComponent.h"
+
+UserEntity::UserEntity(const glm::vec3& pPosition) :
+	mCamera(std::make_shared<UserCamera>(
+		pPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 15.0f, 10.0f))
+{
+	CameraManager::Instance()->SetCamera(mCamera);
+
+	std::vector<Input> inputs;
+
+	//Rotate Left
+	{
+		const Input input = {
+			VK_LEFT,
+			VK_CONTROL,
+			false,
+			true,
+			[this](bool pKeyPressed, float pDeltaTime)
+			{
+				mCamera->RotateLeft(pKeyPressed);
+			}
+		};
+
+		inputs.push_back(input);
+	}
+
+	//Rotate Right
+	{
+		const Input input = {
+			VK_RIGHT,
+			VK_CONTROL,
+			false,
+			true,
+			[this](bool pKeyPressed, float pDeltaTime)
+			{
+				mCamera->RotateRight(pKeyPressed);
+			}
+		};
+
+		inputs.push_back(input);
+	}
+
+	//Rotate Up
+	{
+		const Input input = {
+			VK_UP,
+			VK_CONTROL,
+			false,
+			true,
+			[this](bool pKeyPressed, float pDeltaTime)
+			{
+				mCamera->RotateUp(pKeyPressed);
+			}
+		};
+
+		inputs.push_back(input);
+	}
+
+	//Rotate Down
+	{
+		const Input input = {
+			VK_DOWN,
+			VK_CONTROL,
+			false,
+			true,
+			[this](bool pKeyPressed, float pDeltaTime)
+			{
+				mCamera->RotateDown(pKeyPressed);
+			}
+		};
+
+		inputs.push_back(input);
+	}
+
+	//Pan Left
+	{
+		const Input input = {
+			VK_LEFT,
+			VK_CONTROL,
+			false,
+			false,
+			[this](bool pKeyPressed, float pDeltaTime)
+			{
+				mCamera->PanLeft(pKeyPressed);
+			}
+		};
+
+		inputs.push_back(input);
+	}
+
+	//Pan Right
+	{
+		const Input input = {
+			VK_RIGHT,
+			VK_CONTROL,
+			false,
+			false,
+			[this](bool pKeyPressed, float pDeltaTime)
+			{
+				mCamera->PanRight(pKeyPressed);
+			}
+		};
+
+		inputs.push_back(input);
+	}
+
+	//Pan Up
+	{
+		const Input input = {
+			VK_UP,
+			VK_CONTROL,
+			false,
+			false,
+			[this](bool pKeyPressed, float pDeltaTime)
+			{
+				mCamera->PanUp(pKeyPressed);
+			}
+		};
+
+		inputs.push_back(input);
+	}
+
+	//Pan Down
+	{
+		const Input input = {
+			VK_DOWN,
+			VK_CONTROL,
+			false,
+			false,
+			[this](bool pKeyPressed, float pDeltaTime)
+			{
+				mCamera->PanDown(pKeyPressed);
+			}
+		};
+
+		inputs.push_back(input);
+	}
+
+	//Pan Forward
+	{
+		const Input input = {
+			VK_NEXT,
+			VK_CONTROL,
+			false,
+			false,
+			[this](bool pKeyPressed, float pDeltaTime)
+			{
+				mCamera->PanUp(pKeyPressed);
+			}
+		};
+
+		inputs.push_back(input);
+	}
+
+	//Pan Backward
+	{
+		const Input input = {
+			VK_PRIOR,
+			VK_CONTROL,
+			false,
+			false,
+			[this](bool pKeyPressed, float pDeltaTime)
+			{
+				mCamera->PanDown(pKeyPressed);
+			}
+		};
+
+		inputs.push_back(input);
+	}
+
+	AddComponent(std::make_shared<InputComponent>(inputs));
+}
+
+void UserEntity::Update(const float pDeltaTime)
+{
+	mCamera->Update(pDeltaTime);
+}
+
+void UserEntity::Render()
+{
+	//Do Nothing
+}
+
+void UserEntity::Swap()
+{
+	mCamera->Swap();
+}

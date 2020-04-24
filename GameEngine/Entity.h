@@ -12,16 +12,20 @@ protected:
 
 public:
 	Entity() = default;
-	~Entity() = default;
+	virtual ~Entity() = default;
 
 	Entity(const Entity &) = delete;
 	Entity(Entity&&) = delete;
 	Entity & operator= (const Entity &) = delete;
 	Entity & operator= (Entity&&) = delete;
 
-	void AddComponent(const std::shared_ptr<Component> & pComponent);
-	void RemoveComponent(const std::shared_ptr<Component> & pComponent);
+	void AddComponent(const std::shared_ptr<Component> & pComponent, bool pUpdate = true);
+	void RemoveComponent(const std::shared_ptr<Component> & pComponent, bool pUpdate = true);
 	std::shared_ptr<Component> GetComponentByType(ComponentType pType);
 	bool HasComponents(const std::vector<ComponentType> & pTypes) const;
+	
+	virtual void Update(float pDeltaTime) = 0;
+	virtual void Render() = 0;
+	virtual void Swap() = 0;
 };
 

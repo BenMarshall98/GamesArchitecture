@@ -7,18 +7,27 @@
 class CameraManager
 {
 	std::shared_ptr<Camera> mCamera;
-	std::shared_ptr<Camera> mNextCamera;
 
-	glm::mat4 mPerspective;
+	glm::mat4 mPerspective = glm::mat4(1.0f);
 
-	float mNearPlane;
-	float mFarPlane;
+	float mNearPlane = 1.0f;
+	float mFarPlane = 100.0f;
 
 	static CameraManager * mInstance;
-	CameraManager();
+	CameraManager() = default;
 
 public:
 	~CameraManager() = default;
+
+	static CameraManager * Instance()
+	{
+		if (!mInstance)
+		{
+			mInstance = new CameraManager();
+		}
+
+		return mInstance;
+	}
 
 	CameraManager(const CameraManager &) = delete;
 	CameraManager(CameraManager&&) = delete;

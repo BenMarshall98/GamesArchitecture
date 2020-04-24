@@ -1,8 +1,7 @@
 #pragma once
 #include <functional>
-#include <minwindef.h>
+#include <Windows.h>
 #include <vector>
-
 
 #include "Component.h"
 

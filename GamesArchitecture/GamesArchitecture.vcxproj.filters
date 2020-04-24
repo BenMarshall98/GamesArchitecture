@@ -22,6 +22,9 @@
     <Filter Include="Assets\Shader">
       <UniqueIdentifier>{2b82168b-b82d-4545-98fe-865442f4d907}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{cf786737-ad58-43a4-a968-675b0aa04a93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -29,6 +32,9 @@
     </ClCompile>
     <ClCompile Include="PyramidScene.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UserEntity.cpp">
+      <Filter>Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +56,9 @@
   <ItemGroup>
     <ClInclude Include="PyramidScene.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UserEntity.h">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

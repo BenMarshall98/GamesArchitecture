@@ -12,6 +12,16 @@ class SystemManager
 public:
 	~SystemManager() = default;
 
+	static SystemManager * Instance()
+	{
+		if (!mInstance)
+		{
+			mInstance = new SystemManager();
+		}
+
+		return mInstance;
+	}
+
 	SystemManager(const SystemManager &) = delete;
 	SystemManager(SystemManager&&) = delete;
 	SystemManager & operator= (const SystemManager &) = delete;
@@ -25,4 +35,5 @@ public:
 
 	void AddEntity(const std::shared_ptr<Entity> & pEntity);
 	void UpdateEntity(const std::shared_ptr<Entity> & pEntity);
+	void RemoveEntity(const std::shared_ptr<Entity> & pEntity);
 };

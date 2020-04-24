@@ -1,5 +1,7 @@
 #include "SystemManager.h"
 
+SystemManager * SystemManager::mInstance = nullptr;
+
 void SystemManager::AddUpdateSystem(std::unique_ptr<System> & pUpdateSystem)
 {
 	mUpdateSystems.emplace_back(std::move(pUpdateSystem));
