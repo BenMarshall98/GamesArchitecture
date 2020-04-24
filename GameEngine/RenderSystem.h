@@ -9,9 +9,17 @@ struct ModelMatrix
 	glm::mat4 mModel;
 };
 
+struct ViewProjectionMatrix
+{
+	glm::mat4 mView;
+	glm::mat4 mProjection;
+};
+
 class RenderSystem final : public System
 {
 	ConstantBuffer<ModelMatrix> mModelBuffer;
+	ConstantBuffer<ViewProjectionMatrix> mViewBuffer;
+	
 public:
 	RenderSystem();
 	~RenderSystem() = default;

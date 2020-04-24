@@ -36,6 +36,9 @@
     <ClCompile Include="UserEntity.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="PyramidShapeEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -58,6 +61,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UserEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="PyramidShapeEntity.h">
       <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,19 +1,30 @@
 #include "RenderSystem.h"
 
+
+#include "CameraManager.h"
 #include "PositionComponent.h"
 #include "RenderComponent.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 
 RenderSystem::RenderSystem() : System({ComponentType::POSITION, ComponentType::RENDER}),
-	mModelBuffer(0)
+	mModelBuffer(0), mViewBuffer(1)
 {
 	mModelBuffer.Load();
+	mViewBuffer.Load();
 }
 
 void RenderSystem::Action(const float pDeltaTime)
 {
 	System::Action(pDeltaTime);
+
+	const auto cameraManager = CameraManager::Instance();
+
+	ViewProjectionMatrix vpMat;
+	vpMat.mView = cameraManager->GetViewMatrix();
+	vpMat.mProjection = cameraManager->GetPerspectiveMatrix();
+
+	mViewBuffer.UpdateBuffer(vpMat);
 
 	for (auto & entity : mEntities)
 	{

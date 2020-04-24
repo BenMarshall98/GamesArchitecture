@@ -1,5 +1,7 @@
 #include "SceneManager.h"
 
+
+#include "EntityManager.h"
 #include "Win32Window.h"
 
 SceneManager * SceneManager::mInstance = nullptr;
@@ -44,5 +46,7 @@ void SceneManager::Run(const std::shared_ptr<Scene>& pScene)
 		
 		mScenes.top()->Update(deltaTime);
 		mScenes.top()->Render();
+
+		EntityManager::Instance()->Swap();
 	}
 }

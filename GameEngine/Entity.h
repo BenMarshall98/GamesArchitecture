@@ -26,6 +26,6 @@ public:
 	
 	virtual void Update(float pDeltaTime) = 0;
 	virtual void Render() = 0;
-	virtual void Swap() = 0;
+	virtual void Swap();
 };
 

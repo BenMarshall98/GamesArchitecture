@@ -23,8 +23,6 @@ void ModelLoader::LoadModelFromFile(const std::string & pModelFile, std::vector<
 
 	const auto mesh = scene->mMeshes[0];
 
-	std::vector<VertexData> vertexData;
-
 	for (auto i = 0u; i < mesh->mNumVertices; i++)
 	{
 		VertexData vertex;
@@ -49,10 +47,9 @@ void ModelLoader::LoadModelFromFile(const std::string & pModelFile, std::vector<
 		//	vertex.mNormal = DirectX::XMFLOAT3(x, y, z);
 		//}
 
-		vertexData.push_back(vertex);
+		pMesh.push_back(vertex);
 	}
 
-	std::vector<unsigned int> indices;
 
 	for (auto i = 0u; i < mesh->mNumFaces; i++)
 	{
@@ -60,7 +57,7 @@ void ModelLoader::LoadModelFromFile(const std::string & pModelFile, std::vector<
 
 		for (auto j = 0u; j < face.mNumIndices; j++)
 		{
-			indices.push_back(face.mIndices[j]);
+			pIndices.push_back(face.mIndices[j]);
 		}
 	}
 }

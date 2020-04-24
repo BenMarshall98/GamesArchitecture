@@ -39,5 +39,16 @@ bool Entity::HasComponents(const std::vector<ComponentType> & pTypes) const
 		}
 	}
 
-	return false;
+	return hasComponents;
+}
+
+void Entity::Swap()
+{
+	for (const auto& component : mComponents)
+	{
+		if (component)
+		{
+			component->Swap();
+		}
+	}
 }

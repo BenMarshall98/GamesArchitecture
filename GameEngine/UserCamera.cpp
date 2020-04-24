@@ -119,20 +119,20 @@ void UserCamera::Update(const float pDeltaTime)
 
 	if (mPanLeft && !mPanRight)
 	{
-		PanLeftRight(true);
+		PanLeftRight(pDeltaTime, true);
 	}
 	else if (!mPanLeft && mPanRight)
 	{
-		PanLeftRight(false);
+		PanLeftRight(pDeltaTime,false);
 	}
 
 	if (mPanUp && !mPanDown)
 	{
-		PanUpDown(true);
+		PanUpDown(pDeltaTime, true);
 	}
 	else if (!mPanUp && mPanDown)
 	{
-		PanUpDown(false);
+		PanUpDown(pDeltaTime, false);
 	}
 
 	if (mPanForward && !mPanBackward)

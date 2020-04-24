@@ -21,15 +21,14 @@ struct VS_OUTPUT
 	float4 Pos : SV_POSITION;
 };
 
-VS_OUTPUT main(VS_INPUT input, uint instanceID : SV_InstanceID)
+VS_OUTPUT main(VS_INPUT input)
 {
 	VS_OUTPUT output = (VS_OUTPUT) 0;
 
 	output.Pos = float4(input.Pos, 1.0f);
-    output.Pos = output.Pos + instanceID * float4(-1.0f, -1.0f, -1.0f, 0.0f);
 	output.Pos = mul(output.Pos, model);
-	output.Pos = mul(output.Pos, view);
-	output.Pos = mul(output.Pos, projection);
+	output.Pos = mul(view, output.Pos);
+	output.Pos = mul(projection, output.Pos);
 
 	return output;
 }

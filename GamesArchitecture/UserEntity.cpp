@@ -7,7 +7,7 @@
 
 UserEntity::UserEntity(const glm::vec3& pPosition) :
 	mCamera(std::make_shared<UserCamera>(
-		pPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 15.0f, 10.0f))
+		pPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 15.0f, 1.0f))
 {
 	CameraManager::Instance()->SetCamera(mCamera);
 
@@ -86,6 +86,7 @@ UserEntity::UserEntity(const glm::vec3& pPosition) :
 			false,
 			[this](bool pKeyPressed, float pDeltaTime)
 			{
+				
 				mCamera->PanLeft(pKeyPressed);
 			}
 		};
@@ -150,7 +151,7 @@ UserEntity::UserEntity(const glm::vec3& pPosition) :
 			false,
 			[this](bool pKeyPressed, float pDeltaTime)
 			{
-				mCamera->PanUp(pKeyPressed);
+				mCamera->PanForward(pKeyPressed);
 			}
 		};
 
@@ -166,14 +167,14 @@ UserEntity::UserEntity(const glm::vec3& pPosition) :
 			false,
 			[this](bool pKeyPressed, float pDeltaTime)
 			{
-				mCamera->PanDown(pKeyPressed);
+				mCamera->PanBackward(pKeyPressed);
 			}
 		};
 
 		inputs.push_back(input);
 	}
 
-	AddComponent(std::make_shared<InputComponent>(inputs));
+	AddComponent(std::make_shared<InputComponent>(inputs), false);
 }
 
 void UserEntity::Update(const float pDeltaTime)
@@ -188,5 +189,6 @@ void UserEntity::Render()
 
 void UserEntity::Swap()
 {
+	Entity::Swap();
 	mCamera->Swap();
 }

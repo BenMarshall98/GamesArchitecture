@@ -17,6 +17,11 @@ void System::Action(float pDeltaTime)
 			mEntities.erase(it);
 		}
 	}
+
+	mNewEntities.clear();
+	mRemoveEntities.clear();
+	mNewEntities.shrink_to_fit();
+	mRemoveEntities.shrink_to_fit();
 }
 
 void System::AddEntity(const std::shared_ptr<Entity>& pEntity)
@@ -47,4 +52,9 @@ void System::UpdateEntity(const std::shared_ptr<Entity>& pEntity)
 			mNewEntities.push_back(pEntity);
 		}
 	}
+}
+
+void System::RemoveEntity(const std::shared_ptr<Entity>& pEntity)
+{
+	mRemoveEntities.push_back(pEntity);
 }

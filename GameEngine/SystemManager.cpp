@@ -2,12 +2,12 @@
 
 SystemManager * SystemManager::mInstance = nullptr;
 
-void SystemManager::AddUpdateSystem(std::unique_ptr<System> & pUpdateSystem)
+void SystemManager::AddUpdateSystem(std::unique_ptr<System> pUpdateSystem)
 {
 	mUpdateSystems.emplace_back(std::move(pUpdateSystem));
 }
 
-void SystemManager::AddRenderSystem(std::unique_ptr<System> & pRenderSystem)
+void SystemManager::AddRenderSystem(std::unique_ptr<System> pRenderSystem)
 {
 	mRenderSystems.emplace_back(std::move(pRenderSystem));
 }
@@ -51,5 +51,18 @@ void SystemManager::UpdateEntity(const std::shared_ptr<Entity>& pEntity)
 	for (auto & renderSystem : mRenderSystems)
 	{
 		renderSystem->UpdateEntity(pEntity);
+	}
+}
+
+void SystemManager::RemoveEntity(const std::shared_ptr<Entity>& pEntity)
+{
+	for (auto & updateSystem : mUpdateSystems)
+	{
+		updateSystem->RemoveEntity(pEntity);
+	}
+
+	for (auto & renderSystem : mRenderSystems)
+	{
+		renderSystem->RemoveEntity(pEntity);
 	}
 }

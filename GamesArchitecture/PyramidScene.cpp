@@ -2,39 +2,37 @@
 
 #include <DirectXColors.h>
 
+
+#include "CameraManager.h"
 #include "ConstantBuffer.h"
 #include "DearImGui/imgui.h"
 #include "DearImGui/imgui_impl_dx11.h"
 #include "DearImGui/imgui_impl_win32.h"
 #include "Dx11Render.h"
+#include "EntityManager.h"
+#include "InputSystem.h"
 #include "ModelLoader.h"
+#include "PyramidShapeEntity.h"
+#include "RenderSystem.h"
+#include "SystemManager.h"
+#include "UserEntity.h"
 
 void PyramidScene::Load()
 {
-	const auto window = Win32Window::Instance();
+	auto systemManager = SystemManager::Instance();
 
-	mVertexShader = std::make_unique<VertexShader>("SimpleVertexProgram.hlsl");
-	mFragmentShader = std::make_unique<FragmentShader>("SimpleFragmentProgram.hlsl");
+	auto inputSystem = std::make_unique<InputSystem>();
+	systemManager->AddUpdateSystem(std::move(inputSystem));
 
-	auto result = mVertexShader->Load();
-	result = mFragmentShader->Load();
+	auto renderSystem = std::make_unique<RenderSystem>();
+	systemManager->AddRenderSystem(std::move(renderSystem));
 
-	auto vpBuffer = std::make_unique<ConstantBuffer<ViewProjectionMatrix>>(1);
-	vpBuffer->Load();
+	auto entityManager = EntityManager::Instance();
 
-	ViewProjectionMatrix vpMat;
+	entityManager->AddEntity(std::make_shared<UserEntity>(glm::vec3(0.0f, 0.0f, 5.0f)));
+	entityManager->AddEntity(std::make_shared<PyramidShapeEntity>(glm::vec3(0.0f), true));
 
-	XMStoreFloat4x4(&vpMat.mView, DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtLH(
-		DirectX::XMVectorSet(5.0f, 5.0f, 5.0f, 1.0f),
-		DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f),
-		DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 1.0f)
-	)));
-
-	XMStoreFloat4x4(&vpMat.mProjection, DirectX::XMMatrixTranspose(DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2,
-		static_cast<float>(window->GetWidth()) / static_cast<float>(window->GetHeight()),
-		0.01f, 1000.0f)));
-
-	vpBuffer->UpdateBuffer(vpMat);
+	CameraManager::Instance()->SetPerspective(0.1f, 100.0f);
 }
 
 void PyramidScene::Render()
@@ -53,17 +51,14 @@ void PyramidScene::Render()
 
 	render->clearRenderTargetView(DirectX::Colors::CornflowerBlue);
 
-	mVertexShader->UseProgram();
-	mFragmentShader->UseProgram();
-
-	//mModel->render(42925);
+	EntityManager::Instance()->Render();
 
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	render->present();
 }
 
-void PyramidScene::Update(float pDeltaTime)
+void PyramidScene::Update(const float pDeltaTime)
 {
 	//Check Key Presses
 
@@ -127,6 +122,8 @@ void PyramidScene::Update(float pDeltaTime)
 			delay = 0.0f;
 		}
 	}
+
+	EntityManager::Instance()->Update(pDeltaTime);
 }
 
 void PyramidScene::Unload()

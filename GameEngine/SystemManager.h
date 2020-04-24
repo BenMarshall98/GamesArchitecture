@@ -27,8 +27,8 @@ public:
 	SystemManager & operator= (const SystemManager &) = delete;
 	SystemManager & operator= (SystemManager&&) = delete;
 
-	void AddUpdateSystem(std::unique_ptr<System> & pUpdateSystem);
-	void AddRenderSystem(std::unique_ptr<System> & pRenderSystem);
+	void AddUpdateSystem(std::unique_ptr<System> pUpdateSystem);
+	void AddRenderSystem(std::unique_ptr<System> pRenderSystem);
 
 	void Update(float pDeltaTime);
 	void Render();

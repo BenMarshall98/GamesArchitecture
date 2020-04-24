@@ -11,7 +11,7 @@ class PhysicsComponent final : public Component
 
 public:
 	explicit PhysicsComponent(const std::shared_ptr<CollisionObject> & pCollisionObject);
-	~PhysicsComponent();
+	~PhysicsComponent() = default;
 
 	PhysicsComponent(const PhysicsComponent &) = delete;
 	PhysicsComponent(PhysicsComponent&&) = delete;
