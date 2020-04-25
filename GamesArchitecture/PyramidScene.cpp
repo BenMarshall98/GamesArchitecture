@@ -2,7 +2,6 @@
 
 #include <DirectXColors.h>
 
-
 #include "CameraManager.h"
 #include "ConstantBuffer.h"
 #include "DearImGui/imgui.h"
@@ -144,7 +143,7 @@ void PyramidScene::Reset()
 
 	for (auto i = 1; i <= mCurrentSizePyramid; i++)
 	{
-		const auto y = static_cast<float>(mCurrentSizePyramid - i) * offset;
+		const auto y = static_cast<float>(mCurrentSizePyramid - i) * offset + 0.01f;
 
 		for (auto j = 0; j < i; j++)
 		{
