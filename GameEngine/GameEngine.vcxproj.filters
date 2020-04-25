@@ -31,27 +31,18 @@
     <Filter Include="PhysicsTree">
       <UniqueIdentifier>{9b959543-ca8e-404d-9c07-9b5e863593a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{0a51a1d4-5fbe-458e-8740-094eff546fe8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\DirectX">
+      <UniqueIdentifier>{7e746dea-5268-4a92-8e62-b5c36dc644c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\OpenGL">
+      <UniqueIdentifier>{e4e66025-fd87-4625-8e1f-95c1bd37a646}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="VertexShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FragmentShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ShaderProgram.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Dx11Render.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32Window.cpp">
@@ -135,30 +126,69 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="FragmentShader.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11Render.cpp">
+      <Filter>Rendering\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXModel.cpp">
+      <Filter>Rendering\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXShader.cpp">
+      <Filter>Rendering\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTexture.cpp">
+      <Filter>Rendering\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXVertexShader.cpp">
+      <Filter>Rendering\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXFragmentShader.cpp">
+      <Filter>Rendering\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLVertexShader.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLFragmentShader.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLModel.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLRenderManager.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLShader.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLTexture.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXRenderManager.cpp">
+      <Filter>Rendering\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="VertexShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FragmentShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderProgram.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11Render.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Win32Window.h">
@@ -244,6 +274,69 @@
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderProgram.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="FragmentShader.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11Render.h">
+      <Filter>Rendering\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXFragmentShader.h">
+      <Filter>Rendering\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXModel.h">
+      <Filter>Rendering\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXShader.h">
+      <Filter>Rendering\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTexture.h">
+      <Filter>Rendering\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXVertexShader.h">
+      <Filter>Rendering\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLFragmentShader.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLModel.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLRenderManager.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLShader.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLTexture.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLVertexShader.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXRenderManager.h">
+      <Filter>Rendering\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

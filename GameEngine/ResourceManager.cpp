@@ -1,5 +1,7 @@
 #include "ResourceManager.h"
 
+#include "RenderManager.h"
+
 ResourceManager * ResourceManager::mInstance = nullptr;
 
 std::shared_ptr<VertexShader> ResourceManager::LoadVertexShader(const std::string& pVertexShaderFile)
@@ -11,7 +13,7 @@ std::shared_ptr<VertexShader> ResourceManager::LoadVertexShader(const std::strin
 		return it->second;
 	}
 
-	auto vertexShader = std::make_shared<VertexShader>(pVertexShaderFile);
+	auto vertexShader = RenderManager::Instance()->CreateVertexShader(pVertexShaderFile);
 
 	if (vertexShader->Load())
 	{
@@ -32,7 +34,7 @@ std::shared_ptr<FragmentShader> ResourceManager::LoadFragmentShader(const std::s
 		return it->second;
 	}
 
-	auto fragmentShader = std::make_shared<FragmentShader>(pFragmentShaderFile);
+	auto fragmentShader = RenderManager::Instance()->CreateFragmentShader(pFragmentShaderFile);
 
 	if (fragmentShader->Load())
 	{
@@ -55,7 +57,7 @@ std::shared_ptr<Shader> ResourceManager::LoadShader(const std::string& pVertexSh
 		return it->second;
 	}
 
-	auto shader = std::make_shared<Shader>(pVertexShader, pFragmentShader);
+	auto shader = RenderManager::Instance()->CreateShader(pVertexShader, pFragmentShader);
 
 	if (shader->Load())
 	{
@@ -76,7 +78,7 @@ std::shared_ptr<Texture> ResourceManager::LoadTexture(const std::string& pTextur
 		return it->second;
 	}
 
-	auto texture = std::make_shared<Texture>(pTextureFile);
+	auto texture = RenderManager::Instance()->CreateTexture(pTextureFile);
 	
 	if (texture->Load())
 	{
@@ -97,7 +99,7 @@ std::shared_ptr<Model> ResourceManager::LoadModel(const std::string& pModelFile)
 		return it->second;
 	}
 
-	auto model = std::make_shared<Model>(pModelFile);
+	auto model = RenderManager::Instance()->CreateModel(pModelFile);
 	
 	if (model->Load())
 	{

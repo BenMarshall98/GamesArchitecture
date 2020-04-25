@@ -197,6 +197,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\External\DearImGui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DX_11;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -209,6 +210,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\External\DearImGui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GL_430;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -233,6 +235,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\External\DearImGui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DX_11;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -245,6 +248,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\External\DearImGui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GL_430;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -275,6 +279,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\External\DearImGui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DX_11;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -291,6 +296,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\External\DearImGui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GL_430;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -323,6 +329,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\External\DearImGui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DX_11;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -339,6 +346,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\External\DearImGui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GL_430;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -352,6 +360,12 @@
     <ClCompile Include="CollisionObject.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
+    <ClCompile Include="DirectXFragmentShader.cpp" />
+    <ClCompile Include="DirectXModel.cpp" />
+    <ClCompile Include="DirectXRenderManager.cpp" />
+    <ClCompile Include="DirectXShader.cpp" />
+    <ClCompile Include="DirectXTexture.cpp" />
+    <ClCompile Include="DirectXVertexShader.cpp" />
     <ClCompile Include="Dx11Render.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
@@ -362,12 +376,20 @@
     <ClCompile Include="ModelInstanced.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="Octree.cpp" />
+    <ClCompile Include="OpenGL.cpp" />
+    <ClCompile Include="OpenGLFragmentShader.cpp" />
+    <ClCompile Include="OpenGLModel.cpp" />
+    <ClCompile Include="OpenGLRenderManager.cpp" />
+    <ClCompile Include="OpenGLShader.cpp" />
+    <ClCompile Include="OpenGLTexture.cpp" />
+    <ClCompile Include="OpenGLVertexShader.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="PhysicsTree.cpp" />
     <ClCompile Include="PlaneObject.cpp" />
     <ClCompile Include="PositionComponent.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
+    <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -389,6 +411,12 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="DirectXFragmentShader.h" />
+    <ClInclude Include="DirectXModel.h" />
+    <ClInclude Include="DirectXRenderManager.h" />
+    <ClInclude Include="DirectXShader.h" />
+    <ClInclude Include="DirectXTexture.h" />
+    <ClInclude Include="DirectXVertexShader.h" />
     <ClInclude Include="Dx11Render.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
@@ -399,12 +427,20 @@
     <ClInclude Include="ModelInstanced.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Octree.h" />
+    <ClInclude Include="OpenGL.h" />
+    <ClInclude Include="OpenGLFragmentShader.h" />
+    <ClInclude Include="OpenGLModel.h" />
+    <ClInclude Include="OpenGLRenderManager.h" />
+    <ClInclude Include="OpenGLShader.h" />
+    <ClInclude Include="OpenGLTexture.h" />
+    <ClInclude Include="OpenGLVertexShader.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="PhysicsTree.h" />
     <ClInclude Include="PlaneObject.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="RenderComponent.h" />
+    <ClInclude Include="RenderManager.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceManager.h" />
