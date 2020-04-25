@@ -144,9 +144,6 @@
     <ClCompile Include="VertexShader.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11Render.cpp">
-      <Filter>Rendering\DirectX</Filter>
-    </ClCompile>
     <ClCompile Include="DirectXModel.cpp">
       <Filter>Rendering\DirectX</Filter>
     </ClCompile>
@@ -295,9 +292,6 @@
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11Render.h">
-      <Filter>Rendering\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="DirectXFragmentShader.h">
       <Filter>Rendering\DirectX</Filter>

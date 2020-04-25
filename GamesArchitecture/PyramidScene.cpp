@@ -7,7 +7,6 @@
 #include "DearImGui/imgui.h"
 #include "DearImGui/imgui_impl_dx11.h"
 #include "DearImGui/imgui_impl_win32.h"
-#include "Dx11Render.h"
 #include "EntityManager.h"
 #include "InputSystem.h"
 #include "ModelLoader.h"
@@ -33,7 +32,7 @@ void PyramidScene::Load()
 
 void PyramidScene::Render()
 {
-	const auto render = Dx11Render::instance();
+	const auto render = RenderManager::Instance();
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -45,13 +44,13 @@ void PyramidScene::Render()
 
 	ImGui::Render();
 
-	render->clearRenderTargetView(DirectX::Colors::CornflowerBlue);
+	render->ClearRenderTargetView(DirectX::Colors::CornflowerBlue);
 
 	EntityManager::Instance()->Render();
 
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-	render->present();
+	render->Present();
 }
 
 void PyramidScene::Update(const float pDeltaTime)

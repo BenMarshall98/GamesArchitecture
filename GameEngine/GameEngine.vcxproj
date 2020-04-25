@@ -366,7 +366,6 @@
     <ClCompile Include="DirectXShader.cpp" />
     <ClCompile Include="DirectXTexture.cpp" />
     <ClCompile Include="DirectXVertexShader.cpp" />
-    <ClCompile Include="Dx11Render.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="FragmentShader.cpp" />
@@ -417,7 +416,6 @@
     <ClInclude Include="DirectXShader.h" />
     <ClInclude Include="DirectXTexture.h" />
     <ClInclude Include="DirectXVertexShader.h" />
-    <ClInclude Include="Dx11Render.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="FragmentShader.h" />

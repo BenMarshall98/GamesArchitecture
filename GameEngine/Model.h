@@ -1,36 +1,30 @@
 #pragma once
 
-#include <DirectXMath.h>
-#include <vector>
-#include <d3d11.h>
-#include <wrl/client.h>
+#include "glm/glm.hpp"
+#include <string>
 
 struct VertexData
 {
-	DirectX::XMFLOAT3 mVertex;
-	DirectX::XMFLOAT2 mTexCoord;
-	DirectX::XMFLOAT3 mNormal;
+	glm::vec3 mVertex;
+	glm::vec2 mTexCoord;
+	glm::vec3 mNormal;
 };
 
 class Model
 {
+protected:
 	std::string mModelFile;
-	
-	Microsoft::WRL::ComPtr<ID3D11Buffer> mMeshBuffer = nullptr;
-	Microsoft::WRL::ComPtr<ID3D11Buffer> mIndicesBuffer = nullptr;
-
 	unsigned int mIndicesSize = 0u;
 
 public:
-	Model(const std::string & pModelFile);
-	~Model() = default;
+	explicit Model(const std::string & pModelFile);
+	virtual ~Model() = default;
 
 	Model(const Model&) = delete;
 	Model(Model &&) = delete;
 	Model & operator= (const Model &) = delete;
 	Model & operator= (Model &&) = delete;
 
-	bool Load();
-
-	void Render();
+	virtual bool Load() = 0;
+	virtual void Render() = 0;
 };

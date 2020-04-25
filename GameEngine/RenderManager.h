@@ -5,6 +5,8 @@
 #include "Shader.h"
 #include "Texture.h"
 
+#include <DirectXMath.h>
+
 class OpenGLRenderManager;
 class DirectXRenderManager;
 
@@ -25,10 +27,16 @@ public:
 	RenderManager & operator= (const RenderManager &) = delete;
 	RenderManager & operator= (RenderManager &&) = delete;
 
+	virtual bool Load() = 0;
+
 	virtual std::shared_ptr<Model> CreateModel(const std::string & pModel) = 0;
 	virtual std::shared_ptr<Texture> CreateTexture(const std::string & pTexture) = 0;
 	virtual std::shared_ptr<VertexShader> CreateVertexShader(const std::string & pVertexShader) = 0;
 	virtual std::shared_ptr<FragmentShader> CreateFragmentShader(const std::string & pFragmentShader) = 0;
 	virtual std::shared_ptr<Shader> CreateShader(const std::string & pVertexShader, const std::string & pFragmentShader) = 0;
+
+	//TODO: GLM
+	virtual void ClearRenderTargetView(const DirectX::XMVECTORF32 & pColor) const = 0;
+	virtual void Present() const = 0;
 };
 

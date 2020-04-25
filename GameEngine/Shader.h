@@ -5,8 +5,9 @@
 #include "FragmentShader.h"
 #include "VertexShader.h"
 
-class Shader final
+class Shader
 {
+protected:
 	std::string mVertexShaderFile;
 	std::string mFragmentShaderFile;
 
@@ -15,10 +16,10 @@ class Shader final
 
 public:
 	Shader(const std::string & pVertexShaderFile, const std::string & pFragmentShaderFile) : mVertexShaderFile(pVertexShaderFile), mFragmentShaderFile(pFragmentShaderFile) {}
-	~Shader() = default;
+	virtual ~Shader() = default;
 
-	bool Load();
-	void Reset() const;
-	void UseProgram();
+	virtual bool Load();
+	virtual void Reset() const = 0;
+	virtual void UseProgram() = 0;
 };
 

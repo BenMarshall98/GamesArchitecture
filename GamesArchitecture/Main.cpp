@@ -1,5 +1,5 @@
 #include "Win32Window.h"
-#include "Dx11Render.h"
+#include "DirectXRenderManager.h"
 #include <DirectXColors.h>
 #include <DirectXMath.h>
 #include <memory>
@@ -15,7 +15,7 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 {
 	const auto window = Win32Window::Instance(pHInstance, pCmdShow);
 	window->Run();
-	const auto render = Dx11Render::instance();
+	const auto render = RenderManager::Instance();
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -25,12 +25,13 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 
 	ImGui_ImplWin32_Init(window->GetHwnd());
 
+	//TODO: OpenGL
 	{
 		Microsoft::WRL::ComPtr<ID3D11Device> device;
-		Dx11Render::instance()->getDevice(device);
+		dynamic_cast<DirectXRenderManager*>(RenderManager::Instance())->GetDevice(device);
 
 		Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext;
-		Dx11Render::instance()->getDeviceContext(deviceContext);
+		dynamic_cast<DirectXRenderManager*>(RenderManager::Instance())->GetDeviceContext(deviceContext);
 
 		ImGui_ImplDX11_Init(device.Get(), deviceContext.Get());
 	}

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <wrl/client.h>
-#include "Dx11Render.h"
+#include "DirectXRenderManager.h"
 
 template <class T>
 class ConstantBuffer
@@ -44,7 +44,7 @@ bool ConstantBuffer<T>::Load()
 
 
 	Microsoft::WRL::ComPtr<ID3D11Device> device;
-	Dx11Render::instance()->getDevice(device);
+	dynamic_cast<DirectXRenderManager*>(RenderManager::Instance())->GetDevice(device);
 
 	const auto result = device->CreateBuffer(&bd, nullptr, mConstantBuffer.ReleaseAndGetAddressOf());
 
@@ -66,7 +66,7 @@ template<class T>
 void ConstantBuffer<T>::UpdateBuffer(const T & pData)
 {
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext;
-	Dx11Render::instance()->getDeviceContext(deviceContext);
+	dynamic_cast<DirectXRenderManager*>(RenderManager::Instance())->GetDeviceContext(deviceContext);
 
 	deviceContext->UpdateSubresource(mConstantBuffer.Get(), 0, nullptr, &pData, 0, 0);
 

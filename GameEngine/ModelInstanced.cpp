@@ -1,10 +1,10 @@
 #include "ModelInstanced.h"
-#include "DX11Render.h"
+#include "DirectXRenderManager.h"
 
 bool ModelInstanced::loadModel(const std::vector<VertexData>& pMesh, const std::vector<unsigned>& pIndices)
 {
 	Microsoft::WRL::ComPtr<ID3D11Device> device;
-	Dx11Render::instance()->getDevice(device);
+	dynamic_cast<DirectXRenderManager*>(RenderManager::Instance())->GetDevice(device);
 
 	//None changing data for Vertex Buffers;
 	D3D11_BUFFER_DESC bufferDesc;
@@ -57,8 +57,7 @@ bool ModelInstanced::loadModel(const std::vector<VertexData>& pMesh, const std::
 void ModelInstanced::render(unsigned pInstances) const
 {
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext;
-	Dx11Render::instance()->getDeviceContext(deviceContext);
-
+	dynamic_cast<DirectXRenderManager*>(RenderManager::Instance())->GetDeviceContext(deviceContext);
 
 	//Draw particles
 
@@ -78,5 +77,4 @@ void ModelInstanced::render(unsigned pInstances) const
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	deviceContext->DrawIndexedInstanced(mIndicesSize, pInstances, 0, 0, 0);
-
 }
