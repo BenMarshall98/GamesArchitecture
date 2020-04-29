@@ -1,31 +1,51 @@
-#include "ListeningSocket.h"
+#include "StreamingSocket.h"
 
 
 #include <iomanip>
 #include <iostream>
 #include <sstream>
 
-#include "NetworkingManager.h"
+int StreamingSocket::ID = 0;
 
-int ListeningSocket::ID = 0;
-
-ListeningSocket::ListeningSocket(const SOCKET & pSocket) : mSocket(pSocket), mID(ID)
+StreamingSocket::StreamingSocket(const IpAddress& pAddress) : mID(ID)
 {
-	std::cout << "Connection Started With ID " << mID << std::endl;
-	
-	mConnection = std::thread(&ListeningSocket::Recieve, this);
 	ID++;
+	auto versionRequested = MAKEWORD(2, 0);
+
+	WSADATA wsaData;
+
+	if (WSAStartup(versionRequested, &wsaData))
+	{
+		std::cerr << "Socket initialisation failed" << std::endl;
+		return;
+	}
+
+	IpAddress address(7500, "127.0.0.1");
+
+	char buffer;
+	mSocket = socket(AF_INET, SOCK_STREAM, 0);
+
+	if (mSocket == INVALID_SOCKET)
+	{
+		std::cerr << "Create socket failed" << std::endl;
+	}
+	else if (connect(mSocket, (sockaddr *)&address.GetPeer(), sizeof(address.GetPeer())) == SOCKET_ERROR)
+	{
+		std::cerr << "Connect to peer failed with " << WSAGetLastError() << std::endl;
+	}
+
+	mConnection = std::thread(&StreamingSocket::Recieve, this);
 }
 
-ListeningSocket::~ListeningSocket()
+StreamingSocket::~StreamingSocket()
 {
-	//TODO: Better way of joining 
 	mConnection.detach();
+	closesocket(mSocket);
 }
 
-void ListeningSocket::Recieve()
+void StreamingSocket::Recieve()
 {
-	while(true)
+	while (true)
 	{
 		char buffer[11] = "";
 		if (recv(mSocket, buffer, 10, 0) == SOCKET_ERROR)
@@ -50,7 +70,7 @@ void ListeningSocket::Recieve()
 		str >> size;
 
 		str = std::istringstream(message.substr(4, 4));
-		
+
 		int checksum;
 		str >> checksum;
 
@@ -63,7 +83,7 @@ void ListeningSocket::Recieve()
 			char tempBuffer[11] = "";
 			int left = size - message.size();
 			left = left > 10 ? 10 : left;
-			
+
 			if (recv(mSocket, tempBuffer, left, 0) == SOCKET_ERROR)
 			{
 				if (mClose)
@@ -100,13 +120,10 @@ void ListeningSocket::Recieve()
 		{
 			CloseConnection(false);
 		}
-
-		Send(message);
 	}
 }
 
-
-void ListeningSocket::Send(const std::string& pMessage)
+void StreamingSocket::Send(const std::string& pMessage)
 {
 	int size = pMessage.size() + 8;
 
@@ -114,7 +131,6 @@ void ListeningSocket::Send(const std::string& pMessage)
 
 	str << std::setfill('0') << std::setw(4) << size;
 	
-
 	auto checksum = 0u;
 
 	for (int i = 0; i < pMessage.size(); i++)
@@ -127,14 +143,14 @@ void ListeningSocket::Send(const std::string& pMessage)
 	str << pMessage;
 
 	auto message = str.str();
-	
+
 	if (send(mSocket, str.str().c_str(), size, 0) == SOCKET_ERROR)
 	{
 		if (mClose)
 		{
 			return;
 		}
-		
+
 		std::cerr << "Send failed with " << WSAGetLastError() << std::endl;
 
 		CloseConnection(false);
@@ -143,7 +159,7 @@ void ListeningSocket::Send(const std::string& pMessage)
 	std::cout << "Connection " << mID << " Send Message " << pMessage << std::endl;
 }
 
-void ListeningSocket::CloseConnection(const bool pFullClose)
+void StreamingSocket::CloseConnection(const bool pFullClose)
 {
 	mClose = true;
 
@@ -155,6 +171,4 @@ void ListeningSocket::CloseConnection(const bool pFullClose)
 	std::cout << "Connection Ended With ID " << mID << std::endl;
 
 	closesocket(mSocket);
-
-	NetworkingManager::Instance()->RemoveConnection(this);
 }

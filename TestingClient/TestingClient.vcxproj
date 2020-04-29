@@ -125,9 +125,11 @@
   <ItemGroup>
     <ClCompile Include="ClientSource.cpp" />
     <ClCompile Include="IpAddress.cpp" />
+    <ClCompile Include="StreamingSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IpAddress.h" />
+    <ClInclude Include="StreamingSocket.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
