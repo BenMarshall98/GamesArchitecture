@@ -9,6 +9,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DearImGui", "External\DearI
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine", "GameEngine\GameEngine.vcxproj", "{82353CBB-1588-457C-BA8C-8032FBF2A96A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestingClient", "TestingClient\TestingClient.vcxproj", "{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestingServer", "TestingServer\TestingServer.vcxproj", "{37086BCB-390A-4630-A4BF-8FDCC97CB40C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - DirectX|x64 = Debug - DirectX|x64
@@ -97,6 +101,54 @@ Global
 		{82353CBB-1588-457C-BA8C-8032FBF2A96A}.Release|x64.Build.0 = Release|x64
 		{82353CBB-1588-457C-BA8C-8032FBF2A96A}.Release|x86.ActiveCfg = Release|Win32
 		{82353CBB-1588-457C-BA8C-8032FBF2A96A}.Release|x86.Build.0 = Release|Win32
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Debug - DirectX|x64.ActiveCfg = Debug|x64
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Debug - DirectX|x64.Build.0 = Debug|x64
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Debug - DirectX|x86.ActiveCfg = Debug|Win32
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Debug - DirectX|x86.Build.0 = Debug|Win32
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Debug - OpenGL|x64.ActiveCfg = Debug|x64
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Debug - OpenGL|x64.Build.0 = Debug|x64
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Debug - OpenGL|x86.ActiveCfg = Debug|Win32
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Debug - OpenGL|x86.Build.0 = Debug|Win32
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Debug|x64.ActiveCfg = Debug|x64
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Debug|x64.Build.0 = Debug|x64
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Debug|x86.ActiveCfg = Debug|Win32
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Debug|x86.Build.0 = Debug|Win32
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Release - DirectX|x64.ActiveCfg = Release|x64
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Release - DirectX|x64.Build.0 = Release|x64
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Release - DirectX|x86.ActiveCfg = Release|Win32
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Release - DirectX|x86.Build.0 = Release|Win32
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Release - OpenGL|x64.ActiveCfg = Release|x64
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Release - OpenGL|x64.Build.0 = Release|x64
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Release - OpenGL|x86.ActiveCfg = Release|Win32
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Release - OpenGL|x86.Build.0 = Release|Win32
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Release|x64.ActiveCfg = Release|x64
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Release|x64.Build.0 = Release|x64
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Release|x86.ActiveCfg = Release|Win32
+		{7FEA86C6-646F-46FC-A8E3-BBC9DA8B979B}.Release|x86.Build.0 = Release|Win32
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Debug - DirectX|x64.ActiveCfg = Debug|x64
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Debug - DirectX|x64.Build.0 = Debug|x64
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Debug - DirectX|x86.ActiveCfg = Debug|Win32
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Debug - DirectX|x86.Build.0 = Debug|Win32
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Debug - OpenGL|x64.ActiveCfg = Debug|x64
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Debug - OpenGL|x64.Build.0 = Debug|x64
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Debug - OpenGL|x86.ActiveCfg = Debug|Win32
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Debug - OpenGL|x86.Build.0 = Debug|Win32
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Debug|x64.ActiveCfg = Debug|x64
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Debug|x64.Build.0 = Debug|x64
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Debug|x86.ActiveCfg = Debug|Win32
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Debug|x86.Build.0 = Debug|Win32
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Release - DirectX|x64.ActiveCfg = Release|x64
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Release - DirectX|x64.Build.0 = Release|x64
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Release - DirectX|x86.ActiveCfg = Release|Win32
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Release - DirectX|x86.Build.0 = Release|Win32
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Release - OpenGL|x64.ActiveCfg = Release|x64
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Release - OpenGL|x64.Build.0 = Release|x64
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Release - OpenGL|x86.ActiveCfg = Release|Win32
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Release - OpenGL|x86.Build.0 = Release|Win32
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Release|x64.ActiveCfg = Release|x64
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Release|x64.Build.0 = Release|x64
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Release|x86.ActiveCfg = Release|Win32
+		{37086BCB-390A-4630-A4BF-8FDCC97CB40C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
