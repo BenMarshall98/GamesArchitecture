@@ -14,6 +14,11 @@ bool SphereObject::Collision(CollisionObject* pCollisionObject, CollisionData & 
 
 bool SphereObject::CollisionSphere(SphereObject* pSphereObject, CollisionData & pData)
 {
+	if (mType == RigidBodyType::STATIC && pSphereObject->mType == RigidBodyType::STATIC)
+	{
+		return false;
+	}
+	
 	const auto dist = pSphereObject->mLastPosition - mLastPosition;
 	const auto sphereVelocity0 = mCurrentPosition - mLastPosition;
 	const auto sphereVelocity1 = pSphereObject->mCurrentPosition - pSphereObject->mLastPosition;
@@ -26,6 +31,8 @@ bool SphereObject::CollisionSphere(SphereObject* pSphereObject, CollisionData & 
 	{
 		pData.mTime = 0.0f;
 		pData.mCollisionNormal = normalize(dist);
+		pData.mObject1 = this;
+		pData.mObject2 = pSphereObject;
 		return true;
 	}
 
@@ -62,11 +69,13 @@ bool SphereObject::CollisionSphere(SphereObject* pSphereObject, CollisionData & 
 
 	pData.mTime = time;
 	pData.mCollisionNormal = normalize(spherePosition0 - spherePosition1);
+	pData.mObject1 = this;
+	pData.mObject2 = pSphereObject;
 	return true;
 }
 
 bool SphereObject::CollisionPlane(PlaneObject* pPlaneObject, CollisionData & pData)
-{
+{	
 	const auto planeDist = dot(pPlaneObject->mNormal, pPlaneObject->mLastPosition);
 	const auto sphereDist = dot(pPlaneObject->mNormal, mLastPosition) - planeDist;
 
@@ -74,6 +83,8 @@ bool SphereObject::CollisionPlane(PlaneObject* pPlaneObject, CollisionData & pDa
 	{
 		pData.mTime = 0.0f;
 		pData.mCollisionNormal = pPlaneObject->mNormal;
+		pData.mObject1 = this;
+		pData.mObject2 = pPlaneObject;
 		return true;
 	}
 
@@ -95,5 +106,7 @@ bool SphereObject::CollisionPlane(PlaneObject* pPlaneObject, CollisionData & pDa
 
 	pData.mTime = time;
 	pData.mCollisionNormal = pPlaneObject->mNormal;
+	pData.mObject1 = this;
+	pData.mObject2 = pPlaneObject;
 	return true;
 }

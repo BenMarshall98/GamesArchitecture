@@ -6,7 +6,7 @@
 class Octree final : public PhysicsTree
 {
 	std::unique_ptr<Octree> mChildren[8];
-	std::vector<std::shared_ptr<CollisionObject>> mCollisionObjects;
+	std::vector<CollisionObject *> mCollisionObjects;
 	std::vector<Octree *> mNeighbours;
 	Octree * mParent;
 
@@ -15,7 +15,7 @@ class Octree final : public PhysicsTree
 
 	bool mChecked = false;
 
-	void MoveCollisionObject(const std::shared_ptr<CollisionObject> &pCollisionObject);
+	void MoveCollisionObject(CollisionObject * pCollisionObject);
 	void GetNeighbours();
 	void DeleteNeighbour(Octree * pNeighbour);
 	void FindNeighbour(const glm::vec3 & pCenter, const glm::vec3 & pSize, std::vector<Octree *> & pNeighbours, Octree * pNeighbour);
@@ -39,9 +39,10 @@ public:
 	Octree& operator= (const Octree&) = delete;
 	Octree& operator= (Octree&&) = delete;
 
-	bool AddCollisionObject(const std::shared_ptr<CollisionObject>& pCollisionObject) override;
-	void RemoveCollisionObject(const std::shared_ptr<CollisionObject>& pCollisionObject) override;
+	bool AddCollisionObject(CollisionObject * pCollisionObject) override;
+	bool RemoveCollisionObject(CollisionObject * pCollisionObject) override;
 	void UpdateTree() override;
 	void GetPossibleCollisions(std::vector<PossibleCollision> & pPossibleCOllisions) override;
+	void Reset() override;
 };
 

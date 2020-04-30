@@ -10,17 +10,28 @@
 #include "EntityManager.h"
 #include "InputSystem.h"
 #include "ModelLoader.h"
+#include "Octree.h"
+#include "PhysicsManager.h"
+#include "PhysicsSystem.h"
 #include "PyramidShapeEntity.h"
+#include "RenderManager.h"
 #include "RenderSystem.h"
 #include "SystemManager.h"
 #include "UserEntity.h"
+#include "Win32Window.h"
 
 void PyramidScene::Load()
 {
+	auto octree = std::make_unique<Octree>(glm::vec3(0.0f), glm::vec3(1.0f));
+	PhysicsManager::Instance()->SetPhysicsTree(std::move(octree));
+	
 	auto systemManager = SystemManager::Instance();
 
 	auto inputSystem = std::make_unique<InputSystem>();
 	systemManager->AddUpdateSystem(std::move(inputSystem));
+
+	auto physicsSystem = std::make_unique<PhysicsSystem>();
+	systemManager->AddUpdateSystem(std::move(physicsSystem));
 
 	auto renderSystem = std::make_unique<RenderSystem>();
 	systemManager->AddRenderSystem(std::move(renderSystem));
@@ -134,13 +145,15 @@ void PyramidScene::Reset()
 
 	entityManager->Reset();
 
+	PhysicsManager::Instance()->Reset();
+
 	entityManager->AddEntity(std::make_shared<UserEntity>(glm::vec3(1.0f, 0.5f, 1.0f)));
 
 	const auto offset = 1.0f / sqrt(2.0f) * 0.02f;
 
 	auto mass = false;
 
-	for (auto i = 1; i <= mCurrentSizePyramid; i++)
+	for (auto i = mCurrentSizePyramid; i >= 1; i--)
 	{
 		const auto y = static_cast<float>(mCurrentSizePyramid - i) * offset + 0.01f;
 

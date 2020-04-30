@@ -12,9 +12,9 @@ Octree::~Octree()
 	}
 }
 
-bool Octree::AddCollisionObject(const std::shared_ptr<CollisionObject> & pCollisionObject)
+bool Octree::AddCollisionObject(CollisionObject * pCollisionObject)
 {
-	const auto bodyPos = pCollisionObject->GetPosition();
+	const auto bodyPos = pCollisionObject->GetCurrentPosition();
 
 	if (bodyPos.x < mCenter.x - mSize.x ||
 		bodyPos.x > mCenter.x + mSize.x ||
@@ -26,9 +26,9 @@ bool Octree::AddCollisionObject(const std::shared_ptr<CollisionObject> & pCollis
 		return false;
 	}
 
-	if (mSize.x > 2 &&
-		mSize.y > 2 &&
-		mSize.z > 2)
+	if (mSize.x > 0.03 &&
+		mSize.y > 0.03 &&
+		mSize.z > 0.03)
 	{
 		if (mChildren[0])
 		{
@@ -79,12 +79,37 @@ bool Octree::AddCollisionObject(const std::shared_ptr<CollisionObject> & pCollis
 	return true;
 }
 
+bool Octree::RemoveCollisionObject(CollisionObject * pCollisionObject)
+{
+	for (auto i = 0u; i < mCollisionObjects.size(); i++)
+	{
+		if (mCollisionObjects[i] == pCollisionObject)
+		{
+			mCollisionObjects.erase(mCollisionObjects.begin() + i);
+			return true;
+		}
+	}
+
+	if (mChildren[0])
+	{
+		for (auto& child : mChildren)
+		{
+			if (child->RemoveCollisionObject(pCollisionObject))
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 void Octree::UpdateTree()
 {
 	mChecked = false;
 	for (auto i = 0u; i < mCollisionObjects.size(); i++)
 	{
-		const auto bodyPos = mCollisionObjects[i]->GetPosition();
+		const auto bodyPos = mCollisionObjects[i]->GetCurrentPosition();
 
 		//TODO: Do same check in physics system
 		if (isnan(bodyPos.x))
@@ -145,9 +170,9 @@ void Octree::UpdateTree()
 	}
 }
 
-void Octree::MoveCollisionObject(const std::shared_ptr<CollisionObject> & pCollisionObject)
+void Octree::MoveCollisionObject(CollisionObject * pCollisionObject)
 {
-	const auto bodyPos = pCollisionObject->GetPosition();
+	const auto bodyPos = pCollisionObject->GetCurrentPosition();
 
 	if (bodyPos.x < mCenter.x - mSize.x ||
 		bodyPos.x > mCenter.x + mSize.x ||
@@ -168,9 +193,9 @@ void Octree::MoveCollisionObject(const std::shared_ptr<CollisionObject> & pColli
 	}
 	else
 	{
-		if (mSize.x > 2 &&
-			mSize.y > 2 &&
-			mSize.z > 2)
+		if (mSize.x > 0.03 &&
+			mSize.y > 0.03 &&
+			mSize.z > 0.03)
 		{
 			if (mChildren[0])
 			{
@@ -335,6 +360,18 @@ void Octree::GetPossibleCollisions(std::vector<PossibleCollision>& pPossibleColl
 					}
 				}
 			}
+		}
+	}
+}
+
+void Octree::Reset()
+{
+	if (mChildren[0])
+	{
+		for (auto& child : mChildren)
+		{
+			child->Reset();
+			child.reset(nullptr);
 		}
 	}
 }

@@ -7,8 +7,8 @@
 
 struct PossibleCollision
 {
-	std::shared_ptr<CollisionObject> mCollisionObject1;
-	std::shared_ptr<CollisionObject> mCollisionObject2;
+	CollisionObject * mCollisionObject1;
+	CollisionObject * mCollisionObject2;
 };
 
 class PhysicsTree
@@ -22,9 +22,10 @@ public:
 	PhysicsTree& operator= (const PhysicsTree&) = delete;
 	PhysicsTree& operator= (PhysicsTree&&) = delete;
 	
-	virtual bool AddCollisionObject(const std::shared_ptr<CollisionObject> & pCollisionObject) = 0;
-	virtual void RemoveCollisionObject(const std::shared_ptr<CollisionObject> & pCollisionObject) = 0;
+	virtual bool AddCollisionObject(CollisionObject * pCollisionObject) = 0;
+	virtual bool RemoveCollisionObject(CollisionObject * pCollisionObject) = 0;
 	virtual void UpdateTree() = 0;
 	virtual void GetPossibleCollisions(std::vector<PossibleCollision> & pPossibleCOllisions) = 0;
+	virtual void Reset() = 0;
 };
 
