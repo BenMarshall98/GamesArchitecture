@@ -17,8 +17,8 @@ struct ViewProjectionMatrix
 
 class RenderSystem final : public System
 {
-	ConstantBuffer<ModelMatrix> mModelBuffer;
-	ConstantBuffer<ViewProjectionMatrix> mViewBuffer;
+	std::unique_ptr<ConstantBuffer<ModelMatrix>> mModelBuffer;
+	std::unique_ptr<ConstantBuffer<ViewProjectionMatrix>> mViewBuffer;
 	
 public:
 	RenderSystem();

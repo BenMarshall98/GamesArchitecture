@@ -216,12 +216,12 @@ std::shared_ptr<Texture> DirectXRenderManager::CreateTexture(const std::string& 
 
 std::shared_ptr<VertexShader> DirectXRenderManager::CreateVertexShader(const std::string& pVertexShader)
 {
-	return std::make_shared<DirectXVertexShader>(pVertexShader);
+	return std::make_shared<DirectXVertexShader>(pVertexShader + ".hlsl");
 }
 
 std::shared_ptr<FragmentShader> DirectXRenderManager::CreateFragmentShader(const std::string& pFragmentShader)
 {
-	return std::make_shared<DirectXFragmentShader>(pFragmentShader);
+	return std::make_shared<DirectXFragmentShader>(pFragmentShader + ".hlsl");
 }
 
 std::shared_ptr<Shader> DirectXRenderManager::CreateShader(const std::string& pVertexShader, const std::string& pFragmentShader)

@@ -2,7 +2,8 @@
 
 #include "Model.h"
 #include <string>
-#include <memory>
+#include <vector>
+
 #include "ModelInstanced.h"
 
 class ModelLoader

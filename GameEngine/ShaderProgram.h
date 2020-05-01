@@ -5,6 +5,7 @@
 
 class ShaderProgram
 {
+protected:
 	std::string mFilename;
 
 public:

@@ -360,6 +360,7 @@
     <ClCompile Include="CollisionObject.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
+    <ClCompile Include="DirectXConstantBuffer.cpp" />
     <ClCompile Include="DirectXFragmentShader.cpp" />
     <ClCompile Include="DirectXModel.cpp" />
     <ClCompile Include="DirectXRenderManager.cpp" />
@@ -376,6 +377,7 @@
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="Octree.cpp" />
     <ClCompile Include="OpenGL.cpp" />
+    <ClCompile Include="OpenGLConstantBuffer.cpp" />
     <ClCompile Include="OpenGLFragmentShader.cpp" />
     <ClCompile Include="OpenGLModel.cpp" />
     <ClCompile Include="OpenGLRenderManager.cpp" />
@@ -410,7 +412,9 @@
     <ClInclude Include="CollisionObject.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="ConstantBufferLoader.h" />
     <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="DirectXConstantBuffer.h" />
     <ClInclude Include="DirectXFragmentShader.h" />
     <ClInclude Include="DirectXModel.h" />
     <ClInclude Include="DirectXRenderManager.h" />
@@ -427,6 +431,7 @@
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Octree.h" />
     <ClInclude Include="OpenGL.h" />
+    <ClInclude Include="OpenGLConstantBuffer.h" />
     <ClInclude Include="OpenGLFragmentShader.h" />
     <ClInclude Include="OpenGLModel.h" />
     <ClInclude Include="OpenGLRenderManager.h" />
@@ -449,11 +454,13 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="SphereObject.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="UserCamera.h" />
     <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="wglext.h" />
     <ClInclude Include="Win32Window.h" />
   </ItemGroup>
   <ItemGroup>

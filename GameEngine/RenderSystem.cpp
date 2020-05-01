@@ -2,16 +2,18 @@
 
 
 #include "CameraManager.h"
+#include "ConstantBufferLoader.h"
 #include "PositionComponent.h"
 #include "RenderComponent.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 
 RenderSystem::RenderSystem() : System({ComponentType::POSITION, ComponentType::RENDER}),
-	mModelBuffer(0), mViewBuffer(1)
+	mModelBuffer(std::move(ConstantBufferLoader<ModelMatrix>::CreateConstantBuffer(0))),
+	mViewBuffer(std::move(ConstantBufferLoader<ViewProjectionMatrix>::CreateConstantBuffer(1)))
 {
-	mModelBuffer.Load();
-	mViewBuffer.Load();
+	mModelBuffer->Load();
+	mViewBuffer->Load();
 }
 
 void RenderSystem::Action(const float pDeltaTime)
@@ -24,7 +26,7 @@ void RenderSystem::Action(const float pDeltaTime)
 	vpMat.mView = cameraManager->GetViewMatrix();
 	vpMat.mProjection = cameraManager->GetPerspectiveMatrix();
 
-	mViewBuffer.UpdateBuffer(vpMat);
+	mViewBuffer->UpdateBuffer(vpMat);
 
 	for (auto & entity : mEntities)
 	{
@@ -43,7 +45,7 @@ void RenderSystem::Action(const float pDeltaTime)
 		modelMat.mModel = glm::translate(glm::mat4(1.0f), position);
 		modelMat.mModel = glm::scale(modelMat.mModel, scale);
 
-		mModelBuffer.UpdateBuffer(modelMat);
+		mModelBuffer->UpdateBuffer(modelMat);
 
 		//TODO: Include Texture
 		

@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DX_11
+
 #include <d3d11.h>
 #include <DirectXMath.h>
 #include <wrl/client.h>
@@ -19,3 +21,5 @@ public:
 	bool loadModel(const std::vector<VertexData> & pMesh, const std::vector<unsigned int> & pIndices);
 	void render(unsigned int pInstances) const;
 };
+
+#endif

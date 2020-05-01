@@ -362,6 +362,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="SimpleFragmentProgram.frag" />
+    <Text Include="SimpleVertexProgram.vert">
+      <FileType>Document</FileType>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Object Include="Assets\Models\sphere.obj">

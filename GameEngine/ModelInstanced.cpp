@@ -1,4 +1,7 @@
 #include "ModelInstanced.h"
+
+#ifdef DX_11
+
 #include "DirectXRenderManager.h"
 
 bool ModelInstanced::loadModel(const std::vector<VertexData>& pMesh, const std::vector<unsigned>& pIndices)
@@ -78,3 +81,4 @@ void ModelInstanced::render(unsigned pInstances) const
 
 	deviceContext->DrawIndexedInstanced(mIndicesSize, pInstances, 0, 0, 0);
 }
+#endif

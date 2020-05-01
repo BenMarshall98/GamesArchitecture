@@ -42,6 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="SimpleVertexProgram.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SimpleFragmentProgram.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Object Include="Assets\Models\sphere.obj">

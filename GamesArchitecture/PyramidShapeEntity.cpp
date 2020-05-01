@@ -10,7 +10,7 @@ PyramidShapeEntity::PyramidShapeEntity(const glm::vec3& pPosition, bool pBase)
 {
 	//TODO: Texture
 	const auto renderComponent = std::make_shared<RenderComponent>(
-		ResourceManager::Instance()->LoadShader("SimpleVertexProgram.hlsl", "SimpleFragmentProgram.hlsl"),
+		ResourceManager::Instance()->LoadShader("SimpleVertexProgram", "SimpleFragmentProgram"),
 		ResourceManager::Instance()->LoadModel("Assets/Models/sphere.obj"), nullptr);
 
 	const auto positionComponent = std::make_shared<PositionComponent>(pPosition, glm::vec3(0.01f));

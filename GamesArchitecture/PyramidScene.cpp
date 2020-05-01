@@ -7,6 +7,7 @@
 #include "DearImGui/imgui.h"
 #include "DearImGui/imgui_impl_dx11.h"
 #include "DearImGui/imgui_impl_win32.h"
+#include "DearImGui/imgui_impl_opengl3.h"
 #include "EntityManager.h"
 #include "InputSystem.h"
 #include "ModelLoader.h"
@@ -44,7 +45,8 @@ void PyramidScene::Load()
 void PyramidScene::Render()
 {
 	const auto render = RenderManager::Instance();
-	ImGui_ImplDX11_NewFrame();
+	//ImGui_ImplDX11_NewFrame();
+	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
@@ -59,8 +61,9 @@ void PyramidScene::Render()
 
 	EntityManager::Instance()->Render();
 
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-
+	//ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	
 	render->Present();
 }
 
