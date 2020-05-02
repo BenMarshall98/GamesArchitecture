@@ -17,7 +17,7 @@ PlaneEntity::PlaneEntity()
 
 	const auto planeObject = std::make_shared<PlaneObject>(this, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-	const auto physicsComponent = std::make_shared<PhysicsComponent>(planeObject);
+	const auto physicsComponent = std::make_shared<PhysicsComponent>(planeObject, true);
 
 	AddComponent(renderComponent, false);
 	AddComponent(positionComponent, false);

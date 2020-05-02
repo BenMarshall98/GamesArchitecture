@@ -6,6 +6,7 @@ void PhysicsManager::Update(float pDeltaTime)
 {
 	mStaticCollisionObjects.insert(mStaticCollisionObjects.end(), mAddStaticCollisionObjects.begin(), mAddStaticCollisionObjects.end());
 	mDynamicCollisionObjects.insert(mDynamicCollisionObjects.end(), mAddDynamicCollisionObjects.begin(), mAddDynamicCollisionObjects.end());
+	mInfiniteCollisionObjects.insert(mInfiniteCollisionObjects.end(), mAddInfiniteCollisionObjects.begin(), mAddInfiniteCollisionObjects.end());
 
 	for (int i = 0; i < mAddStaticCollisionObjects.size(); i++)
 	{
@@ -47,15 +48,29 @@ void PhysicsManager::Update(float pDeltaTime)
 		}
 	}
 
+	for (const auto& removeInfiniteCollisionObject : mRemoveInfiniteCollisionObjects)
+	{
+		const auto it = std::find(mInfiniteCollisionObjects.begin(), mInfiniteCollisionObjects.end(), removeInfiniteCollisionObject);
+
+		if (it != mInfiniteCollisionObjects.end())
+		{
+			mInfiniteCollisionObjects.erase(it);
+		}
+	}
+
 	mAddStaticCollisionObjects.clear();
 	mAddDynamicCollisionObjects.clear();
+	mAddInfiniteCollisionObjects.clear();
 	mRemoveStaticCollisionObjects.clear();
 	mRemoveDynamicCollisionObjects.clear();
+	mRemoveInfiniteCollisionObjects.clear();
 
 	mAddStaticCollisionObjects.shrink_to_fit();
 	mAddDynamicCollisionObjects.shrink_to_fit();
+	mAddInfiniteCollisionObjects.shrink_to_fit();
 	mRemoveStaticCollisionObjects.shrink_to_fit();
 	mRemoveDynamicCollisionObjects.shrink_to_fit();
+	mRemoveInfiniteCollisionObjects.shrink_to_fit();
 
 	mPhysicsTree->UpdateTree();
 
@@ -84,9 +99,22 @@ void PhysicsManager::Update(float pDeltaTime)
 		}
 	}
 
+	for (int i = 0; i < mInfiniteCollisionObjects.size(); i++)
+	{
+		for (int j = 0; j < mDynamicCollisionObjects.size(); j++)
+		{
+			CollisionData data;
+
+			if (mInfiniteCollisionObjects[i]->Collision(mDynamicCollisionObjects[j].get(), data))
+			{
+				collisions.push_back(data);
+			}
+		}
+	}
+
 	for (int i = 0; i < collisions.size(); i++)
 	{
-		CollisionObject::CollisionResponse(collisions[i]);
+		CollisionObject::CollisionResponse(collisions[i], pDeltaTime);
 	}
 	
 	for (auto& dynamicCollisionObject : mDynamicCollisionObjects)
@@ -101,15 +129,21 @@ void PhysicsManager::Reset()
 	
 	mStaticCollisionObjects.clear();
 	mDynamicCollisionObjects.clear();
+	mInfiniteCollisionObjects.clear();
 	mAddStaticCollisionObjects.clear();
 	mAddDynamicCollisionObjects.clear();
+	mAddInfiniteCollisionObjects.clear();
 	mRemoveStaticCollisionObjects.clear();
 	mRemoveDynamicCollisionObjects.clear();
+	mRemoveInfiniteCollisionObjects.clear();
 
 	mStaticCollisionObjects.shrink_to_fit();
 	mDynamicCollisionObjects.shrink_to_fit();
+	mInfiniteCollisionObjects.shrink_to_fit();
 	mAddStaticCollisionObjects.shrink_to_fit();
 	mAddDynamicCollisionObjects.shrink_to_fit();
+	mAddInfiniteCollisionObjects.shrink_to_fit();
 	mRemoveStaticCollisionObjects.shrink_to_fit();
 	mRemoveDynamicCollisionObjects.shrink_to_fit();
+	mRemoveInfiniteCollisionObjects.shrink_to_fit();
 }

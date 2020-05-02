@@ -8,9 +8,10 @@
 class PhysicsComponent final : public Component
 {
 	std::shared_ptr<CollisionObject> mCollisionObject;
+	bool mInvincible;
 
 public:
-	explicit PhysicsComponent(const std::shared_ptr<CollisionObject> & pCollisionObject);
+	explicit PhysicsComponent(const std::shared_ptr<CollisionObject> & pCollisionObject, bool pInvincible = false);
 	~PhysicsComponent();
 
 	PhysicsComponent(const PhysicsComponent &) = delete;

@@ -16,6 +16,7 @@ struct CollisionData
 	CollisionObject * mObject2;
 	glm::vec3 mCollisionNormal;
 	float mTime;
+	float mDepth;
 };
 
 struct State
@@ -102,6 +103,6 @@ public:
 	virtual bool CollisionSphere(SphereObject * pSphereObject, CollisionData & pData) = 0;
 	virtual bool CollisionPlane(PlaneObject * pPlaneObject, CollisionData & pData) = 0;
 
-	static void CollisionResponse(const CollisionData & pData);
+	static void CollisionResponse(const CollisionData & pData, float pDeltaTime);
 };
 

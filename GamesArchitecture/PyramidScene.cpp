@@ -171,7 +171,7 @@ void PyramidScene::Update(const float pDeltaTime)
 
 			const auto t = 1.0f;
 
-			const auto velocity = (1.0f / t * displacement - 0.5f * glm::vec3(0.0f, -0.1f, 0.0f) * t);
+			const auto velocity = (1.0f / t * displacement - 0.5f * glm::vec3(0.0f, -1.0f, 0.0f) * t);
 
 			if (mProjectile == ProjectileType::SMALL)
 			{

@@ -62,7 +62,7 @@ void CollisionObject::Evaluate(const State& pInitial, const float pDeltaTime, co
 
 void CollisionObject::Acceleration(const State & pState, glm::vec3 & pAcceleration)
 {
-	pAcceleration = glm::vec3(0.0f, -0.1f, 0.0f);
+	pAcceleration = glm::vec3(0.0f, -1.0f, 0.0f);
 }
 
 void CollisionObject::Swap()
@@ -71,8 +71,9 @@ void CollisionObject::Swap()
 	mLastVelocity = mCurrentVelocity;
 }
 
-void CollisionObject::CollisionResponse(const CollisionData& pData)
+void CollisionObject::CollisionResponse(const CollisionData& pData, const float pDeltaTime)
 {
+	//TODO: Penetration Resolution
 	if (pData.mTime == 0)
 	{
 		pData.mObject1->mCurrentPosition = pData.mObject1->mLastPosition;
@@ -81,12 +82,49 @@ void CollisionObject::CollisionResponse(const CollisionData& pData)
 		pData.mObject2->mCurrentPosition = pData.mObject2->mLastPosition;
 		pData.mObject2->mCurrentVelocity = pData.mObject2->mLastVelocity;
 	}
-	else
-	{
-		pData.mObject1->mCurrentPosition = pData.mObject1->mLastPosition;
-		pData.mObject1->mCurrentVelocity = -pData.mObject1->mLastVelocity;
 
-		pData.mObject2->mCurrentPosition = pData.mObject2->mLastPosition;
-		pData.mObject2->mCurrentVelocity = -pData.mObject2->mLastVelocity;
+	if (pData.mObject1->mType == RigidBodyType::STATIC && pData.mObject2->mType == RigidBodyType::DYNAMIC)
+	{
+		const auto initialVelocity = glm::mix(pData.mObject2->mLastVelocity, pData.mObject2->mCurrentVelocity, pData.mTime);
+		auto initialPosition = glm::mix(pData.mObject2->mLastPosition, pData.mObject2->mCurrentPosition, pData.mTime);
+
+		const auto newVelocity = initialVelocity - (1.0f + 0.8f) * glm::dot(initialVelocity, pData.mCollisionNormal) * pData.mCollisionNormal;
+
+		pData.mObject2->mCurrentVelocity = newVelocity;
+		pData.mObject2->mCurrentPosition = initialPosition + newVelocity * (1.0f - pData.mTime) * pDeltaTime;
+	}
+	else if (pData.mObject1->mType == RigidBodyType::DYNAMIC && pData.mObject2->mType == RigidBodyType::STATIC)
+	{
+		const auto initialVelocity = glm::mix(pData.mObject1->mLastVelocity, pData.mObject1->mCurrentVelocity, pData.mTime);
+		auto initialPosition = glm::mix(pData.mObject1->mLastPosition, pData.mObject1->mCurrentPosition, pData.mTime);
+
+		const auto newVelocity = initialVelocity - (1.0f + 0.8f) * glm::dot(initialVelocity, pData.mCollisionNormal) * pData.mCollisionNormal;
+
+		pData.mObject1->mCurrentVelocity = newVelocity;
+		pData.mObject1->mCurrentPosition = initialPosition + newVelocity * (1.0f - pData.mTime) * pDeltaTime;
+	}
+	else if (pData.mObject1->mType == RigidBodyType::DYNAMIC && pData.mObject2->mType == RigidBodyType::DYNAMIC)
+	{
+		const auto initialVelocity1 = glm::mix(pData.mObject1->mLastVelocity, pData.mObject1->mCurrentVelocity, pData.mTime);
+		auto initialPosition1 = glm::mix(pData.mObject1->mLastPosition, pData.mObject1->mCurrentPosition, pData.mTime);
+
+		const auto initialVelocity2 = glm::mix(pData.mObject2->mLastVelocity, pData.mObject2->mCurrentVelocity, pData.mTime);
+		auto initialPosition2 = glm::mix(pData.mObject2->mLastPosition, pData.mObject2->mCurrentPosition, pData.mTime);
+
+		const auto normal = pData.mCollisionNormal;
+
+		const auto mass1 = pData.mObject1->mMass;
+		const auto mass2 = pData.mObject2->mMass;
+
+		const auto newVelocity1 = initialVelocity1 - dot(initialVelocity1, normal) * normal +
+			((mass1 - 0.8f * mass2) * dot(initialVelocity1, normal) * normal + (mass2 + 0.8f * mass2) * dot(initialVelocity2, normal) * normal) / (mass1 + mass2);
+
+		const auto newVelocity2 = initialVelocity2 - dot(initialVelocity2, normal) * normal +
+			((mass1 + 0.8f * mass1) * dot(initialVelocity1, normal) * normal + (mass2 - 0.8f * mass2) * dot(initialVelocity2, normal) * normal) / (mass1 + mass2);
+
+		pData.mObject1->mCurrentVelocity = newVelocity1;
+		pData.mObject2->mCurrentVelocity = newVelocity2;
+		pData.mObject1->mCurrentPosition = initialPosition1 + newVelocity1 * (1.0f - pData.mTime) * pDeltaTime;
+		pData.mObject2->mCurrentPosition = initialPosition2 + newVelocity2 * (1.0f - pData.mTime) * pDeltaTime;
 	}
 }

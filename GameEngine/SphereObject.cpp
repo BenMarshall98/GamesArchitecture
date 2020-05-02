@@ -33,6 +33,7 @@ bool SphereObject::CollisionSphere(SphereObject* pSphereObject, CollisionData & 
 		pData.mCollisionNormal = normalize(dist);
 		pData.mObject1 = this;
 		pData.mObject2 = pSphereObject;
+		pData.mDepth = sqrt(abs(c));
 		return true;
 	}
 
@@ -85,6 +86,7 @@ bool SphereObject::CollisionPlane(PlaneObject* pPlaneObject, CollisionData & pDa
 		pData.mCollisionNormal = pPlaneObject->mNormal;
 		pData.mObject1 = this;
 		pData.mObject2 = pPlaneObject;
+		pData.mDepth = mRadius - abs(sphereDist);
 		return true;
 	}
 

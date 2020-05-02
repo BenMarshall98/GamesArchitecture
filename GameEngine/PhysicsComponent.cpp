@@ -2,28 +2,42 @@
 
 #include "PhysicsManager.h"
 
-PhysicsComponent::PhysicsComponent(const std::shared_ptr<CollisionObject>& pCollisionObject) :
-	Component(ComponentType::PHYSICS), mCollisionObject(pCollisionObject)
+PhysicsComponent::PhysicsComponent(const std::shared_ptr<CollisionObject>& pCollisionObject, const bool pInvincible) :
+	Component(ComponentType::PHYSICS), mCollisionObject(pCollisionObject), mInvincible(pInvincible)
 {
-	if (mCollisionObject->GetType() == RigidBodyType::DYNAMIC)
+	if (mInvincible)
 	{
-		PhysicsManager::Instance()->AddDynamicCollisionObject(mCollisionObject);
+		PhysicsManager::Instance()->AddInfiniteCollisionObject(mCollisionObject);
 	}
 	else
 	{
-		PhysicsManager::Instance()->AddStaticCollisionObject(mCollisionObject);
+		if (mCollisionObject->GetType() == RigidBodyType::DYNAMIC)
+		{
+			PhysicsManager::Instance()->AddDynamicCollisionObject(mCollisionObject);
+		}
+		else
+		{
+			PhysicsManager::Instance()->AddStaticCollisionObject(mCollisionObject);
+		}
 	}
 }
 
 PhysicsComponent::~PhysicsComponent()
 {
-	if (mCollisionObject->GetType() == RigidBodyType::DYNAMIC)
+	if (mInvincible)
 	{
-		PhysicsManager::Instance()->RemoveDynamicCollisionObject(mCollisionObject);
+		PhysicsManager::Instance()->RemoveInfiniteCollisionObject(mCollisionObject);
 	}
 	else
 	{
-		PhysicsManager::Instance()->RemoveStaticCollisionObject(mCollisionObject);
+		if (mCollisionObject->GetType() == RigidBodyType::DYNAMIC)
+		{
+			PhysicsManager::Instance()->RemoveDynamicCollisionObject(mCollisionObject);
+		}
+		else
+		{
+			PhysicsManager::Instance()->RemoveStaticCollisionObject(mCollisionObject);
+		}
 	}
 }
 
