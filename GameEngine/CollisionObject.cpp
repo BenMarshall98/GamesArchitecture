@@ -81,4 +81,12 @@ void CollisionObject::CollisionResponse(const CollisionData& pData)
 		pData.mObject2->mCurrentPosition = pData.mObject2->mLastPosition;
 		pData.mObject2->mCurrentVelocity = pData.mObject2->mLastVelocity;
 	}
+	else
+	{
+		pData.mObject1->mCurrentPosition = pData.mObject1->mLastPosition;
+		pData.mObject1->mCurrentVelocity = -pData.mObject1->mLastVelocity;
+
+		pData.mObject2->mCurrentPosition = pData.mObject2->mLastPosition;
+		pData.mObject2->mCurrentVelocity = -pData.mObject2->mLastVelocity;
+	}
 }

@@ -28,9 +28,6 @@
     <Filter Include="Systems">
       <UniqueIdentifier>{bb2e1762-dfa8-41e0-b6ed-1f6bb5c38a0c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PhysicsTree">
-      <UniqueIdentifier>{9b959543-ca8e-404d-9c07-9b5e863593a3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Rendering">
       <UniqueIdentifier>{0a51a1d4-5fbe-458e-8740-094eff546fe8}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,9 @@
     </Filter>
     <Filter Include="Rendering\OpenGL">
       <UniqueIdentifier>{e4e66025-fd87-4625-8e1f-95c1bd37a646}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\PhysicsTree">
+      <UniqueIdentifier>{9b959543-ca8e-404d-9c07-9b5e863593a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -103,10 +103,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsTree.cpp">
-      <Filter>PhysicsTree</Filter>
+      <Filter>Physics\PhysicsTree</Filter>
     </ClCompile>
     <ClCompile Include="Octree.cpp">
-      <Filter>PhysicsTree</Filter>
+      <Filter>Physics\PhysicsTree</Filter>
     </ClCompile>
     <ClCompile Include="InputSystem.cpp">
       <Filter>Systems</Filter>
@@ -255,10 +255,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsTree.h">
-      <Filter>PhysicsTree</Filter>
+      <Filter>Physics\PhysicsTree</Filter>
     </ClInclude>
     <ClInclude Include="Octree.h">
-      <Filter>PhysicsTree</Filter>
+      <Filter>Physics\PhysicsTree</Filter>
     </ClInclude>
     <ClInclude Include="InputSystem.h">
       <Filter>Systems</Filter>

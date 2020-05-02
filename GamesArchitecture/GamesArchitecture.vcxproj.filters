@@ -25,6 +25,12 @@
     <Filter Include="Entities">
       <UniqueIdentifier>{cf786737-ad58-43a4-a968-675b0aa04a93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Simple">
+      <UniqueIdentifier>{379663ee-972d-4c42-a2ea-861f30712844}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Plane">
+      <UniqueIdentifier>{b076189b-9e81-4107-9990-7781eac6d740}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -39,27 +45,45 @@
     <ClCompile Include="PyramidShapeEntity.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="SmallProjectileEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="LargeProjectileEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="GrenageProjectileEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="SimpleVertexProgram.vert">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="SimpleFragmentProgram.frag">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Simple</Filter>
+    </None>
+    <None Include="PlaneFragmentShader.frag">
+      <Filter>Resource Files\Plane</Filter>
+    </None>
+    <None Include="PlaneVertexShader.vert">
+      <Filter>Resource Files\Plane</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Object Include="Assets\Models\sphere.obj">
       <Filter>Assets\Models</Filter>
     </Object>
+    <Object Include="Assets\Models\plane.obj">
+      <Filter>Assets\Models</Filter>
+    </Object>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="SimpleFragmentProgram.hlsl">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Simple</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="SimpleVertexProgram.hlsl">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Simple</Filter>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
@@ -72,5 +96,30 @@
     <ClInclude Include="PyramidShapeEntity.h">
       <Filter>Entities</Filter>
     </ClInclude>
+    <ClInclude Include="SmallProjectileEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="LargeProjectileEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="GrenageProjectileEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="SimpleVertexProgram.vert">
+      <Filter>Resource Files\Simple</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="PlaneFragmentShader.hlsl">
+      <Filter>Resource Files\Plane</Filter>
+    </FxCompile>
+    <FxCompile Include="PlaneVertexShader.hlsl">
+      <Filter>Resource Files\Plane</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

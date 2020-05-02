@@ -1,4 +1,4 @@
-#include "PyramidShapeEntity.h"
+#include "SmallProjectileEntity.h"
 
 #include "PhysicsComponent.h"
 #include "PositionComponent.h"
@@ -6,7 +6,7 @@
 #include "ResourceManager.h"
 #include "SphereObject.h"
 
-PyramidShapeEntity::PyramidShapeEntity(const glm::vec3& pPosition, bool pBase)
+SmallProjectileEntity::SmallProjectileEntity(const glm::vec3& pPosition, const glm::vec3& pVelocity)
 {
 	//TODO: Texture
 	const auto renderComponent = std::make_shared<RenderComponent>(
@@ -15,7 +15,7 @@ PyramidShapeEntity::PyramidShapeEntity(const glm::vec3& pPosition, bool pBase)
 
 	const auto positionComponent = std::make_shared<PositionComponent>(pPosition, glm::vec3(0.01f));
 
-	const auto sphereObject = std::make_shared<SphereObject>(this, pPosition, glm::vec3(0.0f), (pBase ? 0.01f : 0.00f), 0.01f);
+	const auto sphereObject = std::make_shared<SphereObject>(this, pPosition, pVelocity, 0.01f, 0.01f);
 
 	const auto physicsComponent = std::make_shared<PhysicsComponent>(sphereObject);
 
@@ -24,12 +24,12 @@ PyramidShapeEntity::PyramidShapeEntity(const glm::vec3& pPosition, bool pBase)
 	AddComponent(physicsComponent, false);
 }
 
-void PyramidShapeEntity::Update(float pDeltaTime)
+void SmallProjectileEntity::Update(float pDeltaTime)
 {
 	//Do Nothing
 }
 
-void PyramidShapeEntity::Render()
+void SmallProjectileEntity::Render()
 {
 	//Do Nothing
 }

@@ -9,5 +9,11 @@ float4 main(VS_OUTPUT input) : SV_Target
 {
 	float3 lightDir = normalize(float3(100.0f, 100.0f, 100.0f) - input.FragPos);
 	float diff = max(dot(input.Normal, lightDir), 0.0f);
+
+	if ((floor(input.FragPos.x * 10.0f) + floor(input.FragPos.z * 10.0f)) % 2)
+	{
+		diff *= 0.5f;
+	}
+
 	return float4(diff, diff, diff, 1.0f);
 }

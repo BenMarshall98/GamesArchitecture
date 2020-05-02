@@ -1,4 +1,5 @@
 #pragma once
+
 #include <glm/vec3.hpp>
 
 #include "Entity.h"
@@ -16,6 +17,5 @@ public:
 
 	void Update(float pDeltaTime) override;
 	void Render() override;
-	void Swap() override;
 };
 

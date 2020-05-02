@@ -43,8 +43,11 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 
 	SceneManager::Instance()->Run(std::make_shared<PyramidScene>());
 
-	//ImGui_ImplDX11_Shutdown();
+#ifdef DX_11
+	ImGui_ImplDX11_Shutdown();
+#elif GL_430
 	ImGui_ImplOpenGL3_Shutdown();
+#endif
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 

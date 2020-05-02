@@ -9,14 +9,18 @@
 #include "DearImGui/imgui_impl_win32.h"
 #include "DearImGui/imgui_impl_opengl3.h"
 #include "EntityManager.h"
+#include "GrenageProjectileEntity.h"
 #include "InputSystem.h"
+#include "LargeProjectileEntity.h"
 #include "ModelLoader.h"
 #include "Octree.h"
 #include "PhysicsManager.h"
 #include "PhysicsSystem.h"
+#include "PlaneEntity.h"
 #include "PyramidShapeEntity.h"
 #include "RenderManager.h"
 #include "RenderSystem.h"
+#include "SmallProjectileEntity.h"
 #include "SystemManager.h"
 #include "UserEntity.h"
 #include "Win32Window.h"
@@ -45,14 +49,26 @@ void PyramidScene::Load()
 void PyramidScene::Render()
 {
 	const auto render = RenderManager::Instance();
-	//ImGui_ImplDX11_NewFrame();
+#ifdef DX_11
+	ImGui_ImplDX11_NewFrame();
+#elif GL_430
 	ImGui_ImplOpenGL3_NewFrame();
+#endif
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
 	ImGui::Begin("Hello, world!");
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::Text("Current Size of Pyramid %i. Size of Pyramid After Reset %i", mCurrentSizePyramid, mNextSizePyramid);
+
+	
+	ImGui::Checkbox("Main Camera", &mMainCamera);
+
+	if (mMainCamera)
+	{
+		
+	}
+	
 	ImGui::End();
 
 	ImGui::Render();
@@ -61,8 +77,11 @@ void PyramidScene::Render()
 
 	EntityManager::Instance()->Render();
 
-	//ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+#ifdef DX_11
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+#elif GL_430
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+#endif
 	
 	render->Present();
 }
@@ -132,6 +151,43 @@ void PyramidScene::Update(const float pDeltaTime)
 		}
 	}
 
+	{
+		static auto delay = 0.0f;
+		delay -= pDeltaTime;
+
+		const auto status = Win32Window::Instance()->GetKeyStatus(VK_SPACE);
+
+		if (delay <= 0.0f && status && mMainCamera)
+		{
+			delay = 0.5f;
+
+			auto cameraPosition = CameraManager::Instance()->GetViewPosition();
+
+			//https://gamedev.stackexchange.com/questions/90443/launch-velocity-for-simple-3d-projectile
+			const auto displacement = glm::vec3(0.0f) - cameraPosition;
+			cameraPosition += glm::normalize(displacement) * 0.1f;
+
+			const auto dist = glm::length(displacement);
+
+			const auto t = 1.0f;
+
+			const auto velocity = (1.0f / t * displacement - 0.5f * glm::vec3(0.0f, -0.1f, 0.0f) * t);
+
+			if (mProjectile == ProjectileType::SMALL)
+			{
+				EntityManager::Instance()->AddEntity(std::make_shared<SmallProjectileEntity>(cameraPosition, velocity));
+			}
+			else if (mProjectile == ProjectileType::LARGE)
+			{
+				EntityManager::Instance()->AddEntity(std::make_shared<LargeProjectileEntity>(cameraPosition, velocity));
+			}
+			else if (mProjectile == ProjectileType::GRENADE)
+			{
+				EntityManager::Instance()->AddEntity(std::make_shared<GrenageProjectileEntity>(cameraPosition, velocity));
+			}
+		}
+	}
+
 	EntityManager::Instance()->Update(pDeltaTime);
 }
 
@@ -151,6 +207,8 @@ void PyramidScene::Reset()
 	PhysicsManager::Instance()->Reset();
 
 	entityManager->AddEntity(std::make_shared<UserEntity>(glm::vec3(1.0f, 0.5f, 1.0f)));
+
+	entityManager->AddEntity(std::make_shared<PlaneEntity>());
 
 	const auto offset = 1.0f / sqrt(2.0f) * 0.02f;
 

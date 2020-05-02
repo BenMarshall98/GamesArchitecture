@@ -181,7 +181,7 @@ bool DirectXRenderManager::Load()
 	mDeviceContext->RSSetViewports(1, &viewport);
 
 	D3D11_RASTERIZER_DESC rasterizerDesc;
-	rasterizerDesc.CullMode = D3D11_CULL_FRONT;
+	rasterizerDesc.CullMode = D3D11_CULL_BACK;
 	rasterizerDesc.FillMode = D3D11_FILL_SOLID;
 	rasterizerDesc.ScissorEnable = false;
 	rasterizerDesc.DepthBias = 0;

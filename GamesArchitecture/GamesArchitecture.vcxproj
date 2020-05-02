@@ -355,19 +355,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GrenageProjectileEntity.cpp" />
+    <ClCompile Include="LargeProjectileEntity.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PlaneEntity.cpp" />
     <ClCompile Include="PyramidScene.cpp" />
     <ClCompile Include="PyramidShapeEntity.cpp" />
+    <ClCompile Include="SmallProjectileEntity.cpp" />
     <ClCompile Include="UserEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="PlaneFragmentShader.frag" />
+    <None Include="PlaneVertexShader.vert" />
     <None Include="SimpleFragmentProgram.frag" />
     <Text Include="SimpleVertexProgram.vert">
       <FileType>Document</FileType>
     </Text>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Models\plane.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release - OpenGL|Win32'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release - OpenGL|x64'">true</ExcludedFromBuild>
+    </None>
     <Object Include="Assets\Models\sphere.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug - DirectX|Win32'">true</ExcludedFromBuild>
@@ -448,9 +459,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GrenageProjectileEntity.h" />
+    <ClInclude Include="LargeProjectileEntity.h" />
+    <ClInclude Include="PlaneEntity.h" />
     <ClInclude Include="PyramidScene.h" />
     <ClInclude Include="PyramidShapeEntity.h" />
+    <ClInclude Include="SmallProjectileEntity.h" />
     <ClInclude Include="UserEntity.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="PlaneFragmentShader.hlsl">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="PlaneVertexShader.hlsl">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
