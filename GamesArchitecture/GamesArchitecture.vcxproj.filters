@@ -31,6 +31,9 @@
     <Filter Include="Resource Files\Plane">
       <UniqueIdentifier>{b076189b-9e81-4107-9990-7781eac6d740}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CustomSystem">
+      <UniqueIdentifier>{82633992-5943-45dd-acec-11fde50dd2c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -56,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="GrenageProjectileEntity.cpp">
       <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientSystem.cpp">
+      <Filter>CustomSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +113,9 @@
     </ClInclude>
     <ClInclude Include="GrenageProjectileEntity.h">
       <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSystem.h">
+      <Filter>CustomSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

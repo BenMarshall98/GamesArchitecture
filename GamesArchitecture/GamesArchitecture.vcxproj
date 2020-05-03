@@ -355,6 +355,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClientSystem.cpp" />
     <ClCompile Include="GrenageProjectileEntity.cpp" />
     <ClCompile Include="LargeProjectileEntity.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -459,6 +460,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClientSystem.h" />
     <ClInclude Include="GrenageProjectileEntity.h" />
     <ClInclude Include="LargeProjectileEntity.h" />
     <ClInclude Include="PlaneEntity.h" />

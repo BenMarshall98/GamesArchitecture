@@ -129,6 +129,7 @@
     <ClCompile Include="PlaneServerEntity.cpp" />
     <ClCompile Include="PyramidServerScene.cpp" />
     <ClCompile Include="PyramidShapeServerEntity.cpp" />
+    <ClCompile Include="ServerSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine\GameEngine.vcxproj">
@@ -139,6 +140,7 @@
     <ClInclude Include="PlaneServerEntity.h" />
     <ClInclude Include="PyramidServerScene.h" />
     <ClInclude Include="PyramidShapeServerEntity.h" />
+    <ClInclude Include="ServerSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

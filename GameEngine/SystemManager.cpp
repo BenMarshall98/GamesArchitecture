@@ -12,6 +12,11 @@ void SystemManager::AddRenderSystem(std::unique_ptr<System> pRenderSystem)
 	mRenderSystems.emplace_back(std::move(pRenderSystem));
 }
 
+void SystemManager::AddNetworkSystem(std::unique_ptr<System> pNetworkSystem)
+{
+	mNetworkSystems.emplace_back(std::move(pNetworkSystem));
+}
+
 void SystemManager::Update(const float pDeltaTime)
 {
 	for (auto & updateSystem : mUpdateSystems)
@@ -25,6 +30,14 @@ void SystemManager::Render()
 	for (auto & renderSystem : mRenderSystems)
 	{
 		renderSystem->Action(0.0f);
+	}
+}
+
+void SystemManager::Network()
+{
+	for (auto & networkSystem : mNetworkSystems)
+	{
+		networkSystem->Action(0.0f);
 	}
 }
 
