@@ -69,12 +69,10 @@
     <None Include="PlaneVertexShader.vert">
       <Filter>Resource Files\Plane</Filter>
     </None>
+    <None Include="Assets\Models\plane.obj" />
   </ItemGroup>
   <ItemGroup>
     <Object Include="Assets\Models\sphere.obj">
-      <Filter>Assets\Models</Filter>
-    </Object>
-    <Object Include="Assets\Models\plane.obj">
       <Filter>Assets\Models</Filter>
     </Object>
   </ItemGroup>
@@ -85,6 +83,8 @@
     <CopyFileToFolders Include="SimpleVertexProgram.hlsl">
       <Filter>Resource Files\Simple</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="PlaneFragmentShader.hlsl" />
+    <CopyFileToFolders Include="PlaneVertexShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PyramidScene.h">
@@ -113,13 +113,5 @@
     <Text Include="SimpleVertexProgram.vert">
       <Filter>Resource Files\Simple</Filter>
     </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="PlaneFragmentShader.hlsl">
-      <Filter>Resource Files\Plane</Filter>
-    </FxCompile>
-    <FxCompile Include="PlaneVertexShader.hlsl">
-      <Filter>Resource Files\Plane</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

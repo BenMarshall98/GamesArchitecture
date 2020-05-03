@@ -1,0 +1,25 @@
+#pragma once
+#include "../GameEngine/Scene.h"
+
+class PyramidServerScene final : public Scene
+{
+	int mCurrentSizePyramid = 3;
+	int mNextSizePyramid = 3;
+	
+	void Reset();
+	
+public:
+	PyramidServerScene() = default;
+	~PyramidServerScene() = default;
+
+	PyramidServerScene(const PyramidServerScene&) = delete;
+	PyramidServerScene(PyramidServerScene&&) = delete;
+	PyramidServerScene& operator= (const PyramidServerScene&) = delete;
+	PyramidServerScene& operator= (PyramidServerScene&&) = delete;
+
+	void Load() override;
+	void Unload() override;
+	void Render() override;
+	void Update(float pDeltaTime) override;
+};
+

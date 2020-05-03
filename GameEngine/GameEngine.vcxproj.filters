@@ -40,6 +40,9 @@
     <Filter Include="Physics\PhysicsTree">
       <UniqueIdentifier>{9b959543-ca8e-404d-9c07-9b5e863593a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Networking">
+      <UniqueIdentifier>{48172801-655a-4f1a-be7c-35eade66e1f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ShaderProgram.cpp">
@@ -191,6 +194,18 @@
     </ClCompile>
     <ClCompile Include="OpenGLConstantBuffer.cpp">
       <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientNetworkingManager.cpp">
+      <Filter>Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerNetworkingManager.cpp">
+      <Filter>Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="IpAddress.cpp">
+      <Filter>Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="ListeningSocket.cpp">
+      <Filter>Networking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,6 +373,18 @@
     </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientNetworkingManager.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerNetworkingManager.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="IpAddress.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="ListeningSocket.h">
+      <Filter>Networking</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

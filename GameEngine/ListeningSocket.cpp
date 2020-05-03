@@ -5,14 +5,14 @@
 #include <iostream>
 #include <sstream>
 
-#include "NetworkingManager.h"
+#include "ServerNetworkingManager.h"
 
 int ListeningSocket::ID = 0;
 
 ListeningSocket::ListeningSocket(const SOCKET & pSocket) : mSocket(pSocket), mID(ID)
 {
 	std::cout << "Connection Started With ID " << mID << std::endl;
-	
+
 	mConnection = std::thread(&ListeningSocket::Recieve, this);
 	ID++;
 }
@@ -25,7 +25,7 @@ ListeningSocket::~ListeningSocket()
 
 void ListeningSocket::Recieve()
 {
-	while(true)
+	while (true)
 	{
 		char buffer[11] = "";
 		if (recv(mSocket, buffer, 10, 0) == SOCKET_ERROR)
@@ -50,7 +50,7 @@ void ListeningSocket::Recieve()
 		str >> size;
 
 		str = std::istringstream(message.substr(4, 4));
-		
+
 		int checksum;
 		str >> checksum;
 
@@ -63,7 +63,7 @@ void ListeningSocket::Recieve()
 			char tempBuffer[11] = "";
 			int left = size - message.size();
 			left = left > 10 ? 10 : left;
-			
+
 			if (recv(mSocket, tempBuffer, left, 0) == SOCKET_ERROR)
 			{
 				if (mClose)
@@ -113,7 +113,7 @@ void ListeningSocket::Send(const std::string& pMessage)
 	std::ostringstream str;
 
 	str << std::setfill('0') << std::setw(4) << size;
-	
+
 
 	auto checksum = 0u;
 
@@ -127,14 +127,14 @@ void ListeningSocket::Send(const std::string& pMessage)
 	str << pMessage;
 
 	auto message = str.str();
-	
+
 	if (send(mSocket, str.str().c_str(), size, 0) == SOCKET_ERROR)
 	{
 		if (mClose)
 		{
 			return;
 		}
-		
+
 		std::cerr << "Send failed with " << WSAGetLastError() << std::endl;
 
 		CloseConnection(false);
@@ -156,5 +156,5 @@ void ListeningSocket::CloseConnection(const bool pFullClose)
 
 	closesocket(mSocket);
 
-	NetworkingManager::Instance()->RemoveConnection(this);
+	ServerNetworkingManager::Instance()->RemoveConnection(this);
 }

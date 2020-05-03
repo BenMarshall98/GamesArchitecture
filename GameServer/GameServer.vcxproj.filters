@@ -13,24 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{03593130-19d8-4aed-982e-38e1ae82337c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ClientSource.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IpAddress.cpp">
+    <ClCompile Include="PyramidServerScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StreamingSocket.cpp">
+    <ClCompile Include="PlaneServerEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="PyramidShapeServerEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IpAddress.h">
+    <ClInclude Include="PyramidServerScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StreamingSocket.h">
+    <ClInclude Include="PlaneServerEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="PyramidShapeServerEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

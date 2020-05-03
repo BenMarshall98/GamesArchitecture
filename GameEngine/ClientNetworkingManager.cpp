@@ -1,13 +1,13 @@
-#include "StreamingSocket.h"
-
+#include "ClientNetworkingManager.h"
 
 #include <iomanip>
 #include <iostream>
 #include <sstream>
 
-int StreamingSocket::ID = 0;
+ClientNetworkingManager * ClientNetworkingManager::mInstance = nullptr;
+int ClientNetworkingManager::ID = 0;
 
-StreamingSocket::StreamingSocket(const IpAddress& pAddress) : mID(ID)
+ClientNetworkingManager::ClientNetworkingManager() : mID(ID)
 {
 	ID++;
 	auto versionRequested = MAKEWORD(2, 0);
@@ -19,31 +19,36 @@ StreamingSocket::StreamingSocket(const IpAddress& pAddress) : mID(ID)
 		std::cerr << "Socket initialisation failed" << std::endl;
 		return;
 	}
+}
 
-	IpAddress address(7500, "127.0.0.1");
-
+bool ClientNetworkingManager::StartListening(const IpAddress& pAddress)
+{
 	char buffer;
 	mSocket = socket(AF_INET, SOCK_STREAM, 0);
 
 	if (mSocket == INVALID_SOCKET)
 	{
 		std::cerr << "Create socket failed" << std::endl;
+		return false;
 	}
-	else if (connect(mSocket, (sockaddr *)&address.GetPeer(), sizeof(address.GetPeer())) == SOCKET_ERROR)
+	if (connect(mSocket, (sockaddr *)&pAddress.GetPeer(), sizeof(pAddress.GetPeer())) == SOCKET_ERROR)
 	{
 		std::cerr << "Connect to peer failed with " << WSAGetLastError() << std::endl;
+		return false;
 	}
 
-	mConnection = std::thread(&StreamingSocket::Recieve, this);
+	mConnection = std::thread(&ClientNetworkingManager::Recieve, this);
+	return true;
 }
 
-StreamingSocket::~StreamingSocket()
+ClientNetworkingManager::~ClientNetworkingManager()
 {
+	//TODO: Better way of joining / detaching thread
 	mConnection.detach();
 	closesocket(mSocket);
 }
 
-void StreamingSocket::Recieve()
+void ClientNetworkingManager::Recieve()
 {
 	while (true)
 	{
@@ -123,14 +128,14 @@ void StreamingSocket::Recieve()
 	}
 }
 
-void StreamingSocket::Send(const std::string& pMessage)
+void ClientNetworkingManager::Send(const std::string& pMessage)
 {
 	int size = pMessage.size() + 8;
 
 	std::ostringstream str;
 
 	str << std::setfill('0') << std::setw(4) << size;
-	
+
 	auto checksum = 0u;
 
 	for (int i = 0; i < pMessage.size(); i++)
@@ -159,7 +164,7 @@ void StreamingSocket::Send(const std::string& pMessage)
 	std::cout << "Connection " << mID << " Send Message " << pMessage << std::endl;
 }
 
-void StreamingSocket::CloseConnection(const bool pFullClose)
+void ClientNetworkingManager::CloseConnection(const bool pFullClose)
 {
 	mClose = true;
 

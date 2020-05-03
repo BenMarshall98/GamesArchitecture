@@ -24,7 +24,7 @@ public:
 
 	void Send(const std::string & pMessage);
 	void Recieve();
-	
+
 	void CloseConnection(bool pFullClose = true);
 };
 

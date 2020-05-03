@@ -163,7 +163,7 @@ void PyramidScene::Update(const float pDeltaTime)
 
 			auto cameraPosition = CameraManager::Instance()->GetViewPosition();
 
-			//https://gamedev.stackexchange.com/questions/90443/launch-velocity-for-simple-3d-projectile
+			//TODO: https://gamedev.stackexchange.com/questions/90443/launch-velocity-for-simple-3d-projectile
 			const auto displacement = glm::vec3(0.0f) - cameraPosition;
 			cameraPosition += glm::normalize(displacement) * 0.1f;
 

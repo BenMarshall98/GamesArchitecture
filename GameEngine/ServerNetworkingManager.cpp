@@ -1,10 +1,10 @@
-#include "NetworkingManager.h"
+#include "ServerNetworkingManager.h"
 
 #include <iostream>
 
-NetworkingManager * NetworkingManager::mInstance = nullptr;
+ServerNetworkingManager * ServerNetworkingManager::mInstance = nullptr;
 
-NetworkingManager::NetworkingManager() : mSocket()
+ServerNetworkingManager::ServerNetworkingManager() : mSocket()
 {
 	const auto versionRequested = MAKEWORD(2, 0);
 
@@ -16,12 +16,14 @@ NetworkingManager::NetworkingManager() : mSocket()
 	}
 }
 
-NetworkingManager::~NetworkingManager()
+ServerNetworkingManager::~ServerNetworkingManager()
 {
+	//TODO: Better way of joining / detaching thread
+	mConnection.detach();
 	WSACleanup();
 }
 
-bool NetworkingManager::StartListening(const IpAddress& pAddress)
+bool ServerNetworkingManager::StartListening(const IpAddress& pAddress)
 {
 	mSocket = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -45,6 +47,12 @@ bool NetworkingManager::StartListening(const IpAddress& pAddress)
 
 	std::cout << "Started Listening" << std::endl;
 
+	mConnection = std::thread(&ServerNetworkingManager::Connect, this);
+	return true;
+}
+
+void ServerNetworkingManager::Connect()
+{
 	while (true)
 	{
 		const auto socket = accept(mSocket, nullptr, nullptr);
@@ -61,7 +69,7 @@ bool NetworkingManager::StartListening(const IpAddress& pAddress)
 	}
 }
 
-void NetworkingManager::RemoveConnection(ListeningSocket* pListeningSocket)
+void ServerNetworkingManager::RemoveConnection(ListeningSocket* pListeningSocket)
 {
 	for (int i = 0; i < mListeningSockets.size(); i++)
 	{
@@ -73,7 +81,7 @@ void NetworkingManager::RemoveConnection(ListeningSocket* pListeningSocket)
 	}
 }
 
-void NetworkingManager::CloseServer()
+void ServerNetworkingManager::CloseServer()
 {
 	mClose = true;
 
