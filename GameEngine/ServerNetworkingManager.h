@@ -9,7 +9,7 @@
 #include "IpAddress.h"
 #include "ListeningSocket.h"
 
-class ServerNetworkingManager
+class ServerNetworkingManager final
 {
 	std::vector<std::shared_ptr<ListeningSocket>> mListeningSockets;
 	SOCKET mSocket;

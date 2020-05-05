@@ -378,6 +378,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelInstanced.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
+    <ClCompile Include="NetworkingManager.cpp" />
     <ClCompile Include="Octree.cpp" />
     <ClCompile Include="OpenGL.cpp" />
     <ClCompile Include="OpenGLConstantBuffer.cpp" />
@@ -392,6 +393,8 @@
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="PhysicsTree.cpp" />
     <ClCompile Include="PlaneObject.cpp" />
+    <ClCompile Include="PlaybackComponent.cpp" />
+    <ClCompile Include="PlaybackSystem.cpp" />
     <ClCompile Include="PositionComponent.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="RenderManager.cpp" />
@@ -436,6 +439,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelInstanced.h" />
     <ClInclude Include="ModelLoader.h" />
+    <ClInclude Include="NetworkingManager.h" />
     <ClInclude Include="Octree.h" />
     <ClInclude Include="OpenGL.h" />
     <ClInclude Include="OpenGLConstantBuffer.h" />
@@ -450,6 +454,8 @@
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="PhysicsTree.h" />
     <ClInclude Include="PlaneObject.h" />
+    <ClInclude Include="PlaybackComponent.h" />
+    <ClInclude Include="PlaybackSystem.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="RenderManager.h" />

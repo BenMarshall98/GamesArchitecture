@@ -22,7 +22,7 @@ class PyramidScene final : public Scene
 	bool mMainCamera = false;
 
 	ProjectileType mProjectile = ProjectileType::SMALL;
-
+	bool mReset = false;
 	void Reset();
 
 public:
@@ -38,4 +38,5 @@ public:
 	void Unload() override;
 	void Render() override;
 	void Update(float pDeltaTime) override;
+	void Swap() override;
 };

@@ -1,15 +1,28 @@
 #pragma once
 #include <memory>
+#include <mutex>
 #include <stack>
 
 #include "Scene.h"
 
 class SceneManager
 {
+	std::mutex mMutex;
+	std::condition_variable mCv;
+
+	bool mUpdateReady = false;
+	bool mUpdateProcessed = false;
+	bool mEnd = false;
+
+	float mDeltaTime;
+	
 	std::stack<std::shared_ptr<Scene>> mScenes;
 	std::shared_ptr<Scene> mNextScene;
 
 	bool mCloseScene = false;
+
+	void Update();
+	void Network();
 	
 	static SceneManager * mInstance;
 

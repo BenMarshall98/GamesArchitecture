@@ -6,7 +6,8 @@ enum class ComponentType
 	RENDER = 1,
 	PHYSICS = 2,
 	INPUT = 3,
-	NONE = 4
+	PLAYBACK = 4,
+	NONE = 5
 };
 
 class Component

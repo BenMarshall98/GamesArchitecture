@@ -99,7 +99,8 @@ void PyramidScene::Update(const float pDeltaTime)
 		if (delay <= 0.0f && status)
 		{
 			delay = 0.5f;
-			Reset();
+			mReset = true;
+			
 		}
 		else if (!status)
 		{
@@ -231,4 +232,16 @@ void PyramidScene::Reset()
 
 		mass = true;
 	}
+}
+
+void PyramidScene::Swap()
+{
+	if (mReset)
+	{
+		Reset();
+		mReset = false;
+		return;
+	}
+
+	EntityManager::Instance()->Swap();
 }

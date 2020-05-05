@@ -1,9 +1,9 @@
 #pragma once
 
-#pragma comment(lib, "ws2_32.lib")
+
 
 #include <thread>
-#include <WinSock2.h>
+
 #include "IpAddress.h"
 
 class ClientNetworkingManager

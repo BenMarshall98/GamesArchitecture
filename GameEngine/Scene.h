@@ -15,5 +15,6 @@ public:
 	virtual void Unload() = 0;
 	virtual void Render() = 0;
 	virtual void Update(float pDeltaTime) = 0;
+	virtual void Swap() = 0;
 };
 

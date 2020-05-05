@@ -2,6 +2,7 @@
 
 
 #include "EntityManager.h"
+#include "SystemManager.h"
 #include "Win32Window.h"
 
 SceneManager * SceneManager::mInstance = nullptr;
@@ -19,6 +20,9 @@ void SceneManager::Run(const std::shared_ptr<Scene>& pScene)
 	QueryPerformanceCounter(&timer);
 	auto start = timer.QuadPart;
 
+	std::thread updateThread(&SceneManager::Update, this);
+	std::thread networkThread(&SceneManager::Network, this);
+
 	while (Win32Window::WindowEvents())
 	{
 		if (mNextScene)
@@ -34,19 +38,87 @@ void SceneManager::Run(const std::shared_ptr<Scene>& pScene)
 			mScenes.top()->Unload();
 			mScenes.pop();
 
+			if (mScenes.empty())
+			{
+				break;
+			}
+
 			mCloseScene = false;
 		}
 		
 		QueryPerformanceCounter(&timer);
 		const auto stop = timer.QuadPart;
 
-		const auto deltaTime = static_cast<double>(stop - start) / freq;
+		mDeltaTime = static_cast<double>(stop - start) / freq;
 
 		start = stop;
+
+		{
+			std::lock_guard<std::mutex> lock(mMutex);
+			mUpdateReady = true;
+			mUpdateProcessed = false;
+		}
+
+		mCv.notify_one();
 		
-		mScenes.top()->Update(deltaTime);
 		mScenes.top()->Render();
 
-		EntityManager::Instance()->Swap();
+		{
+			std::unique_lock<std::mutex> lock(mMutex);
+			mCv.wait(lock, [this] {return mUpdateProcessed; });
+		}
+
+		mScenes.top()->Swap();
+	}
+
+	std::lock_guard<std::mutex>lock(mMutex);
+	mUpdateReady = true;
+	mEnd = true;
+
+	mCv.notify_one();
+
+	if (updateThread.joinable())
+	{
+		updateThread.join();
+	}
+
+	if (networkThread.joinable())
+	{
+		networkThread.join();
+	}
+}
+
+void SceneManager::Update()
+{
+	while(true)
+	{
+		std::unique_lock<std::mutex> lock(mMutex);
+		mCv.wait(lock, [this] {return mUpdateReady; });
+
+		if (mEnd)
+		{
+			lock.unlock();
+			return;
+		}
+		
+		mScenes.top()->Update(mDeltaTime);
+
+		mUpdateProcessed = true;
+		mUpdateReady = false;
+		lock.unlock();
+		mCv.notify_one();
+	}
+}
+
+void SceneManager::Network()
+{
+	while(true)
+	{
+		if (mEnd)
+		{
+			return;
+		}
+		
+		SystemManager::Instance()->Network();
 	}
 }
