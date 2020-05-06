@@ -7,11 +7,14 @@
 
 class Entity
 {
+	static uint32_t mStaticId;
+	uint32_t mId;
+	
 protected:
 	std::shared_ptr<Component> mComponents [static_cast<int>(ComponentType::NONE)];
 
 public:
-	Entity() = default;
+	Entity();
 	virtual ~Entity() = default;
 
 	Entity(const Entity &) = delete;
@@ -27,5 +30,16 @@ public:
 	virtual void Update(float pDeltaTime) = 0;
 	virtual void Render() = 0;
 	virtual void Swap();
+
+	uint32_t GetId() const
+	{
+		return mId;
+	}
+
+	//TODO: Call
+	static void Reset()
+	{
+		mStaticId = 0;
+	}
 };
 

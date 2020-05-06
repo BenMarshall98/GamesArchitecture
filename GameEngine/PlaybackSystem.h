@@ -4,6 +4,12 @@
 
 class PlaybackSystem final : public System
 {
+	bool mSimulation = false;
+	bool mPlayback = false;
+
+	float mPlaybackTime = 0.0f;
+	float mSimulationTime = 0.0f;
+	
 public:
 	PlaybackSystem();
 	~PlaybackSystem() = default;
@@ -14,5 +20,22 @@ public:
 	PlaybackSystem & operator= (PlaybackSystem&&) = delete;
 
 	void Action(float pDeltaTime) override;
+
+	void StartSimulation()
+	{
+		mSimulation = true;
+		mPlayback = false;
+	}
+
+	void StartPlayback()
+	{
+		mSimulation = false;
+		mPlayback = true;
+	}
+
+	void SetPlaybackTime(const float pTime)
+	{
+		mPlaybackTime = pTime;
+	}
 };
 

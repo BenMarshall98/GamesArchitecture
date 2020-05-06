@@ -2,6 +2,13 @@
 
 #include "EntityManager.h"
 
+uint32_t Entity::mStaticId = 0;
+
+Entity::Entity() : mId(mStaticId)
+{
+	mStaticId++;
+}
+
 void Entity::AddComponent(const std::shared_ptr<Component> & pComponent, const bool pUpdate)
 {
 	mComponents[static_cast<int>(pComponent->GetType())] = pComponent;

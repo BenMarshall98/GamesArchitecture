@@ -80,20 +80,40 @@ public:
 	{
 		return mLastVelocity;
 	}
+
+	void SetLastVelocity(const glm::vec3 & pVelocity)
+	{
+		mLastVelocity = pVelocity;
+	}
 	
 	glm::vec3 GetLastPosition() const
 	{
 		return mLastPosition;
+	}
+
+	void SetLastPosition(const glm::vec3 & pPosition)
+	{
+		mLastPosition = pPosition;
 	}
 	
 	glm::vec3 GetCurrentVelocity() const
 	{
 		return mCurrentVelocity;
 	}
+
+	void SetCurrentVelocity(const glm::vec3 & pVelocity)
+	{
+		mCurrentVelocity = pVelocity;
+	}
 	
 	glm::vec3 GetCurrentPosition() const
 	{
 		return mCurrentPosition;
+	}
+
+	void SetCurrentPosition(const glm::vec3 & pPosition)
+	{
+		mCurrentPosition = pPosition;
 	}
 
 	void Update(float pDeltaTime);

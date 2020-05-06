@@ -26,7 +26,7 @@ void ClientSystem::Action(const float pDeltaTime)
 	std::vector<std::string> messages = ClientNetworkingManager::Instance()->GetRecieveMessages();
 	
 	//TODO: Go Through Networking Messages make list for playback
-	std::multimap<uint16_t, Playback> playbackTimeStamps;
+	std::multimap<uint32_t, Playback> playbackTimeStamps;
 
 	for (int i = 0; i < messages.size(); i++)
 	{
@@ -86,15 +86,96 @@ void ClientSystem::Action(const float pDeltaTime)
 		else if (type == "Time")
 		{
 			auto offset = 0;
+
+			auto time = 0.0f;
+
+			{
+				const auto val = messages[i].substr(offset, 8);
+
+				uint32_t num;
+				std::istringstream str(val);
+				str >> std::hex >> num;
+
+				time = *((float*)&num);
+
+				offset += 8;
+			}
+
+			for (int j = offset; j < messages.size();)
+			{
+				uint32_t id;
+
+				{
+					const auto val = messages[i].substr(offset, 8);
+					std::istringstream str(val);
+					str >> std::hex >> id;
+
+					offset += 8;
+				}
+
+				const auto moving = messages[i].substr(offset, 1);
+
+				offset++;
+				
+				if (moving == "0")
+				{
+					playbackTimeStamps.insert(std::pair<uint32_t, Playback>(id,
+						{ glm::vec3(0.0f), glm::vec3(0.0f), time, false }));
+				}
+				else
+				{
+					glm::vec3 position;
+
+					for (int k = 0; k < 3; k++)
+					{
+						const auto val = messages[i].substr(offset, 8);
+
+						uint32_t num;
+						std::istringstream str(val);
+						str >> std::hex >> num;
+
+						position[k] = *((float*)&num);
+
+						offset += 8;
+					}
+
+					glm::vec3 velocity;
+
+					for (int k = 0; k < 3; k++)
+					{
+						const auto val = messages[i].substr(offset, 8);
+
+						uint32_t num;
+						std::istringstream str(val);
+						str >> std::hex >> num;
+
+						velocity[k] = *((float*)&num);
+
+						offset += 8;
+					}
+
+					playbackTimeStamps.insert(std::pair<uint32_t, Playback>(id,
+						{ position, velocity, time, true }));
+				}
+			}
 		}
 	}
 
 	//Update System accounting for any new objects
 	System::Action(pDeltaTime);
 	
-	//TODO: Lock Playback
+	for (auto & entity : mEntities)
+	{
+		const auto playbackComponent = std::dynamic_pointer_cast<PlaybackComponent>(entity->GetComponentByType(ComponentType::PLAYBACK));
 
-	//TODO: Populate Playback System
+		const auto id = entity->GetId();
+		
+		const auto playbackValues = playbackTimeStamps.equal_range(id);
 
-	//TODO: Unlock Playback
+		for (auto it = playbackValues.first; it != playbackValues.second; ++it)
+		{
+			playbackComponent->AddPlayback(it->second);
+		}
+	}
+
 }
