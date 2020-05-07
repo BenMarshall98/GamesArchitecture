@@ -5,13 +5,17 @@
 #include <thread>
 
 #include "IpAddress.h"
+#include "NetworkingManager.h"
 
-class ClientNetworkingManager
+class ClientNetworkingManager final : public NetworkingManager
 {
-	static int ID;
-	int mID;
-	SOCKET mSocket;
-	std::thread mConnection;
+	std::mutex mSendMutex;
+	std::condition_variable mSendConditionVariable;
+	std::vector<std::string> mSendMessages;
+	
+	std::thread mRecieveConnection;
+	std::thread mSendConnection;
+	
 	bool mClose = false;
 	ClientNetworkingManager();
 	static ClientNetworkingManager * mInstance;
@@ -34,9 +38,11 @@ public:
 	ClientNetworkingManager& operator= (const ClientNetworkingManager&) = delete;
 	ClientNetworkingManager& operator= (ClientNetworkingManager&&) = delete;
 
-	bool StartListening(const IpAddress & pAddress);
-	void Send(const std::string & pMessage);
+	bool StartListening(const IpAddress & pAddress) override;
+	void Send();
+	void Process(const std::string & pMessage);
 	void Recieve();
 
 	void CloseConnection(bool pFullClose = true);
+	void AddSendMessage(const std::string& pMessage) override;
 };

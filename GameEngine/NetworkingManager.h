@@ -9,19 +9,15 @@
 
 class NetworkingManager
 {
-	std::mutex mMutex;
-	
+	std::mutex mRecieveMutex;
 	std::vector<std::string> mRecieveMessages;
-	std::vector<std::string> mTempRecieveMessages;
-	std::vector<std::string> mSendMessages;
 	
 protected:
 	SOCKET mSocket;
-	
 	NetworkingManager() = default;
 
 public:
-	~NetworkingManager() = default;
+	virtual ~NetworkingManager() = default;
 
 	NetworkingManager(const NetworkingManager&) = delete;
 	NetworkingManager(NetworkingManager&&) = delete;
@@ -29,11 +25,10 @@ public:
 	NetworkingManager& operator= (NetworkingManager&) = delete;
 
 	virtual bool StartListening(const IpAddress& pAddress) = 0;
-	virtual void SendAllMessages() = 0;
 
 	void AddRecieveMessage(const std::string & pMessage);
 	std::vector<std::string> GetRecievedMessages();
 
-	void AddSendMessage(const std::string & pMessage);
+	virtual void AddSendMessage(const std::string & pMessage) = 0;
 };
 

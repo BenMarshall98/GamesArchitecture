@@ -21,5 +21,6 @@ public:
 	void Unload() override;
 	void Render() override;
 	void Update(float pDeltaTime) override;
+	void Swap() override;
 };
 

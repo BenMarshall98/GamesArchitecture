@@ -3,9 +3,8 @@
 
 class SystemManager
 {
-	std::vector<std::unique_ptr<System>> mRenderSystems;
-	std::vector<std::unique_ptr<System>> mUpdateSystems;
-	std::vector<std::unique_ptr<System>> mNetworkSystems;
+	std::vector<std::shared_ptr<System>> mRenderSystems;
+	std::vector<std::shared_ptr<System>> mUpdateSystems;
 
 	static SystemManager * mInstance;
 	SystemManager() = default;
@@ -28,13 +27,11 @@ public:
 	SystemManager & operator= (const SystemManager &) = delete;
 	SystemManager & operator= (SystemManager&&) = delete;
 
-	void AddUpdateSystem(std::unique_ptr<System> pUpdateSystem);
-	void AddRenderSystem(std::unique_ptr<System> pRenderSystem);
-	void AddNetworkSystem(std::unique_ptr<System> pNetworkSystem);
+	void AddUpdateSystem(const std::shared_ptr<System>& pUpdateSystem);
+	void AddRenderSystem(const std::shared_ptr<System>& pRenderSystem);
 
 	void Update(float pDeltaTime);
 	void Render();
-	void Network();
 
 	void AddEntity(const std::shared_ptr<Entity> & pEntity);
 	void UpdateEntity(const std::shared_ptr<Entity> & pEntity);

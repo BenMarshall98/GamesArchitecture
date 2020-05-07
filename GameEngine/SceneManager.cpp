@@ -21,7 +21,6 @@ void SceneManager::Run(const std::shared_ptr<Scene>& pScene)
 	auto start = timer.QuadPart;
 
 	std::thread updateThread(&SceneManager::Update, this);
-	std::thread networkThread(&SceneManager::Network, this);
 
 	while (Win32Window::WindowEvents())
 	{
@@ -81,11 +80,6 @@ void SceneManager::Run(const std::shared_ptr<Scene>& pScene)
 	{
 		updateThread.join();
 	}
-
-	if (networkThread.joinable())
-	{
-		networkThread.join();
-	}
 }
 
 void SceneManager::Update()
@@ -107,18 +101,5 @@ void SceneManager::Update()
 		mUpdateReady = false;
 		lock.unlock();
 		mCv.notify_one();
-	}
-}
-
-void SceneManager::Network()
-{
-	while(true)
-	{
-		if (mEnd)
-		{
-			return;
-		}
-		
-		SystemManager::Instance()->Network();
 	}
 }

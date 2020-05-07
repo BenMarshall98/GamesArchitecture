@@ -5,11 +5,9 @@
 #include <sstream>
 
 ClientNetworkingManager * ClientNetworkingManager::mInstance = nullptr;
-int ClientNetworkingManager::ID = 0;
 
-ClientNetworkingManager::ClientNetworkingManager() : mID(ID)
+ClientNetworkingManager::ClientNetworkingManager()
 {
-	ID++;
 	auto versionRequested = MAKEWORD(2, 0);
 
 	WSADATA wsaData;
@@ -37,14 +35,16 @@ bool ClientNetworkingManager::StartListening(const IpAddress& pAddress)
 		return false;
 	}
 
-	mConnection = std::thread(&ClientNetworkingManager::Recieve, this);
+	mRecieveConnection = std::thread(&ClientNetworkingManager::Recieve, this);
+	mSendConnection = std::thread(&ClientNetworkingManager::Send, this);
 	return true;
 }
 
 ClientNetworkingManager::~ClientNetworkingManager()
 {
 	//TODO: Better way of joining / detaching thread
-	mConnection.detach();
+	mRecieveConnection.detach();
+	mSendConnection.detach();
 	closesocket(mSocket);
 }
 
@@ -119,16 +119,16 @@ void ClientNetworkingManager::Recieve()
 			break;
 		}
 
-		std::cout << "Connection " << mID << " Received Message " << message << std::endl;
-
 		if (message == "q")
 		{
 			CloseConnection(false);
 		}
+
+		AddRecieveMessage(message);
 	}
 }
 
-void ClientNetworkingManager::Send(const std::string& pMessage)
+void ClientNetworkingManager::Process(const std::string & pMessage)
 {
 	int size = pMessage.size() + 8;
 
@@ -160,8 +160,38 @@ void ClientNetworkingManager::Send(const std::string& pMessage)
 
 		CloseConnection(false);
 	}
+}
 
-	std::cout << "Connection " << mID << " Send Message " << pMessage << std::endl;
+//Based on https://freecontent.manning.com/synchronizing-concurrent-operations-in-c/
+
+void ClientNetworkingManager::Send()
+{
+	while(true)
+	{
+		std::unique_lock<std::mutex> lock(mSendMutex);
+		mSendConditionVariable.wait(lock, [this] {return !mSendMessages.empty(); });
+
+		const auto message = mSendMessages[0];
+		mSendMessages.erase(mSendMessages.begin());
+
+		lock.unlock();
+
+		Process(message);
+
+		if (mClose)
+		{
+			return;
+		}
+	}
+}
+
+void ClientNetworkingManager::AddSendMessage(const std::string& pMessage)
+{
+	std::lock_guard<std::mutex> lock(mSendMutex);
+
+	mSendMessages.push_back(pMessage);
+
+	mSendConditionVariable.notify_one();
 }
 
 void ClientNetworkingManager::CloseConnection(const bool pFullClose)
@@ -170,10 +200,8 @@ void ClientNetworkingManager::CloseConnection(const bool pFullClose)
 
 	if (pFullClose)
 	{
-		Send("q");
+		AddSendMessage("q");
 	}
-
-	std::cout << "Connection Ended With ID " << mID << std::endl;
 
 	closesocket(mSocket);
 }

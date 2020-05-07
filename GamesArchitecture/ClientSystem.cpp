@@ -23,7 +23,12 @@ ClientSystem::ClientSystem(PyramidScene* pScene) :
 void ClientSystem::Action(const float pDeltaTime)
 {
 	//Get Networking Messages
-	std::vector<std::string> messages = ClientNetworkingManager::Instance()->GetRecieveMessages();
+	std::vector<std::string> messages = ClientNetworkingManager::Instance()->GetRecievedMessages();
+
+	if (!messages.empty())
+	{
+		int i = 0;
+	}
 	
 	//TODO: Go Through Networking Messages make list for playback
 	std::multimap<uint32_t, Playback> playbackTimeStamps;
@@ -31,14 +36,14 @@ void ClientSystem::Action(const float pDeltaTime)
 	for (int i = 0; i < messages.size(); i++)
 	{
 		auto offset = 0;
-		const auto type = messages[i].substr(offset, 1);
+		const auto type = messages[i].substr(offset, 4);
 
 		//TODO: Playback controls and other messages
 		if (type == "AddP")
 		{
-			const auto projectileType = messages[i].substr(offset += 1, 4);
+			const auto projectileType = messages[i].substr(offset += 4, 1);
 
-			offset += 4;
+			offset += 1;
 
 			glm::vec3 position;
 

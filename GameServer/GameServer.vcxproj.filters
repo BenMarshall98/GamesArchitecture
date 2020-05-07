@@ -30,11 +30,11 @@
     <ClCompile Include="PlaneServerEntity.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="PyramidShapeServerEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ServerSystem.cpp">
       <Filter>CustomSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="PyramidShapeServerEntity.cpp">
+      <Filter>Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -44,11 +44,11 @@
     <ClInclude Include="PlaneServerEntity.h">
       <Filter>Entities</Filter>
     </ClInclude>
-    <ClInclude Include="PyramidShapeServerEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ServerSystem.h">
       <Filter>CustomSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="PyramidShapeServerEntity.h">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

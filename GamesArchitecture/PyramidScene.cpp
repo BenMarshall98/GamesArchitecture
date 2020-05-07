@@ -1,8 +1,13 @@
 #include "PyramidScene.h"
 
 #include <DirectXColors.h>
+#include <iomanip>
+#include <sstream>
+
 
 #include "CameraManager.h"
+#include "ClientNetworkingManager.h"
+#include "ClientSystem.h"
 #include "ConstantBuffer.h"
 #include "DearImGui/imgui.h"
 #include "DearImGui/imgui_impl_dx11.h"
@@ -32,14 +37,20 @@ void PyramidScene::Load()
 	
 	auto systemManager = SystemManager::Instance();
 
-	auto inputSystem = std::make_unique<InputSystem>();
-	systemManager->AddUpdateSystem(std::move(inputSystem));
+	const auto inputSystem = std::make_shared<InputSystem>();
+	systemManager->AddUpdateSystem(inputSystem);
 
-	auto physicsSystem = std::make_unique<PhysicsSystem>();
-	systemManager->AddUpdateSystem(std::move(physicsSystem));
+	const auto physicsSystem = std::make_shared<PhysicsSystem>();
+	systemManager->AddUpdateSystem(physicsSystem);
 
-	auto renderSystem = std::make_unique<RenderSystem>();
-	systemManager->AddRenderSystem(std::move(renderSystem));
+	const auto clientSystem = std::make_shared<ClientSystem>(this);
+	systemManager->AddUpdateSystem(clientSystem);
+
+	mPlaybackSystem = std::make_shared<PlaybackSystem>();
+	systemManager->AddUpdateSystem(mPlaybackSystem);
+
+	const auto renderSystem = std::make_shared<RenderSystem>();
+	systemManager->AddRenderSystem(renderSystem);
 
 	Reset();
 
@@ -174,18 +185,38 @@ void PyramidScene::Update(const float pDeltaTime)
 
 			const auto velocity = (1.0f / t * displacement - 0.5f * glm::vec3(0.0f, -1.0f, 0.0f) * t);
 
+			std::ostringstream str;
+
+			str << "AddP";
+			
 			if (mProjectile == ProjectileType::SMALL)
 			{
-				EntityManager::Instance()->AddEntity(std::make_shared<SmallProjectileEntity>(cameraPosition, velocity));
+				str << "S";
 			}
 			else if (mProjectile == ProjectileType::LARGE)
 			{
-				EntityManager::Instance()->AddEntity(std::make_shared<LargeProjectileEntity>(cameraPosition, velocity));
+				str << "L";
 			}
 			else if (mProjectile == ProjectileType::GRENADE)
 			{
-				EntityManager::Instance()->AddEntity(std::make_shared<GrenageProjectileEntity>(cameraPosition, velocity));
+				str << "G";
 			}
+
+			for (int i = 0; i < 3; i++)
+			{
+				uint32_t num = *((uint32_t*)&cameraPosition[i]);
+				str << std::setw(8) << std::setfill('0') << std::hex << num;
+			}
+
+			for (int i = 0; i < 3; i++)
+			{
+				uint32_t num = *((uint32_t*)&velocity[i]);
+				str << std::setw(8) << std::setfill('0') << std::hex << num;
+			}
+
+			const auto message = str.str();
+
+			ClientNetworkingManager::Instance()->AddSendMessage(message);  
 		}
 	}
 

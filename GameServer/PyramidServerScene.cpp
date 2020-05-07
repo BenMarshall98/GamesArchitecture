@@ -69,3 +69,10 @@ void PyramidServerScene::Reset()
 		mass = true;
 	}
 }
+
+void PyramidServerScene::Swap()
+{
+	//TODO
+
+	EntityManager::Instance()->Swap();
+}

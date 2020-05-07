@@ -1,3 +1,8 @@
+#define WIN32_LEAN_AND_MEAN
+
+#include <WinSock2.h>
+#include "ClientNetworkingManager.h"
+
 #include "Win32Window.h"
 #include "RenderManager.h"
 #include <DirectXColors.h>
@@ -17,6 +22,17 @@
 
 int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCmdShow)
 {
+	const auto client = ClientNetworkingManager::Instance();
+
+	IpAddress address(7500, "127.0.0.1");
+
+	if (!client->StartListening(address))
+	{
+		return -1;
+	}
+
+	client->AddSendMessage("Hello World");
+	
 	const auto window = Win32Window::Instance(pHInstance, pCmdShow);
 	window->Run();
 	const auto render = RenderManager::Instance();
@@ -51,8 +67,13 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 
+	//TODO: Why is it not closing properly
+	
+	client->CloseConnection();
+	
 	delete render;
 	delete window;
+	delete client;
 
 	return 0;
 }

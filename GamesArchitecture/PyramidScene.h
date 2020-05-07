@@ -4,6 +4,7 @@
 
 #include "FragmentShader.h"
 #include "ModelInstanced.h"
+#include "PlaybackSystem.h"
 #include "Scene.h"
 #include "VertexShader.h"
 #include "UserEntity.h"
@@ -23,6 +24,9 @@ class PyramidScene final : public Scene
 
 	ProjectileType mProjectile = ProjectileType::SMALL;
 	bool mReset = false;
+
+	std::shared_ptr<PlaybackSystem> mPlaybackSystem;
+	
 	void Reset();
 
 public:

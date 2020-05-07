@@ -19,9 +19,7 @@ class PlaybackComponent final : public Component
 {
 	std::vector<Playback> mPlaybackList;
 	
-public:
-	static std::mutex mMutex;
-	
+public:	
 	PlaybackComponent();
 	~PlaybackComponent() = default;
 
