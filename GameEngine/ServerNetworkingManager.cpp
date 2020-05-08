@@ -4,7 +4,7 @@
 
 ServerNetworkingManager * ServerNetworkingManager::mInstance = nullptr;
 
-ServerNetworkingManager::ServerNetworkingManager() : mSocket()
+ServerNetworkingManager::ServerNetworkingManager()
 {
 	const auto versionRequested = MAKEWORD(2, 0);
 
@@ -64,6 +64,8 @@ void ServerNetworkingManager::Connect()
 
 		std::cout << "Socket Accepted " << std::endl;
 
+		std::lock_guard<std::mutex> lock(mListeningMutex);
+
 		const auto listeningSocket = std::make_shared<ListeningSocket>(socket);
 		mListeningSockets.push_back(listeningSocket);
 	}
@@ -71,6 +73,8 @@ void ServerNetworkingManager::Connect()
 
 void ServerNetworkingManager::RemoveConnection(ListeningSocket* pListeningSocket)
 {
+	std::lock_guard<std::mutex> lock(mListeningMutex);
+	
 	for (int i = 0; i < mListeningSockets.size(); i++)
 	{
 		if (mListeningSockets[i].get() == pListeningSocket)
@@ -91,4 +95,14 @@ void ServerNetworkingManager::CloseServer()
 	}
 
 	closesocket(mSocket);
+}
+
+void ServerNetworkingManager::AddSendMessage(const std::string& pMessage)
+{
+	std::lock_guard<std::mutex> lock(mListeningMutex);
+
+	for (int i = 0; i < mListeningSockets.size(); i++)
+	{
+		mListeningSockets[i]->AddSendMessage(pMessage);
+	}
 }

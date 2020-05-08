@@ -5,6 +5,9 @@ class PyramidServerScene final : public Scene
 {
 	int mCurrentSizePyramid = 3;
 	int mNextSizePyramid = 3;
+
+	bool mSimulation = false;
+	float mSimulationTime = 0.0f;
 	
 	void Reset();
 	
@@ -22,5 +25,15 @@ public:
 	void Render() override;
 	void Update(float pDeltaTime) override;
 	void Swap() override;
+
+	bool GetSimulation() const
+	{
+		return mSimulation;
+	}
+
+	float GetSimulationTime() const
+	{
+		return mSimulationTime;
+	}
 };
 

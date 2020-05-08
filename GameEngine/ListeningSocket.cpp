@@ -13,14 +13,16 @@ ListeningSocket::ListeningSocket(const SOCKET & pSocket) : mSocket(pSocket), mID
 {
 	std::cout << "Connection Started With ID " << mID << std::endl;
 
-	mConnection = std::thread(&ListeningSocket::Recieve, this);
+	mRecieveConnection = std::thread(&ListeningSocket::Recieve, this);
+	mSendConnection = std::thread(&ListeningSocket::Send, this);
 	ID++;
 }
 
 ListeningSocket::~ListeningSocket()
 {
 	//TODO: Better way of joining 
-	mConnection.detach();
+	mRecieveConnection.detach();
+	mSendConnection.detach();
 }
 
 void ListeningSocket::Recieve()
@@ -101,12 +103,12 @@ void ListeningSocket::Recieve()
 			CloseConnection(false);
 		}
 
-		Send(message);
+		AddSendMessage(message);
 	}
 }
 
 
-void ListeningSocket::Send(const std::string& pMessage)
+void ListeningSocket::Process(const std::string& pMessage)
 {
 	int size = pMessage.size() + 8;
 
@@ -143,13 +145,44 @@ void ListeningSocket::Send(const std::string& pMessage)
 	std::cout << "Connection " << mID << " Send Message " << pMessage << std::endl;
 }
 
+void ListeningSocket::Send()
+{
+	while(true)
+	{
+		//TODO: Deal with adding a delay
+		std::unique_lock<std::mutex> lock(mSendMutex);
+		mSendConditionVariable.wait(lock, [this] {return !mSendMessages.empty(); });
+
+		const auto message = mSendMessages[0];
+		mSendMessages.erase(mSendMessages.begin());
+
+		lock.unlock();
+
+		Process(message);
+
+		if (mClose)
+		{
+			return;
+		}
+	}
+}
+
+void ListeningSocket::AddSendMessage(const std::string& pMessage)
+{
+	std::lock_guard<std::mutex> lock(mSendMutex);
+
+	mSendMessages.push_back(pMessage);
+
+	mSendConditionVariable.notify_one();
+}
+
 void ListeningSocket::CloseConnection(const bool pFullClose)
 {
 	mClose = true;
 
 	if (pFullClose)
 	{
-		Send("q");
+		Process("q");
 	}
 
 	std::cout << "Connection Ended With ID " << mID << std::endl;

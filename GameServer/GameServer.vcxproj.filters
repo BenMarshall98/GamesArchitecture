@@ -36,6 +36,15 @@
     <ClCompile Include="PyramidShapeServerEntity.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="GrenageProjectileServerEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="LargeProjectileServerEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="SmallProjectileServerEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PyramidServerScene.h">
@@ -48,6 +57,15 @@
       <Filter>CustomSystems</Filter>
     </ClInclude>
     <ClInclude Include="PyramidShapeServerEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="LargeProjectileServerEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="GrenageProjectileServerEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallProjectileServerEntity.h">
       <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>

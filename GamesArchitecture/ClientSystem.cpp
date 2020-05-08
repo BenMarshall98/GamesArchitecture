@@ -24,13 +24,8 @@ void ClientSystem::Action(const float pDeltaTime)
 {
 	//Get Networking Messages
 	std::vector<std::string> messages = ClientNetworkingManager::Instance()->GetRecievedMessages();
-
-	if (!messages.empty())
-	{
-		int i = 0;
-	}
 	
-	//TODO: Go Through Networking Messages make list for playback
+	//Go Through Networking Messages make list for playback
 	std::multimap<uint32_t, Playback> playbackTimeStamps;
 
 	for (int i = 0; i < messages.size(); i++)

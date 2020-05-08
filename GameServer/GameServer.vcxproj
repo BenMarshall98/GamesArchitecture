@@ -125,11 +125,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GrenageProjectileServerEntity.cpp" />
+    <ClCompile Include="LargeProjectileServerEntity.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PlaneServerEntity.cpp" />
     <ClCompile Include="PyramidServerScene.cpp" />
     <ClCompile Include="PyramidShapeServerEntity.cpp" />
     <ClCompile Include="ServerSystem.cpp" />
+    <ClCompile Include="SmallProjectileServerEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine\GameEngine.vcxproj">
@@ -137,10 +140,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GrenageProjectileServerEntity.h" />
+    <ClInclude Include="LargeProjectileServerEntity.h" />
     <ClInclude Include="PlaneServerEntity.h" />
     <ClInclude Include="PyramidServerScene.h" />
     <ClInclude Include="PyramidShapeServerEntity.h" />
     <ClInclude Include="ServerSystem.h" />
+    <ClInclude Include="SmallProjectileServerEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
