@@ -6,12 +6,19 @@ PlaybackComponent::PlaybackComponent() : Component(ComponentType::PLAYBACK)
 
 void PlaybackComponent::AddPlayback(const Playback& pPlayback)
 {
+	if (mPlaybackList.empty())
+	{
+		mPlaybackList.push_back(pPlayback);
+		return;
+	}
+	
 	for (int i = mPlaybackList.size() - 1; i >= 0; i--)
 	{
 		if (pPlayback.mTime > mPlaybackList[i].mTime)
 		{
 			//TODO: Check if at end
 			mPlaybackList.insert(mPlaybackList.begin() + i + 1, pPlayback);
+			return;
 		}
 	}
 }
@@ -36,7 +43,7 @@ std::tuple<Playback, Playback> PlaybackComponent::GetPlaybackAtTime(float pTime)
 	if (mPlaybackList.size() == 1)
 	{
 		std::get<0>(result) = mPlaybackList[0];
-		std::get<1>(result) = mPlaybackList[1];
+		std::get<1>(result) = mPlaybackList[0];
 		return result;
 	}
 	
@@ -46,6 +53,7 @@ std::tuple<Playback, Playback> PlaybackComponent::GetPlaybackAtTime(float pTime)
 		{
 			std::get<0>(result) = mPlaybackList[i - 1];
 			std::get<1>(result) = mPlaybackList[i];
+			return result;
 		}
 	}
 

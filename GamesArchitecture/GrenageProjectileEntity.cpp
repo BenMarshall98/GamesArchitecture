@@ -1,6 +1,7 @@
 #include "GrenageProjectileEntity.h"
 
 #include "PhysicsComponent.h"
+#include "PlaybackComponent.h"
 #include "PositionComponent.h"
 #include "RenderComponent.h"
 #include "ResourceManager.h"
@@ -20,9 +21,12 @@ GrenageProjectileEntity::GrenageProjectileEntity(const glm::vec3& pPosition, con
 
 	const auto physicsComponent = std::make_shared<PhysicsComponent>(sphereObject);
 
+	const auto playbackComponent = std::make_shared<PlaybackComponent>();
+
 	AddComponent(renderComponent, false);
 	AddComponent(positionComponent, false);
 	AddComponent(physicsComponent, false);
+	AddComponent(playbackComponent, false);
 }
 
 void GrenageProjectileEntity::Update(float pDeltaTime)

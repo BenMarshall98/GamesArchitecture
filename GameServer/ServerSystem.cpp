@@ -1,8 +1,7 @@
 #include "ServerSystem.h"
 
+#include <iomanip>
 #include <sstream>
-
-
 
 #include "../GameEngine/EntityManager.h"
 #include "../GameEngine/PositionComponent.h"
@@ -80,11 +79,23 @@ void ServerSystem::Action(float pDeltaTime)
 				EntityManager::Instance()->AddEntity(std::make_shared<GrenageProjectileServerEntity>(position, velocity));
 			}
 
+			if (!mScene->GetSimulation())
+			{
+				ServerNetworkingManager::Instance()->AddSendMessage("StartSimulation");
+				mScene->StartSimulation();
+			}
+			
 			ServerNetworkingManager::Instance()->AddSendMessage(messages[i]);
 		}
 	}
 	
 	System::Action(pDeltaTime);
+
+	if (mScene->GetSimulationTime() > 4.0f && mScene->GetSimulation())
+	{
+		ServerNetworkingManager::Instance()->AddSendMessage("StartPlayback");
+		mScene->StartPlayback();
+	}
 
 	if (mScene->GetSimulation())
 	{
@@ -92,6 +103,9 @@ void ServerSystem::Action(float pDeltaTime)
 
 		std::ostringstream str;
 		str << "Time";
+
+		uint32_t num = *((uint32_t*)&simulationTime);
+		str << std::setw(8) << std::setfill('0') << std::hex << num;
 
 		for (auto & entity : mEntities)
 		{
@@ -109,10 +123,35 @@ void ServerSystem::Action(float pDeltaTime)
 
 			//TODO: Check epsilon
 
-			const auto moving = glm::length(currentPosition - collisionObject->GetLastPosition()) > 0.001f;
+			const auto moving = true;// glm::length(currentPosition - collisionObject->GetLastPosition()) > 0.001f;
 			const auto id = entity->GetId();
 
-			//TODO: Add to message
+			str << std::setw(8) << std::setfill('0') << std::hex << id;
+
+			if (moving)
+			{
+				str << "1";
+
+				for (int i = 0; i < 3; i++)
+				{
+					uint32_t num = *((uint32_t*)&currentPosition[i]);
+					str << std::setw(8) << std::setfill('0') << std::hex << num;
+				}
+
+				for (int i = 0; i < 3; i++)
+				{
+					uint32_t num = *((uint32_t*)&currentVelocity[i]);
+					str << std::setw(8) << std::setfill('0') << std::hex << num;
+				}
+			}
+			else
+			{
+				str << "0";
+			}
 		}
+
+		const auto message = str.str();
+
+		ServerNetworkingManager::Instance()->AddSendMessage(message);
 	}
 }

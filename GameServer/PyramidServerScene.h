@@ -1,4 +1,5 @@
 #pragma once
+#include "../GameEngine/PhysicsSystem.h"
 #include "../GameEngine/Scene.h"
 
 class PyramidServerScene final : public Scene
@@ -8,6 +9,9 @@ class PyramidServerScene final : public Scene
 
 	bool mSimulation = false;
 	float mSimulationTime = 0.0f;
+	bool mPlayback = false;
+
+	std::shared_ptr<PhysicsSystem> mPhysicsSystem;
 	
 	void Reset();
 	
@@ -34,6 +38,19 @@ public:
 	float GetSimulationTime() const
 	{
 		return mSimulationTime;
+	}
+
+	void StartSimulation()
+	{
+		mSimulation = true;
+		mPhysicsSystem->StartSimulation();
+	}
+
+	void StartPlayback()
+	{
+		mSimulation = false;
+		mPlayback = true;
+		mPhysicsSystem->StopSimulation();
 	}
 };
 

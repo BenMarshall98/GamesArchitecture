@@ -60,6 +60,11 @@ void ListeningSocket::Recieve()
 
 		size -= 8;
 
+		if (size > 20)
+		{
+			int i = 0;
+		}
+
 		while (message.size() != size)
 		{
 			char tempBuffer[11] = "";
@@ -103,19 +108,18 @@ void ListeningSocket::Recieve()
 			CloseConnection(false);
 		}
 
-		AddSendMessage(message);
+		ServerNetworkingManager::Instance()->AddRecieveMessage(message);
 	}
 }
 
 
 void ListeningSocket::Process(const std::string& pMessage)
 {
-	int size = pMessage.size() + 8;
+	const auto size = pMessage.size() + 8u;
 
 	std::ostringstream str;
 
 	str << std::setfill('0') << std::setw(4) << size;
-
 
 	auto checksum = 0u;
 

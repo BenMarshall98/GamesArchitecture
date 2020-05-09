@@ -11,16 +11,19 @@ PhysicsSystem::PhysicsSystem() : System( {ComponentType::PHYSICS, ComponentType:
 void PhysicsSystem::Action(const float pDeltaTime)
 {
 	System::Action(pDeltaTime);
-	
-	PhysicsManager::Instance()->Update(pDeltaTime);
 
-	for (auto & entity : mEntities)
+	if (mSimulation)
 	{
-		const auto positionComponent = std::dynamic_pointer_cast<PositionComponent>(entity->GetComponentByType(ComponentType::POSITION));
-		const auto physicsComponent = std::dynamic_pointer_cast<PhysicsComponent>(entity->GetComponentByType(ComponentType::PHYSICS));
+		PhysicsManager::Instance()->Update(pDeltaTime);
 
-		const auto collisionObject = physicsComponent->GetCollisionObject();
+		for (auto & entity : mEntities)
+		{
+			const auto positionComponent = std::dynamic_pointer_cast<PositionComponent>(entity->GetComponentByType(ComponentType::POSITION));
+			const auto physicsComponent = std::dynamic_pointer_cast<PhysicsComponent>(entity->GetComponentByType(ComponentType::PHYSICS));
 
-		positionComponent->SetUpdatePosition(collisionObject->GetCurrentPosition());
+			const auto collisionObject = physicsComponent->GetCollisionObject();
+
+			positionComponent->SetUpdatePosition(collisionObject->GetCurrentPosition());
+		}
 	}
 }

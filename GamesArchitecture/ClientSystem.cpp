@@ -30,6 +30,15 @@ void ClientSystem::Action(const float pDeltaTime)
 
 	for (int i = 0; i < messages.size(); i++)
 	{
+		if (messages[i] == "StartSimulation")
+		{
+			mScene->StartSimulation();
+		}
+		else if (messages[i] == "StartPlayback")
+		{
+			mScene->StartPlayback();
+		}
+		
 		auto offset = 0;
 		const auto type = messages[i].substr(offset, 4);
 
@@ -85,30 +94,28 @@ void ClientSystem::Action(const float pDeltaTime)
 		}
 		else if (type == "Time")
 		{
-			auto offset = 0;
+			auto offset = 4;
 
 			auto time = 0.0f;
 
 			{
 				const auto val = messages[i].substr(offset, 8);
 
-				uint32_t num;
-				std::istringstream str(val);
-				str >> std::hex >> num;
+				uint32_t num = strtoul(val.c_str(), nullptr, 16);
 
 				time = *((float*)&num);
 
 				offset += 8;
 			}
 
-			for (int j = offset; j < messages.size();)
+			while(offset < messages[i].size())
 			{
 				uint32_t id;
 
 				{
 					const auto val = messages[i].substr(offset, 8);
-					std::istringstream str(val);
-					str >> std::hex >> id;
+
+					id = strtoul(val.c_str(), nullptr, 16);
 
 					offset += 8;
 				}
@@ -130,9 +137,7 @@ void ClientSystem::Action(const float pDeltaTime)
 					{
 						const auto val = messages[i].substr(offset, 8);
 
-						uint32_t num;
-						std::istringstream str(val);
-						str >> std::hex >> num;
+						uint32_t num = strtoul(val.c_str(), nullptr, 16);
 
 						position[k] = *((float*)&num);
 
@@ -145,9 +150,7 @@ void ClientSystem::Action(const float pDeltaTime)
 					{
 						const auto val = messages[i].substr(offset, 8);
 
-						uint32_t num;
-						std::istringstream str(val);
-						str >> std::hex >> num;
+						uint32_t num = strtoul(val.c_str(), nullptr, 16);
 
 						velocity[k] = *((float*)&num);
 

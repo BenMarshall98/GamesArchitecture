@@ -4,6 +4,8 @@
 
 class PhysicsSystem final : public System
 {
+	bool mSimulation = false;
+	
 public:
 	PhysicsSystem();
 	~PhysicsSystem() = default;
@@ -15,4 +17,14 @@ public:
 	PhysicsSystem & operator= (PhysicsSystem&&) = delete;
 
 	void Action(float pDeltaTime) override;
+
+	void StartSimulation()
+	{
+		mSimulation = true;
+	}
+
+	void StopSimulation()
+	{
+		mSimulation = false;
+	}
 };

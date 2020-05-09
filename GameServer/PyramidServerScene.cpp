@@ -1,5 +1,8 @@
 #include "PyramidServerScene.h"
 
+#include <thread>
+
+
 #include "../GameEngine/EntityManager.h"
 #include "../GameEngine/Octree.h"
 #include "../GameEngine/PhysicsManager.h"
@@ -7,6 +10,7 @@
 #include "../GameEngine/SystemManager.h"
 #include "PlaneServerEntity.h"
 #include "PyramidShapeServerEntity.h"
+#include "ServerSystem.h"
 
 void PyramidServerScene::Load()
 {
@@ -15,8 +19,11 @@ void PyramidServerScene::Load()
 
 	auto systemManager = SystemManager::Instance();
 
-	auto physicsSystem = std::make_unique<PhysicsSystem>();
-	systemManager->AddUpdateSystem(std::move(physicsSystem));
+	const auto serverSystem = std::make_shared<ServerSystem>(this);
+	systemManager->AddUpdateSystem(serverSystem);
+
+	mPhysicsSystem = std::make_shared<PhysicsSystem>();
+	systemManager->AddUpdateSystem(mPhysicsSystem);
 
 	Reset();
 }
@@ -28,6 +35,11 @@ void PyramidServerScene::Render()
 
 void PyramidServerScene::Update(const float pDeltaTime)
 {
+	if (mSimulation)
+	{
+		mSimulationTime += pDeltaTime;
+	}
+	
 	EntityManager::Instance()->Update(pDeltaTime);
 }
 
@@ -75,4 +87,8 @@ void PyramidServerScene::Swap()
 	//TODO
 
 	EntityManager::Instance()->Swap();
+
+	//TODO: Remove
+
+	std::this_thread::sleep_for(std::chrono::milliseconds(16));                                                                                      
 }

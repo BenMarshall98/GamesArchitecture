@@ -37,14 +37,14 @@ void PyramidScene::Load()
 	
 	auto systemManager = SystemManager::Instance();
 
-	const auto inputSystem = std::make_shared<InputSystem>();
-	systemManager->AddUpdateSystem(inputSystem);
-
-	const auto physicsSystem = std::make_shared<PhysicsSystem>();
-	systemManager->AddUpdateSystem(physicsSystem);
-
 	const auto clientSystem = std::make_shared<ClientSystem>(this);
 	systemManager->AddUpdateSystem(clientSystem);
+
+	const auto inputSystem = std::make_shared<InputSystem>();
+	systemManager->AddUpdateSystem(inputSystem);
+	
+	mPhysicsSystem = std::make_shared<PhysicsSystem>();
+	systemManager->AddUpdateSystem(mPhysicsSystem);
 
 	mPlaybackSystem = std::make_shared<PlaybackSystem>();
 	systemManager->AddUpdateSystem(mPlaybackSystem);
@@ -72,6 +72,14 @@ void PyramidScene::Render()
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::Text("Current Size of Pyramid %i. Size of Pyramid After Reset %i", mCurrentSizePyramid, mNextSizePyramid);
 
+	if (mSimulation)
+	{
+		ImGui::Text("Current Simulation Time %.3f", mSimulationTime);
+	}
+	else if (mPlayback)
+	{
+		ImGui::Text("Current Playback Time %.3f", mSimulationTime);
+	}
 	
 	ImGui::Checkbox("Main Camera", &mMainCamera);
 
@@ -220,6 +228,15 @@ void PyramidScene::Update(const float pDeltaTime)
 		}
 	}
 
+	mSimulationTime += pDeltaTime;
+
+	if (mSimulationTime > 4.0f)
+	{
+		mSimulationTime = 0.0f;
+	}
+	
+	mPlaybackSystem->SetPlaybackTime(mSimulationTime);
+
 	EntityManager::Instance()->Update(pDeltaTime);
 }
 
@@ -273,6 +290,10 @@ void PyramidScene::Swap()
 		mReset = false;
 		return;
 	}
+
+	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+	mDisplaySimulationTime = mSimulationTime;
 
 	EntityManager::Instance()->Swap();
 }

@@ -1,6 +1,7 @@
 #include "LargeProjectileEntity.h"
 
 #include "PhysicsComponent.h"
+#include "PlaybackComponent.h"
 #include "PositionComponent.h"
 #include "RenderComponent.h"
 #include "ResourceManager.h"
@@ -19,9 +20,12 @@ LargeProjectileEntity::LargeProjectileEntity(const glm::vec3& pPosition, const g
 
 	const auto physicsComponent = std::make_shared<PhysicsComponent>(sphereObject);
 
+	const auto playbackComponent = std::make_shared<PlaybackComponent>();
+
 	AddComponent(renderComponent, false);
 	AddComponent(positionComponent, false);
 	AddComponent(physicsComponent, false);
+	AddComponent(playbackComponent, false);
 }
 
 void LargeProjectileEntity::Update(float pDeltaTime)
