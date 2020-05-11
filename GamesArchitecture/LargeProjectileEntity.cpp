@@ -9,7 +9,6 @@
 
 LargeProjectileEntity::LargeProjectileEntity(const glm::vec3& pPosition, const glm::vec3& pVelocity)
 {
-	//TODO: Texture
 	const auto renderComponent = std::make_shared<RenderComponent>(
 		ResourceManager::Instance()->LoadShader("SimpleVertexProgram", "SimpleFragmentProgram"),
 		ResourceManager::Instance()->LoadModel("Assets/Models/sphere.obj"), nullptr);

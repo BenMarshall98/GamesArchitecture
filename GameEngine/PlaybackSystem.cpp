@@ -41,30 +41,9 @@ void PlaybackSystem::Action(const float pDeltaTime)
 			const auto time1 = playbackTime1.mTime;
 
 			const auto time = (mSimulationTime - time0) / (time1 - time0);
-			const auto time2 = pow(time, 2);
-			const auto time3 = pow(time, 3);
 
-			glm::vec3 position = mix(position0, position1, time);;
-			
-			//{
-			//	const auto h0 = 2.0f * time3 - 3.0f * time2 + 1.0f;
-			//	const auto h1 = -2.0f * time3 + 3.0f * time2;
-			//	const auto h2 = time3 - 2.0f * time2 + time;
-			//	const auto h3 = time3 - time2;
-			//
-			//	position = position0 * h0 + velocity0 * h1 + position1 * h2 + velocity1 * h3;
-			//}
-
-			glm::vec3 velocity = mix(velocity0, velocity1, time);;
-			
-			//{
-			//	const auto h0 = 6 * time2 - 6 * time;
-			//	const auto h1 = -6 * time2 + 6 * time;
-			//	const auto h2 = 3 * time2 - 4 * time + 1.0f;
-			//	const auto h3 = 3 * time2 - 2 * time;
-			//
-			//	velocity = position0 * h0 + velocity0 * h1 + position1 * h2 + velocity1 * h3;
-			//}
+			auto position = mix(position0, position1, time);
+			auto velocity = mix(velocity0, velocity1, time);
 			
 			const auto collisionObject = physicsComponent->GetCollisionObject();
 
@@ -101,23 +80,13 @@ void PlaybackSystem::Action(const float pDeltaTime)
 			}
 
 			const auto position0 = playbackTime0.mPosition;
-			const auto velocity0 = playbackTime0.mVelocity;
 			const auto time0 = playbackTime0.mTime;
 
 			const auto position1 = playbackTime1.mPosition;
-			const auto velocity1 = playbackTime1.mVelocity;
 			const auto time1 = playbackTime1.mTime;
 
 			const auto time = (mPlaybackTime - time0) / (time1 - time0);
-			const auto time2 = pow(time, 2);
-			const auto time3 = pow(time, 3);
 
-			const auto h0 = 2.0f * time3 - 3.0f * time2 + 1.0f;
-			const auto h1 = -2.0f * time3 + 3.0f * time2;
-			const auto h2 = time3 - 2.0f * time2 + time;
-			const auto h3 = time3 - time2;
-
-			//const auto position = position0 * h0 + position1 * h1 + velocity0 * h2 + velocity1 * h3;
 			const auto position = mix(position0, position1, time);
 
 			positionComponent->SetUpdatePosition(position);

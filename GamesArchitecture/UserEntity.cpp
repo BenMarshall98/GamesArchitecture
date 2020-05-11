@@ -16,7 +16,7 @@ UserEntity::UserEntity(const glm::vec3& pPosition) :
 	//Rotate Left
 	{
 		const Input input = {
-			VK_LEFT,
+			'A',
 			VK_CONTROL,
 			false,
 			true,
@@ -32,7 +32,7 @@ UserEntity::UserEntity(const glm::vec3& pPosition) :
 	//Rotate Right
 	{
 		const Input input = {
-			VK_RIGHT,
+			'D',
 			VK_CONTROL,
 			false,
 			true,
@@ -48,7 +48,7 @@ UserEntity::UserEntity(const glm::vec3& pPosition) :
 	//Rotate Up
 	{
 		const Input input = {
-			VK_UP,
+			'W',
 			VK_CONTROL,
 			false,
 			true,
@@ -64,7 +64,7 @@ UserEntity::UserEntity(const glm::vec3& pPosition) :
 	//Rotate Down
 	{
 		const Input input = {
-			VK_DOWN,
+			'S',
 			VK_CONTROL,
 			false,
 			true,
@@ -80,7 +80,7 @@ UserEntity::UserEntity(const glm::vec3& pPosition) :
 	//Pan Left
 	{
 		const Input input = {
-			VK_LEFT,
+			'A',
 			VK_CONTROL,
 			false,
 			false,
@@ -97,7 +97,7 @@ UserEntity::UserEntity(const glm::vec3& pPosition) :
 	//Pan Right
 	{
 		const Input input = {
-			VK_RIGHT,
+			'D',
 			VK_CONTROL,
 			false,
 			false,
@@ -113,7 +113,7 @@ UserEntity::UserEntity(const glm::vec3& pPosition) :
 	//Pan Up
 	{
 		const Input input = {
-			VK_UP,
+			'W',
 			VK_CONTROL,
 			false,
 			false,
@@ -129,7 +129,7 @@ UserEntity::UserEntity(const glm::vec3& pPosition) :
 	//Pan Down
 	{
 		const Input input = {
-			VK_DOWN,
+			'S',
 			VK_CONTROL,
 			false,
 			false,
@@ -145,7 +145,7 @@ UserEntity::UserEntity(const glm::vec3& pPosition) :
 	//Pan Forward
 	{
 		const Input input = {
-			VK_NEXT,
+			'Q',
 			VK_CONTROL,
 			false,
 			false,
@@ -161,7 +161,7 @@ UserEntity::UserEntity(const glm::vec3& pPosition) :
 	//Pan Backward
 	{
 		const Input input = {
-			VK_PRIOR,
+			'E',
 			VK_CONTROL,
 			false,
 			false,

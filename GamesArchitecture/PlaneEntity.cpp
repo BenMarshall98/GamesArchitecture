@@ -8,7 +8,6 @@
 
 PlaneEntity::PlaneEntity()
 {
-	//TODO: Texture
 	const auto renderComponent = std::make_shared<RenderComponent>(
 		ResourceManager::Instance()->LoadShader("PlaneVertexShader", "PlaneFragmentShader"),
 		ResourceManager::Instance()->LoadModel("Assets/Models/plane.obj"), nullptr);

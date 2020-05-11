@@ -46,8 +46,6 @@ void RenderSystem::Action(const float pDeltaTime)
 		modelMat.mModel = glm::scale(modelMat.mModel, scale);
 
 		mModelBuffer->UpdateBuffer(modelMat);
-
-		//TODO: Include Texture
 		
 		shader->UseProgram();
 		model->Render();

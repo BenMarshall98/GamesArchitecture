@@ -29,7 +29,6 @@ bool ModelInstanced::loadModel(const std::vector<VertexData>& pMesh, const std::
 
 	if (FAILED(result))
 	{
-		//TODO: Log error
 		return false;
 	}
 
@@ -50,7 +49,6 @@ bool ModelInstanced::loadModel(const std::vector<VertexData>& pMesh, const std::
 
 	if (FAILED(result))
 	{
-		//TODO: Log error
 		return false;
 	}
 

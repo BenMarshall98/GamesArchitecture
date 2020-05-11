@@ -216,6 +216,15 @@
     <ClCompile Include="PlaybackComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXUserInterfaceManager.cpp">
+      <Filter>Rendering\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLUserInterfaceManager.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInterfaceManager.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32Window.h">
@@ -403,6 +412,15 @@
     </ClInclude>
     <ClInclude Include="PlaybackComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXUserInterfaceManager.h">
+      <Filter>Rendering\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLUserInterfaceManager.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInterfaceManager.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

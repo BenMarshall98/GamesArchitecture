@@ -18,6 +18,7 @@
 
 #include "PyramidScene.h"
 #include "SceneManager.h"
+#include "UserInterfaceManager.h"
 
 
 int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCmdShow)
@@ -30,42 +31,14 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 	{
 		return -1;
 	}
-
-	client->AddSendMessage("Hello World");
 	
 	const auto window = Win32Window::Instance(pHInstance, pCmdShow);
 	window->Run();
 	const auto render = RenderManager::Instance();
 
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	auto & io = ImGui::GetIO(); (void)io;
-	
-	ImGui::StyleColorsDark();
-	
-	ImGui_ImplWin32_Init(window->GetHwnd());
-
-#ifdef DX_11
-	Microsoft::WRL::ComPtr<ID3D11Device> device;
-	dynamic_cast<DirectXRenderManager*>(RenderManager::Instance())->GetDevice(device);
-
-	Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext;
-	dynamic_cast<DirectXRenderManager*>(RenderManager::Instance())->GetDeviceContext(deviceContext);
-
-	ImGui_ImplDX11_Init(device.Get(), deviceContext.Get());
-#elif GL_430
-	ImGui_ImplOpenGL3_Init();
-#endif
-
 	SceneManager::Instance()->Run(std::make_shared<PyramidScene>());
 
-#ifdef DX_11
-	ImGui_ImplDX11_Shutdown();
-#elif GL_430
-	ImGui_ImplOpenGL3_Shutdown();
-#endif
-	ImGui_ImplWin32_Shutdown();
-	ImGui::DestroyContext();
+	delete UserInterfaceManager::Instance();
 
 	//TODO: Why is it not closing properly
 	

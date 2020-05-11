@@ -41,7 +41,6 @@ std::shared_ptr<Shader> OpenGLRenderManager::CreateShader(const std::string& pVe
 
 bool OpenGLRenderManager::Load()
 {
-	//TODO: Double Check
 	GLuint PixelFormat;
 	HGLRC hRc = NULL;
 

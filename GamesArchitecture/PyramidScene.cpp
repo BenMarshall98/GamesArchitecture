@@ -28,6 +28,7 @@
 #include "SmallProjectileEntity.h"
 #include "SystemManager.h"
 #include "UserEntity.h"
+#include "UserInterfaceManager.h"
 #include "Win32Window.h"
 
 void PyramidScene::Load()
@@ -60,47 +61,108 @@ void PyramidScene::Load()
 void PyramidScene::Render()
 {
 	const auto render = RenderManager::Instance();
-#ifdef DX_11
-	ImGui_ImplDX11_NewFrame();
-#elif GL_430
-	ImGui_ImplOpenGL3_NewFrame();
-#endif
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
 
-	ImGui::Begin("Hello, world!");
+	UserInterfaceManager::Instance()->NewFrame();
+
+	ImGui::Begin("Games Architecture and Networking");
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::Text("Current Size of Pyramid %i. Size of Pyramid After Reset %i", mCurrentSizePyramid, mNextSizePyramid);
 
 	if (mSimulation)
 	{
-		ImGui::Text("Current Simulation Time %.3f", mSimulationTime);
+		ImGui::Text("Current Simulation Time %.3f", mDisplaySimulationTime);
 	}
 	else if (mPlayback)
 	{
-		ImGui::Text("Current Playback Time %.3f", mSimulationTime);
+		ImGui::Text("Current Playback Time %.3f", mDisplayPlaybackTime);
+		ImGui::Text("Current Playback Speed %.2f", mPlaybackSpeeds[mDisplayPlaybackSpeed]);
+		ImGui::Text("Playback Status: %s", mPlaybackPlay ? "Playing" : "Paused");
 	}
 	
 	ImGui::Checkbox("Main Camera", &mMainCamera);
 
 	if (mMainCamera)
 	{
-		
+		if (!mPlayback)
+		{
+			auto type = "Small";
+
+			if (mProjectile == ProjectileType::LARGE)
+			{
+				type = "Large";
+			}
+			else if (mProjectile == ProjectileType::GRENADE)
+			{
+				type = "Grenade";
+			}
+			
+			ImGui::Text("Current Projectile Type : %s", type);
+		}
+	}
+
+	if (ImGui::CollapsingHeader("Controls"))
+	{
+		if (ImGui::TreeNode("Camera"))
+		{
+			ImGui::BulletText("Pan Up / Down - \"Ctrl\" + W / S");
+			ImGui::BulletText("Pan Left / Right - \"Ctrl\" + A / D");
+			ImGui::BulletText("Pan Forward / Backwards - \"Ctrl\" + Q / E");
+
+			ImGui::Separator();
+
+			ImGui::BulletText("Rotate Up / Down - W / S");
+			ImGui::BulletText("Rotate Left / Right - A / D");
+			
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("Firing"))
+		{
+			ImGui::BulletText("Change Projectile Type - Z / X");
+			ImGui::BulletText("Fire - Spacebar");
+			
+			ImGui::Text("Note: Must be main camera to fire projectiles");
+			ImGui::Text("Note: Must not be in playback mode to affect firing");
+			
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("Playback"))
+		{
+			ImGui::BulletText("Increase / Decrease Playback Speed - < / >");
+			ImGui::BulletText("Move Playback Forward / Backward - Left / Right");
+			ImGui::BulletText("Pause Playback - Up");
+			ImGui::BulletText("Unpause Playback - Down");
+
+			ImGui::Text("Note: Must be main camera to change playback");
+			ImGui::Text("Note: Must be in playback mode to affect playback");
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("Pyramid"))
+		{
+			ImGui::BulletText("Increase / Decrease Pyramid Size - T / G");
+			ImGui::BulletText("Apply New Pyramid Size - R");
+
+			ImGui::Text("Note: Must be main camera to affect pyramid");
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("Timing"))
+		{
+			ImGui::BulletText("Increase / Decrease Graphics Frequency - U / J");
+			ImGui::BulletText("Increase / Decrease Networking Frequency - Y / H");
+			ImGui::TreePop();
+		}
 	}
 	
-	ImGui::End();
-
-	ImGui::Render();
+	UserInterfaceManager::Instance()->EndFrame();
 
 	render->ClearRenderTargetView(DirectX::Colors::CornflowerBlue);
 
 	EntityManager::Instance()->Render();
 
-#ifdef DX_11
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-#elif GL_430
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-#endif
+	UserInterfaceManager::Instance()->Render();
 	
 	render->Present();
 }
@@ -109,6 +171,7 @@ void PyramidScene::Update(const float pDeltaTime)
 {
 	//Check Key Presses
 
+	//Reset
 	{
 		static auto delay = 0.0f;
 		delay -= pDeltaTime;
@@ -127,6 +190,7 @@ void PyramidScene::Update(const float pDeltaTime)
 		}
 	}
 
+	//Increase Pyramid Size
 	{
 		static auto delay = 0.0f;
 		delay -= pDeltaTime;
@@ -149,6 +213,7 @@ void PyramidScene::Update(const float pDeltaTime)
 		}
 	}
 
+	//Decrease Pyramid Size
 	{
 		static auto delay = 0.0f;
 		delay -= pDeltaTime;
@@ -171,15 +236,73 @@ void PyramidScene::Update(const float pDeltaTime)
 		}
 	}
 
+	//Change Projectile Type - Increase
+	{
+		static auto delay = 0.0f;
+		delay -= pDeltaTime;
+
+		const auto status = Win32Window::Instance()->GetKeyStatus('X');
+
+		if (delay <= 0.0f && status && mMainCamera)
+		{
+			delay = 0.25f;
+
+			auto nextProjectile = static_cast<int>(mProjectile);
+			nextProjectile++;
+
+			if (static_cast<ProjectileType>(nextProjectile) == ProjectileType::NONE)
+			{
+				nextProjectile = 0;
+			}
+
+			mProjectile = static_cast<ProjectileType>(nextProjectile);
+		}
+		else if (!status)
+		{
+			delay = 0.0f;
+		}
+	}
+
+	//Change Projectile Type - Decrease
+	{
+		static auto delay = 0.0f;
+		delay -= pDeltaTime;
+
+		const auto status = Win32Window::Instance()->GetKeyStatus('Z');
+
+		if (delay <= 0.0f && status && mMainCamera)
+		{
+			delay = 0.25f;
+
+			auto nextProjectile = static_cast<int>(mProjectile);
+			nextProjectile--;
+
+			if (nextProjectile < 0)
+			{
+				nextProjectile = static_cast<int>(ProjectileType::NONE) - 1;
+			}
+
+			mProjectile = static_cast<ProjectileType>(nextProjectile);
+		}
+		else if (!status)
+		{
+			delay = 0.0f;
+		}
+	}
+
+	//Fire Projectile
 	{
 		static auto delay = 0.0f;
 		delay -= pDeltaTime;
 
 		const auto status = Win32Window::Instance()->GetKeyStatus(VK_SPACE);
 
-		if (delay <= 0.0f && status && mMainCamera)
+		static auto first = true;
+
+		if (delay <= 0.0f && status && first && mMainCamera && !mPlayback)
 		{
 			delay = 0.5f;
+			first = false;
 
 			auto cameraPosition = CameraManager::Instance()->GetViewPosition();
 
@@ -228,14 +351,91 @@ void PyramidScene::Update(const float pDeltaTime)
 		}
 	}
 
-	mSimulationTime += pDeltaTime;
-
-	if (mSimulationTime > 4.0f)
+	//Change Playback Speed - Increase
 	{
-		mSimulationTime = 0.0f;
+		static auto delay = 0.0f;
+		delay -= pDeltaTime;
+
+		const auto status = Win32Window::Instance()->GetKeyStatus(VK_OEM_PERIOD);
+
+		if (delay <= 0.0f && status && mPlayback)
+		{
+			delay = 0.25f;
+
+			mPlaybackSpeed++;
+
+			if (mPlaybackSpeed >= ARRAYSIZE(mPlaybackSpeeds))
+			{
+				mPlaybackSpeed = ARRAYSIZE(mPlaybackSpeeds) - 1;
+			}
+		}
+		else if (!status)
+		{
+			delay = 0.0f;
+		}
+	}
+
+	//Change Playback Speed - Decrease
+	{
+		static auto delay = 0.0f;
+		delay -= pDeltaTime;
+
+		const auto status = Win32Window::Instance()->GetKeyStatus(VK_OEM_COMMA);
+
+		if (delay <= 0.0f && status && mPlayback)
+		{
+			delay = 0.25f;
+
+			mPlaybackSpeed--;
+
+			if (mPlaybackSpeed < 0)
+			{
+				mPlaybackSpeed = 0;
+			}
+		}
+		else if (!status)
+		{
+			delay = 0.0f;
+		}
+	}
+
+	//Pause Playback
+	{
+		const auto status = Win32Window::Instance()->GetKeyStatus(VK_UP);
+
+		if (status && mPlayback)
+		{
+			mPlaybackPlay = false;
+		}
+	}
+
+	//UpPause Playback
+	{
+		const auto status = Win32Window::Instance()->GetKeyStatus(VK_DOWN);
+
+		if (status && mPlayback)
+		{
+			mPlaybackPlay = true;
+		}
+	}
+
+	if (mPlaybackPlay)
+	{
+		mPlaybackTime += pDeltaTime * mPlaybackSpeeds[mPlaybackSpeed];
 	}
 	
-	mPlaybackSystem->SetPlaybackTime(mSimulationTime);
+	mSimulationTime += pDeltaTime;
+	
+	if (mPlaybackTime > 4.0f)
+	{
+		mPlaybackTime = 4.0f;
+	}
+	if (mPlaybackTime < 0.0f)
+	{
+		mPlaybackTime = 0.0f;
+	}
+	
+	mPlaybackSystem->SetPlaybackTime(mPlaybackTime);
 
 	EntityManager::Instance()->Update(pDeltaTime);
 }
@@ -254,6 +454,8 @@ void PyramidScene::Reset()
 	entityManager->Reset();
 
 	PhysicsManager::Instance()->Reset();
+
+	Entity::Reset();
 
 	entityManager->AddEntity(std::make_shared<UserEntity>(glm::vec3(1.0f, 0.5f, 1.0f)));
 
@@ -294,6 +496,8 @@ void PyramidScene::Swap()
 	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 	mDisplaySimulationTime = mSimulationTime;
+	mDisplayPlaybackTime = mPlaybackTime;
+	mDisplayPlaybackSpeed = mPlaybackSpeed;
 
 	EntityManager::Instance()->Swap();
 }

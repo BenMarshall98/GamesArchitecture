@@ -52,7 +52,6 @@ void DirectXVertexShader::Reset()
 
 void DirectXVertexShader::UseProgram()
 {
-	//TODO: Sort Dx11Render
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext;
 	dynamic_cast<DirectXRenderManager*>(RenderManager::Instance())->GetDeviceContext(deviceContext);
 

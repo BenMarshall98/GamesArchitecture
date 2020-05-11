@@ -36,7 +36,6 @@ bool DirectXModel::Load()
 
 	if (FAILED(result))
 	{
-		//TODO: Log error
 		return false;
 	}
 
@@ -51,7 +50,6 @@ bool DirectXModel::Load()
 
 	if (FAILED(result))
 	{
-		//TODO: Log error
 		return false;
 	}
 

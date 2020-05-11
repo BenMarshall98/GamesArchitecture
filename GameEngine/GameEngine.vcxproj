@@ -367,6 +367,7 @@
     <ClCompile Include="DirectXRenderManager.cpp" />
     <ClCompile Include="DirectXShader.cpp" />
     <ClCompile Include="DirectXTexture.cpp" />
+    <ClCompile Include="DirectXUserInterfaceManager.cpp" />
     <ClCompile Include="DirectXVertexShader.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
@@ -387,6 +388,7 @@
     <ClCompile Include="OpenGLRenderManager.cpp" />
     <ClCompile Include="OpenGLShader.cpp" />
     <ClCompile Include="OpenGLTexture.cpp" />
+    <ClCompile Include="OpenGLUserInterfaceManager.cpp" />
     <ClCompile Include="OpenGLVertexShader.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
@@ -410,6 +412,7 @@
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="UserCamera.cpp" />
+    <ClCompile Include="UserInterfaceManager.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Win32Window.cpp" />
   </ItemGroup>
@@ -428,6 +431,7 @@
     <ClInclude Include="DirectXRenderManager.h" />
     <ClInclude Include="DirectXShader.h" />
     <ClInclude Include="DirectXTexture.h" />
+    <ClInclude Include="DirectXUserInterfaceManager.h" />
     <ClInclude Include="DirectXVertexShader.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
@@ -448,6 +452,7 @@
     <ClInclude Include="OpenGLRenderManager.h" />
     <ClInclude Include="OpenGLShader.h" />
     <ClInclude Include="OpenGLTexture.h" />
+    <ClInclude Include="OpenGLUserInterfaceManager.h" />
     <ClInclude Include="OpenGLVertexShader.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="PhysicsManager.h" />
@@ -473,6 +478,7 @@
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="UserCamera.h" />
+    <ClInclude Include="UserInterfaceManager.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="wglext.h" />
     <ClInclude Include="Win32Window.h" />

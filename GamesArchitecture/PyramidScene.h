@@ -14,7 +14,8 @@ enum class ProjectileType
 {
 	SMALL,
 	LARGE,
-	GRENADE
+	GRENADE,
+	NONE
 };
 
 class PyramidScene final : public Scene
@@ -25,9 +26,16 @@ class PyramidScene final : public Scene
 
 	bool mSimulation = false;
 	float mSimulationTime = 0.0f;
+	float mPlaybackTime = 0.0f;
 	float mDisplaySimulationTime = 0.0f;
+	float mDisplayPlaybackTime = 0.0f;
+
+	int mPlaybackSpeed = 9;
+	int mDisplayPlaybackSpeed = 9;
+	const float mPlaybackSpeeds[12] = {-4.0f, -2.0f, -1.0f, -0.5f, -0.25f, -0.1f, 0.1f, 0.25f, 0.5f, 1.0f, 2.0f, 4.0f};
 
 	bool mPlayback = false;
+	bool mPlaybackPlay = true;
 
 	ProjectileType mProjectile = ProjectileType::SMALL;
 	bool mReset = false;
@@ -56,6 +64,7 @@ public:
 	{
 		mSimulation = true;
 		mSimulationTime = 0.0f;
+		mPlaybackTime = 0.0f;
 		mPlaybackSystem->StartSimulation();
 		mPhysicsSystem->StartSimulation();
 	}
@@ -67,5 +76,6 @@ public:
 		mPhysicsSystem->StopSimulation();
 		mPlaybackSystem->StartPlayback();
 		mSimulationTime = 0.0f;
+		mPlaybackTime = 0.0f;
 	}
 };

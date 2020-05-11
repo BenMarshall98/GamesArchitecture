@@ -111,7 +111,6 @@ void Octree::UpdateTree()
 	{
 		const auto bodyPos = mCollisionObjects[i]->GetCurrentPosition();
 
-		//TODO: Do same check in physics system
 		if (isnan(bodyPos.x))
 		{
 			mCollisionObjects.erase(mCollisionObjects.begin() + i);

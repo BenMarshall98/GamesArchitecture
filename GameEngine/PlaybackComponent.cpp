@@ -16,7 +16,6 @@ void PlaybackComponent::AddPlayback(const Playback& pPlayback)
 	{
 		if (pPlayback.mTime > mPlaybackList[i].mTime)
 		{
-			//TODO: Check if at end
 			mPlaybackList.insert(mPlaybackList.begin() + i + 1, pPlayback);
 			return;
 		}

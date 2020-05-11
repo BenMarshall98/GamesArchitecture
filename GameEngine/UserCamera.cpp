@@ -48,7 +48,7 @@ void UserCamera::PanLeftRight(const float pDeltaTime, const bool pLeft)
 {
 	auto movementChange = mMovementSpeed * pDeltaTime;
 
-	if (!pLeft)
+	if (pLeft)
 	{
 		movementChange = -movementChange;
 	}
@@ -66,7 +66,7 @@ void UserCamera::PanUpDown(const float pDeltaTime, const bool pUp)
 {
 	auto movementChange = mMovementSpeed * pDeltaTime;
 
-	if (!pUp)
+	if (pUp)
 	{
 		movementChange = -movementChange;
 	}

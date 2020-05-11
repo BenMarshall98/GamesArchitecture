@@ -17,7 +17,6 @@ void ModelLoader::LoadModelFromFile(const std::string & pModelFile, std::vector<
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
-		//TODO: Log error
 		return;
 	}
 

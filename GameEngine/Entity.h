@@ -36,10 +36,9 @@ public:
 		return mId;
 	}
 
-	//TODO: Call
-	static void Reset()
+	static void Reset(const int pId = 0)
 	{
-		mStaticId = 0;
+		mStaticId = pId;
 	}
 };
 

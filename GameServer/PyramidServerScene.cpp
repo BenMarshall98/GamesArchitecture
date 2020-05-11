@@ -56,6 +56,8 @@ void PyramidServerScene::Reset()
 	entityManager->Reset();
 
 	PhysicsManager::Instance()->Reset();
+
+	Entity::Reset(1);
 	
 	entityManager->AddEntity(std::make_shared<PlaneServerEntity>());
 

@@ -13,8 +13,6 @@
 #include "LargeProjectileEntity.h"
 #include "GrenageProjectileEntity.h"
 
-//TODO
-
 ClientSystem::ClientSystem(PyramidScene* pScene) :
 	System({ComponentType::PHYSICS, ComponentType::POSITION, ComponentType::PLAYBACK}), mScene(pScene)
 {
