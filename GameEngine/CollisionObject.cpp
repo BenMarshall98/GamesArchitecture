@@ -92,6 +92,12 @@ void CollisionObject::CollisionResponse(const CollisionData& pData, const float 
 
 		pData.mObject2->mCurrentVelocity = newVelocity;
 		pData.mObject2->mCurrentPosition = initialPosition + newVelocity * (1.0f - pData.mTime) * pDeltaTime;
+
+		const auto velocity = pData.mObject2->mCurrentVelocity;
+		
+		const auto tangent = velocity - dot(velocity, pData.mCollisionNormal) * pData.mCollisionNormal;
+
+		pData.mObject2->mCurrentVelocity = velocity - 0.2f * tangent;
 	}
 	else if (pData.mObject1->mType == RigidBodyType::DYNAMIC && pData.mObject2->mType == RigidBodyType::STATIC)
 	{
@@ -102,6 +108,12 @@ void CollisionObject::CollisionResponse(const CollisionData& pData, const float 
 
 		pData.mObject1->mCurrentVelocity = newVelocity;
 		pData.mObject1->mCurrentPosition = initialPosition + newVelocity * (1.0f - pData.mTime) * pDeltaTime;
+
+		const auto velocity = pData.mObject1->mCurrentVelocity;
+
+		const auto tangent = velocity - dot(velocity, pData.mCollisionNormal) * pData.mCollisionNormal;
+
+		pData.mObject1->mCurrentVelocity = velocity - 0.2f * tangent;
 	}
 	else if (pData.mObject1->mType == RigidBodyType::DYNAMIC && pData.mObject2->mType == RigidBodyType::DYNAMIC)
 	{
@@ -126,5 +138,23 @@ void CollisionObject::CollisionResponse(const CollisionData& pData, const float 
 		pData.mObject2->mCurrentVelocity = newVelocity2;
 		pData.mObject1->mCurrentPosition = initialPosition1 + newVelocity1 * (1.0f - pData.mTime) * pDeltaTime;
 		pData.mObject2->mCurrentPosition = initialPosition2 + newVelocity2 * (1.0f - pData.mTime) * pDeltaTime;
+
+
+		const auto velocity1 = pData.mObject1->mCurrentVelocity;
+		const auto tangent1 = velocity1 - dot(velocity1, pData.mCollisionNormal) * pData.mCollisionNormal;
+		pData.mObject1->mCurrentVelocity = velocity1 - 0.1f * tangent1;
+		
+		const auto velocity2 = pData.mObject2->mCurrentVelocity;
+		const auto tangent2 = velocity2 - dot(velocity2, pData.mCollisionNormal) * pData.mCollisionNormal;
+		pData.mObject2->mCurrentVelocity = velocity2 - 0.1f * tangent2;
 	}
+
+	pData.mObject1->mFunction(pData.mObject1, pData.mObject2);
+	pData.mObject2->mFunction(pData.mObject2, pData.mObject1);
+}
+
+void CollisionObject::ApplyImpluse(const glm::vec3& pImpulse)
+{
+	mCurrentVelocity += pImpulse;
+	mLastVelocity += pImpulse;
 }

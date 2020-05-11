@@ -22,6 +22,8 @@ class PhysicsManager
 	std::vector<std::shared_ptr<CollisionObject>> mRemoveInfiniteCollisionObjects;
 	std::vector<std::shared_ptr<CollisionObject>> mRemoveStaticCollisionObjects;
 	std::vector<std::shared_ptr<CollisionObject>> mRemoveDynamicCollisionObjects;
+	std::vector<CollisionObject *> mNonTreeCollisionObjects;
+	
 public:
 	~PhysicsManager() = default;
 
@@ -78,5 +80,10 @@ public:
 	}
 
 	void Reset();
+
+	void AddNonTreeCollisionObject(CollisionObject * pCollisionObject)
+	{
+		mNonTreeCollisionObjects.push_back(pCollisionObject);
+	}
 };
 

@@ -104,13 +104,17 @@ void ServerSystem::Action(float pDeltaTime)
 		}
 		if (messages[i] == "StepBackPlayback")
 		{
-			//TODO
+			mScene->StepBackPlayback();
+
+			ServerNetworkingManager::Instance()->AddSendMessage("StepBackPlayback");
 
 			continue;
 		}
 		if (messages[i] == "StepUpPlayback")
 		{
-			//TODO
+			mScene->StepUpPlayback();
+
+			ServerNetworkingManager::Instance()->AddSendMessage("StepUpPlayback");
 
 			continue;
 		}

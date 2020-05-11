@@ -33,6 +33,8 @@ public:
 	void UpdateEntity(Entity * pEntity);
 	void RemoveEntity(Entity * pEntity);
 
+	void MessageAll(Entity * pEntity, const std::string & pMessage);
+
 	void Update(float pDeltaTime);
 	void Render();
 	void Swap();

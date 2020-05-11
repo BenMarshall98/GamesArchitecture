@@ -1,5 +1,7 @@
 #include "Octree.h"
 
+#include "PhysicsManager.h"
+
 Octree::Octree(const glm::vec3& pCenter, const glm::vec3& pSize, Octree* pParent) : mParent(pParent), mCenter(pCenter), mSize(pSize)
 {
 }
@@ -133,7 +135,7 @@ void Octree::UpdateTree()
 			}
 			else
 			{
-				//TODO: Inform PhysicsManager
+				PhysicsManager::Instance()->AddNonTreeCollisionObject(mCollisionObjects[i]);
 				mCollisionObjects.erase(mCollisionObjects.begin() + i);
 				i--;
 
@@ -186,8 +188,7 @@ void Octree::MoveCollisionObject(CollisionObject * pCollisionObject)
 		}
 		else
 		{
-			//TODO: Inform Physics Manager
-			//delete pRigidBody;
+			PhysicsManager::Instance()->AddNonTreeCollisionObject(pCollisionObject);
 		}
 	}
 	else

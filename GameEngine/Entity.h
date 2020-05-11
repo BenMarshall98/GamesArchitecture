@@ -30,6 +30,7 @@ public:
 	virtual void Update(float pDeltaTime) = 0;
 	virtual void Render() = 0;
 	virtual void Swap();
+	virtual void Message(Entity * pEntity, const std::string & pMessage) = 0;
 
 	uint32_t GetId() const
 	{

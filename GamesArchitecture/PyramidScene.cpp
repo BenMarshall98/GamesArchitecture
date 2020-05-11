@@ -382,6 +382,44 @@ void PyramidScene::Update(const float pDeltaTime)
 		}
 	}
 
+	//Change Playback Position - Decrease
+	{
+		static auto delay = 0.0f;
+		delay -= pDeltaTime;
+
+		const auto status = Win32Window::Instance()->GetKeyStatus(VK_LEFT);
+
+		if (delay <= 0.0f && status && mPlayback)
+		{
+			delay = 0.1f;
+
+			ClientNetworkingManager::Instance()->AddSendMessage("StepBackPlayback");
+		}
+		else if (!status)
+		{
+			delay = 0.0f;
+		}
+	}
+
+	//Change Playback Position - Increase
+	{
+		static auto delay = 0.0f;
+		delay -= pDeltaTime;
+
+		const auto status = Win32Window::Instance()->GetKeyStatus(VK_RIGHT);
+
+		if (delay <= 0.0f && status && mPlayback)
+		{
+			delay = 0.1f;
+
+			ClientNetworkingManager::Instance()->AddSendMessage("StepUpPlayback");
+		}
+		else if (!status)
+		{
+			delay = 0.0f;
+		}
+	}
+
 	//Pause Playback
 	{
 		const auto status = Win32Window::Instance()->GetKeyStatus(VK_UP);
@@ -401,6 +439,8 @@ void PyramidScene::Update(const float pDeltaTime)
 			ClientNetworkingManager::Instance()->AddSendMessage("UnpausePlayback");
 		}
 	}
+
+	
 
 	if (mPlaybackPlay)
 	{

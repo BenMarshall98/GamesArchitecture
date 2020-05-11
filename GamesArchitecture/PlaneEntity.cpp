@@ -32,3 +32,8 @@ void PlaneEntity::Render()
 {
 	//Do Nothing
 }
+
+void PlaneEntity::Message(Entity* pEntity, const std::string& pMessage)
+{
+	//Do Nothing
+}

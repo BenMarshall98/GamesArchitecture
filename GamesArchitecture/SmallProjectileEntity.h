@@ -17,4 +17,5 @@ public:
 
 	void Update(float pDeltaTime) override;
 	void Render() override;
+	void Message(Entity* pEntity, const std::string& pMessage) override;
 };

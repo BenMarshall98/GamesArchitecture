@@ -71,3 +71,11 @@ void EntityManager::Reset()
 	mEntities.clear();
 	mEntities.shrink_to_fit();
 }
+
+void EntityManager::MessageAll(Entity* pEntity, const std::string& pMessage)
+{
+	for (auto & entity : mEntities)
+	{
+		entity->Message(pEntity, pMessage);
+	}
+}

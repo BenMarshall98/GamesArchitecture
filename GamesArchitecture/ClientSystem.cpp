@@ -48,6 +48,16 @@ void ClientSystem::Action(const float pDeltaTime)
 			mScene->UnpausePlayback();
 			continue;
 		}
+		if (messages[i] == "StepBackPlayback")
+		{
+			mScene->StepBackPlayback();
+			continue;
+		}
+		if (messages[i] == "StepUpPlayback")
+		{
+			mScene->StepUpPlayback();
+			continue;
+		}
 		
 		auto offset = 0;
 		const auto type = messages[i].substr(offset, 4);

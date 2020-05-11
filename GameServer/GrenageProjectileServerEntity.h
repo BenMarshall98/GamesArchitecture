@@ -6,6 +6,9 @@
 
 class GrenageProjectileServerEntity final : public Entity
 {
+	bool mFirst = true;
+	bool mExplode = false;
+	
 public:
 	GrenageProjectileServerEntity(const glm::vec3 & pPosition, const glm::vec3 & pVelocity);
 	~GrenageProjectileServerEntity() = default;
@@ -17,5 +20,6 @@ public:
 
 	void Update(float pDeltaTime) override;
 	void Render() override;
+	void Message(Entity* pEntity, const std::string& pMessage) override;
 };
 

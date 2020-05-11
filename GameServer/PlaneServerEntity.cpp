@@ -25,3 +25,8 @@ void PlaneServerEntity::Render()
 {
 	//Do Nothing
 }
+
+void PlaneServerEntity::Message(Entity* pEntity, const std::string& pMessage)
+{
+	//Do Nothing
+}

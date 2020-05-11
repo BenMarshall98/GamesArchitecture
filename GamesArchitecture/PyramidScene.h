@@ -98,4 +98,26 @@ public:
 	{
 		mPlaybackSpeed = pSpeed;
 	}
+
+	void StepBackPlayback()
+	{
+		mPlaybackTime -= 0.1f;
+
+		if (mPlaybackTime < 0.0f)
+		{
+			mPlaybackTime = 0.0f;
+		}
+	}
+
+	void StepUpPlayback()
+	{
+		mPlaybackTime += 0.1f;
+
+		//TODO: Max time
+
+		if (mPlaybackTime > 4.0f)
+		{
+			mPlaybackTime = 4.0f;
+		}
+	}
 };

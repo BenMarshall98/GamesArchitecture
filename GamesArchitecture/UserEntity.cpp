@@ -192,3 +192,8 @@ void UserEntity::Swap()
 	Entity::Swap();
 	mCamera->Swap();
 }
+
+void UserEntity::Message(Entity* pEntity, const std::string& pMessage)
+{
+	//Do Nothing
+}
