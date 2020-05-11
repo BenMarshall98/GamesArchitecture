@@ -12,7 +12,7 @@
 #include "LargeProjectileServerEntity.h"
 #include "SmallProjectileServerEntity.h"
 
-ServerSystem::ServerSystem(PyramidServerScene* pScene) :
+ServerSystem::ServerSystem(PyramidServerScene * pScene) :
 	System({ComponentType::PHYSICS}), mScene(pScene)
 {
 }
@@ -26,6 +26,94 @@ void ServerSystem::Action(float pDeltaTime)
 	for (int i = 0; i < messages.size(); i++)
 	{
 		auto offset = 0;
+
+		if (messages[i] == "ResetPyramid")
+		{
+			const auto size = mScene->SetReset();
+
+			//TODO: Message
+			continue;
+		}
+		if (messages[i] == "IncreasePyramid")
+		{
+			const auto size = mScene->IncreasePyramidSize();
+
+			std::ostringstream str;
+			str << "IPyr" << std::setw(2) << std::setfill('0') << size;
+
+			const auto message = str.str();
+
+			ServerNetworkingManager::Instance()->AddSendMessage(message);
+			
+			continue;
+		}
+		if (messages[i] == "DecreasePyramid")
+		{
+			const auto size = mScene->DecreasePyramidSize();
+
+			std::ostringstream str;
+			str << "DPyr" << std::setw(2) << std::setfill('0') << size;
+
+			const auto message = str.str();
+
+			ServerNetworkingManager::Instance()->AddSendMessage(message);
+			
+			continue;
+		}
+		if (messages[i] == "IncreasePlayback")
+		{
+			const auto size = mScene->IncreasePlaybackSpeed();
+
+			std::ostringstream str;
+			str << "IPla" << std::setw(2) << std::setfill('0') << size;
+
+			const auto message = str.str();
+
+			ServerNetworkingManager::Instance()->AddSendMessage(message);
+			
+			continue;
+		}
+		if (messages[i] == "DecreasePlayback")
+		{
+			const auto size = mScene->DecreasePlaybackSpeed();
+
+			std::ostringstream str;
+			str << "DPla" << std::setw(2) << std::setfill('0') << size;
+
+			const auto message = str.str();
+
+			ServerNetworkingManager::Instance()->AddSendMessage(message);
+			
+			continue;
+		}
+		if (messages[i] == "PausePlayback")
+		{
+			mScene->PausePlayback();
+
+			ServerNetworkingManager::Instance()->AddSendMessage("PausePlayback");
+			
+			continue;
+		}
+		if (messages[i] == "UnpausePlayback")
+		{
+			mScene->UnpausePlayback();
+
+			ServerNetworkingManager::Instance()->AddSendMessage("UnpausePlayback");
+
+			continue;
+		}
+		if (messages[i] == "StepBackPlayback")
+		{
+			//TODO
+
+			continue;
+		}
+		if (messages[i] == "StepUpPlayback")
+		{
+			//TODO
+
+			continue;
+		}
 		
 		const auto type = messages[i].substr(offset, 4);
 

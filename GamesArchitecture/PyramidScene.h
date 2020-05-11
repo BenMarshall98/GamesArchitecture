@@ -78,4 +78,24 @@ public:
 		mSimulationTime = 0.0f;
 		mPlaybackTime = 0.0f;
 	}
+
+	void PausePlayback()
+	{
+		mPlaybackPlay = false;
+	}
+
+	void UnpausePlayback()
+	{
+		mPlaybackPlay = true;
+	}
+
+	void SetPyramidSize(const int pSize)
+	{
+		mNextSizePyramid = pSize;
+	}
+
+	void SetPlaybackSpeed(const int pSpeed)
+	{
+		mPlaybackSpeed = pSpeed;
+	}
 };

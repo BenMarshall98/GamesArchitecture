@@ -181,7 +181,8 @@ void PyramidScene::Update(const float pDeltaTime)
 		if (delay <= 0.0f && status)
 		{
 			delay = 0.5f;
-			mReset = true;
+
+			ClientNetworkingManager::Instance()->AddSendMessage("ResetPyramid");
 			
 		}
 		else if (!status)
@@ -200,12 +201,8 @@ void PyramidScene::Update(const float pDeltaTime)
 		if (delay <= 0.0f && status)
 		{
 			delay = 0.1f;
-			mNextSizePyramid++;
 
-			if (mNextSizePyramid > 50)
-			{
-				mNextSizePyramid = 50;
-			}
+			ClientNetworkingManager::Instance()->AddSendMessage("IncreasePyramid");
 		}
 		else if (!status)
 		{
@@ -223,12 +220,8 @@ void PyramidScene::Update(const float pDeltaTime)
 		if (delay <= 0.0f && status)
 		{
 			delay = 0.1f;
-			mNextSizePyramid--;
 
-			if (mNextSizePyramid < 3)
-			{
-				mNextSizePyramid = 3;
-			}
+			ClientNetworkingManager::Instance()->AddSendMessage("DecreasePyramid");
 		}
 		else if (!status)
 		{
@@ -362,12 +355,7 @@ void PyramidScene::Update(const float pDeltaTime)
 		{
 			delay = 0.25f;
 
-			mPlaybackSpeed++;
-
-			if (mPlaybackSpeed >= ARRAYSIZE(mPlaybackSpeeds))
-			{
-				mPlaybackSpeed = ARRAYSIZE(mPlaybackSpeeds) - 1;
-			}
+			ClientNetworkingManager::Instance()->AddSendMessage("IncreasePlayback");
 		}
 		else if (!status)
 		{
@@ -386,12 +374,7 @@ void PyramidScene::Update(const float pDeltaTime)
 		{
 			delay = 0.25f;
 
-			mPlaybackSpeed--;
-
-			if (mPlaybackSpeed < 0)
-			{
-				mPlaybackSpeed = 0;
-			}
+			ClientNetworkingManager::Instance()->AddSendMessage("DecreasePlayback");
 		}
 		else if (!status)
 		{
@@ -405,7 +388,7 @@ void PyramidScene::Update(const float pDeltaTime)
 
 		if (status && mPlayback)
 		{
-			mPlaybackPlay = false;
+			ClientNetworkingManager::Instance()->AddSendMessage("PausePlayback");
 		}
 	}
 
@@ -415,7 +398,7 @@ void PyramidScene::Update(const float pDeltaTime)
 
 		if (status && mPlayback)
 		{
-			mPlaybackPlay = true;
+			ClientNetworkingManager::Instance()->AddSendMessage("UnpausePlayback");
 		}
 	}
 

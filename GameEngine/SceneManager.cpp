@@ -70,16 +70,17 @@ void SceneManager::Run(const std::shared_ptr<Scene>& pScene)
 		mScenes.top()->Swap();
 	}
 
-	std::lock_guard<std::mutex>lock(mMutex);
+	std::unique_lock<std::mutex> lock(mMutex);
+
+	mCv.wait(lock, [this] {return mUpdateProcessed; });
+	
 	mUpdateReady = true;
 	mEnd = true;
 
+	lock.unlock();
 	mCv.notify_one();
 
-	if (updateThread.joinable())
-	{
-		updateThread.join();
-	}
+	updateThread.detach();
 }
 
 void SceneManager::Update()

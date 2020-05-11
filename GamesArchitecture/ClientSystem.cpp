@@ -26,15 +26,27 @@ void ClientSystem::Action(const float pDeltaTime)
 	//Go Through Networking Messages make list for playback
 	std::multimap<uint32_t, Playback> playbackTimeStamps;
 
-	for (int i = 0; i < messages.size(); i++)
+	for (int i = 0; i < messages.size(); i++) 
 	{
 		if (messages[i] == "StartSimulation")
 		{
 			mScene->StartSimulation();
+			continue;
 		}
-		else if (messages[i] == "StartPlayback")
+		if (messages[i] == "StartPlayback")
 		{
 			mScene->StartPlayback();
+			continue;
+		}
+		if (messages[i] == "PausePlayback")
+		{
+			mScene->PausePlayback();
+			continue;
+		}
+		if (messages[i] == "UnpausePlayback")
+		{
+			mScene->UnpausePlayback();
+			continue;
 		}
 		
 		auto offset = 0;
@@ -92,7 +104,7 @@ void ClientSystem::Action(const float pDeltaTime)
 		}
 		else if (type == "Time")
 		{
-			auto offset = 4;
+			offset = 4;
 
 			auto time = 0.0f;
 
@@ -159,6 +171,46 @@ void ClientSystem::Action(const float pDeltaTime)
 						{ position, velocity, time, true }));
 				}
 			}
+		}
+		else if (type == "IPyr")
+		{
+			offset = 4;
+			
+			const auto val = messages[i].substr(offset, 2);
+
+			int num = strtoul(val.c_str(), nullptr, 10);
+
+			mScene->SetPyramidSize(num);
+		}
+		else if (type == "DPyr")
+		{
+			offset = 4;
+
+			const auto val = messages[i].substr(offset, 2);
+
+			int num = strtoul(val.c_str(), nullptr, 10);
+
+			mScene->SetPyramidSize(num);
+		}
+		else if (type == "IPla")
+		{
+			offset = 4;
+
+			const auto val = messages[i].substr(offset, 2);
+
+			int num = strtoul(val.c_str(), nullptr, 10);
+
+			mScene->SetPlaybackSpeed(num);
+		}
+		else if (type == "DPla")
+		{
+			offset = 4;
+
+			const auto val = messages[i].substr(offset, 2);
+
+			int num = strtoul(val.c_str(), nullptr, 10);
+
+			mScene->SetPlaybackSpeed(num);
 		}
 	}
 
