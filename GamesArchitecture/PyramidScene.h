@@ -29,6 +29,8 @@ class PyramidScene final : public Scene
 	float mPlaybackTime = 0.0f;
 	float mDisplaySimulationTime = 0.0f;
 	float mDisplayPlaybackTime = 0.0f;
+	float mTargetGraphics = 1.8f;
+	float mTargetNetwork = 1.8f;
 
 	int mPlaybackSpeed = 9;
 	int mDisplayPlaybackSpeed = 9;

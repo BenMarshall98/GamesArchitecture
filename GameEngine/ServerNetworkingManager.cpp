@@ -18,8 +18,7 @@ ServerNetworkingManager::ServerNetworkingManager()
 
 ServerNetworkingManager::~ServerNetworkingManager()
 {
-	//TODO: Better way of joining / detaching thread
-	mConnection.detach();
+	mConnection.Close();
 	WSACleanup();
 }
 
@@ -47,28 +46,28 @@ bool ServerNetworkingManager::StartListening(const IpAddress& pAddress)
 
 	std::cout << "Started Listening" << std::endl;
 
-	mConnection = std::thread(&ServerNetworkingManager::Connect, this);
-	return true;
-}
-
-void ServerNetworkingManager::Connect()
-{
-	while (true)
+	const auto connectFunction = [this](ThreadTask * pThread)
 	{
-		const auto socket = accept(mSocket, nullptr, nullptr);
-
-		if (mClose)
+		while (true)
 		{
-			break;
+			const auto socket = accept(mSocket, nullptr, nullptr);
+
+			if (pThread->GetClose())
+			{
+				break;
+			}
+
+			std::cout << "Socket Accepted " << std::endl;
+
+			std::lock_guard<std::mutex> lock(mListeningMutex);
+
+			const auto listeningSocket = std::make_shared<ListeningSocket>(socket);
+			mListeningSockets.push_back(listeningSocket);
 		}
+	};
 
-		std::cout << "Socket Accepted " << std::endl;
-
-		std::lock_guard<std::mutex> lock(mListeningMutex);
-
-		const auto listeningSocket = std::make_shared<ListeningSocket>(socket);
-		mListeningSockets.push_back(listeningSocket);
-	}
+	mConnection.Run(connectFunction);
+	return true;
 }
 
 void ServerNetworkingManager::RemoveConnection(ListeningSocket* pListeningSocket)
@@ -87,7 +86,7 @@ void ServerNetworkingManager::RemoveConnection(ListeningSocket* pListeningSocket
 
 void ServerNetworkingManager::CloseServer()
 {
-	mClose = true;
+	mConnection.Close();
 
 	for (int i = 0; i < mListeningSockets.size(); i++)
 	{

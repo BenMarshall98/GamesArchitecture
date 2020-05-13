@@ -73,7 +73,6 @@ void CollisionObject::Swap()
 
 void CollisionObject::CollisionResponse(const CollisionData& pData, const float pDeltaTime)
 {
-	//TODO: Penetration Resolution
 	if (pData.mTime == 0)
 	{
 		pData.mObject1->mCurrentPosition = pData.mObject1->mLastPosition;

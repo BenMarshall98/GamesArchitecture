@@ -6,6 +6,7 @@
 #include <vector>
 #include <WinSock2.h>
 #include "IpAddress.h"
+#include "ThreadTask.h"
 
 class ListeningSocket
 {
@@ -17,10 +18,8 @@ class ListeningSocket
 	std::vector<std::string> mSendMessages;
 	
 	SOCKET mSocket;
-	std::thread mRecieveConnection;
-	std::thread mSendConnection;
-	
-	bool mClose = false;
+	ThreadTask mRecieveConnection;
+	ThreadTask mSendConnection;
 
 public:
 	explicit ListeningSocket(const SOCKET & pSocket);
@@ -31,9 +30,7 @@ public:
 	ListeningSocket& operator= (const ListeningSocket&) = delete;
 	ListeningSocket& operator= (ListeningSocket&&) = delete;
 
-	void Send();
 	void Process(const std::string & pMessage);
-	void Recieve();
 
 	void CloseConnection(bool pFullClose = true);
 	void AddSendMessage(const std::string & pMessage);

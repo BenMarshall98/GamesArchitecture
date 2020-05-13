@@ -1,5 +1,6 @@
 #include "../GameEngine/SceneManager.h"
 #include "../GameEngine/ServerNetworkingManager.h"
+#include "../GameEngine/ThreadingManager.h"
 #include "../GameEngine/Win32Window.h"
 #include "PyramidServerScene.h"
 
@@ -23,6 +24,9 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 	
 	delete window;
 	delete server;
+
+	ThreadingManager::Instance()->CloseAllThreads();
+	delete ThreadingManager::Instance();
 
 	return 0;
 }

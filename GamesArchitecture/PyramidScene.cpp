@@ -67,7 +67,9 @@ void PyramidScene::Render()
 	ImGui::Begin("Games Architecture and Networking");
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::Text("Current Size of Pyramid %i. Size of Pyramid After Reset %i", mCurrentSizePyramid, mNextSizePyramid);
-
+	ImGui::Text("Target Frequency of Graphics %.2f Hz", pow(10.0f, mTargetGraphics));
+	ImGui::Text("Target Frequency of Network %.2f Hz", pow(10.0f, mTargetNetwork));
+	
 	if (mSimulation)
 	{
 		ImGui::Text("Current Simulation Time %.3f", mDisplaySimulationTime);
@@ -440,7 +442,109 @@ void PyramidScene::Update(const float pDeltaTime)
 		}
 	}
 
-	
+	//Target Graphics - Decrease
+	{
+		static auto delay = 0.0f;
+		delay -= pDeltaTime;
+
+		const auto status = Win32Window::Instance()->GetKeyStatus('J');
+
+		if (delay <= 0.0f && status)
+		{
+			delay = 0.25f;
+
+			mTargetGraphics -= 0.1f;
+
+			if (mTargetGraphics < 0.0f)
+			{
+				mTargetGraphics = 0.0f;
+			}
+
+			//TODO
+		}
+		else if (!status)
+		{
+			delay = 0.0f;
+		}
+	}
+
+	//Target Graphics - Increase
+	{
+		static auto delay = 0.0f;
+		delay -= pDeltaTime;
+
+		const auto status = Win32Window::Instance()->GetKeyStatus('U');
+
+		if (delay <= 0.0f && status)
+		{
+			delay = 0.25f;
+
+			mTargetGraphics += 0.1f;
+
+			if (mTargetGraphics > 3.0f)
+			{
+				mTargetGraphics = 3.0f;
+			}
+
+			//TODO
+		}
+		else if (!status)
+		{
+			delay = 0.0f;
+		}
+	}
+
+	//Target Network - Decrease
+	{
+		static auto delay = 0.0f;
+		delay -= pDeltaTime;
+
+		const auto status = Win32Window::Instance()->GetKeyStatus('H');
+
+		if (delay <= 0.0f && status)
+		{
+			delay = 0.25f;
+
+			mTargetNetwork -= 0.1f;
+
+			if (mTargetNetwork < 0.0f)
+			{
+				mTargetNetwork = 0.0f;
+			}
+
+			//TODO
+		}
+		else if (!status)
+		{
+			delay = 0.0f;
+		}
+	}
+
+	//Target Network - Increase
+	{
+		static auto delay = 0.0f;
+		delay -= pDeltaTime;
+
+		const auto status = Win32Window::Instance()->GetKeyStatus('Y');
+
+		if (delay <= 0.0f && status)
+		{
+			delay = 0.25f;
+
+			mTargetNetwork += 0.1f;
+
+			if (mTargetNetwork > 3.0f)
+			{
+				mTargetNetwork = 3.0f;
+			}
+
+			//TODO
+		}
+		else if (!status)
+		{
+			delay = 0.0f;
+		}
+	}
 
 	if (mPlaybackPlay)
 	{

@@ -411,6 +411,8 @@
     <ClCompile Include="System.cpp" />
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="ThreadingManager.cpp" />
+    <ClCompile Include="ThreadTask.cpp" />
     <ClCompile Include="UserCamera.cpp" />
     <ClCompile Include="UserInterfaceManager.cpp" />
     <ClCompile Include="VertexShader.cpp" />
@@ -477,6 +479,8 @@
     <ClInclude Include="System.h" />
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="ThreadingManager.h" />
+    <ClInclude Include="ThreadTask.h" />
     <ClInclude Include="UserCamera.h" />
     <ClInclude Include="UserInterfaceManager.h" />
     <ClInclude Include="VertexShader.h" />

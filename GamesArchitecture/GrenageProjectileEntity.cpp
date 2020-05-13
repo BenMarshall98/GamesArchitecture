@@ -26,7 +26,6 @@ GrenageProjectileEntity::GrenageProjectileEntity(const glm::vec3& pPosition, con
 		}
 	};
 	
-	//TODO: Collision Code
 	const auto sphereObject = std::make_shared<SphereObject>(this, pPosition, pVelocity, 0.01f, 0.01f, function);
 
 	const auto physicsComponent = std::make_shared<PhysicsComponent>(sphereObject);

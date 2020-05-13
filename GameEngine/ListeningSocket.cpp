@@ -13,105 +13,125 @@ ListeningSocket::ListeningSocket(const SOCKET & pSocket) : mSocket(pSocket), mID
 {
 	std::cout << "Connection Started With ID " << mID << std::endl;
 
-	mRecieveConnection = std::thread(&ListeningSocket::Recieve, this);
-	mSendConnection = std::thread(&ListeningSocket::Send, this);
-	ID++;
-}
-
-ListeningSocket::~ListeningSocket()
-{
-	//TODO: Better way of joining 
-	mRecieveConnection.detach();
-	mSendConnection.detach();
-}
-
-void ListeningSocket::Recieve()
-{
-	while (true)
+	const auto recieveFunction = [this](ThreadTask * pThread)
 	{
-		char buffer[11] = "";
-		if (recv(mSocket, buffer, 10, 0) == SOCKET_ERROR)
+		while (true)
 		{
-			if (mClose)
+			char buffer[11] = "";
+			if (recv(mSocket, buffer, 10, 0) == SOCKET_ERROR)
 			{
-				return;
-			}
-
-			std::cerr << "Receive failed with " << WSAGetLastError() << std::endl;
-
-			CloseConnection(false);
-
-			break;
-		}
-
-		std::string message = buffer;
-
-		std::istringstream str(message.substr(0, 4));
-
-		int size;
-		str >> size;
-
-		str = std::istringstream(message.substr(4, 4));
-
-		int checksum;
-		str >> checksum;
-
-		message = message.erase(0, 8);
-
-		size -= 8;
-
-		if (size > 20)
-		{
-			int i = 0;
-		}
-
-		while (message.size() != size)
-		{
-			char tempBuffer[11] = "";
-			int left = size - message.size();
-			left = left > 10 ? 10 : left;
-
-			if (recv(mSocket, tempBuffer, left, 0) == SOCKET_ERROR)
-			{
-				if (mClose)
+				if (pThread->GetClose())
 				{
-					break;
+					return;
 				}
 
 				std::cerr << "Receive failed with " << WSAGetLastError() << std::endl;
 
 				CloseConnection(false);
 
-				return;
+				break;
 			}
 
-			message += tempBuffer;
+			std::string message = buffer;
+
+			std::istringstream str(message.substr(0, 4));
+
+			int size;
+			str >> size;
+
+			str = std::istringstream(message.substr(4, 4));
+
+			int checksum;
+			str >> checksum;
+
+			message = message.erase(0, 8);
+
+			size -= 8;
+
+			if (size > 20)
+			{
+				int i = 0;
+			}
+
+			while (message.size() != size)
+			{
+				char tempBuffer[11] = "";
+				int left = size - message.size();
+				left = left > 10 ? 10 : left;
+
+				if (recv(mSocket, tempBuffer, left, 0) == SOCKET_ERROR)
+				{
+					if (pThread->GetClose())
+					{
+						break;
+					}
+
+					std::cerr << "Receive failed with " << WSAGetLastError() << std::endl;
+
+					CloseConnection(false);
+
+					return;
+				}
+
+				message += tempBuffer;
+			}
+
+			auto checking = 0u;
+
+			for (int i = 0; i < message.size(); i++)
+			{
+				checking += static_cast<int>(message[i]);
+			}
+
+			if (checksum != checking % 10000)
+			{
+				std::cerr << "Checksum failed " << std::endl;
+				break;
+			}
+
+			std::cout << "Connection " << mID << " Received Message " << message << std::endl;
+
+			if (message == "q")
+			{
+				CloseConnection(false);
+			}
+
+			ServerNetworkingManager::Instance()->AddRecieveMessage(message);
 		}
+	};
 
-		auto checking = 0u;
-
-		for (int i = 0; i < message.size(); i++)
+	const auto sendFunction = [this](ThreadTask * pThread)
+	{
+		while (true)
 		{
-			checking += static_cast<int>(message[i]);
+			//TODO: Deal with adding a delay
+			std::unique_lock<std::mutex> lock(mSendMutex);
+			mSendConditionVariable.wait(lock, [this] {return !mSendMessages.empty(); });
+
+			const auto message = mSendMessages[0];
+			mSendMessages.erase(mSendMessages.begin());
+
+			lock.unlock();
+
+			Process(message);
+
+			if (pThread->GetClose())
+			{
+				return;
+			}
 		}
+	};
 
-		if (checksum != checking % 10000)
-		{
-			std::cerr << "Checksum failed " << std::endl;
-			break;
-		}
-
-		std::cout << "Connection " << mID << " Received Message " << message << std::endl;
-
-		if (message == "q")
-		{
-			CloseConnection(false);
-		}
-
-		ServerNetworkingManager::Instance()->AddRecieveMessage(message);
-	}
+	mRecieveConnection.Run(recieveFunction);
+	mSendConnection.Run(sendFunction);
+	ID++;
 }
 
+ListeningSocket::~ListeningSocket()
+{
+	mRecieveConnection.Close();
+	mSendConnection.Close();
+}
 
 void ListeningSocket::Process(const std::string& pMessage)
 {
@@ -136,7 +156,7 @@ void ListeningSocket::Process(const std::string& pMessage)
 
 	if (send(mSocket, str.str().c_str(), size, 0) == SOCKET_ERROR)
 	{
-		if (mClose)
+		if (mSendConnection.GetClose())
 		{
 			return;
 		}
@@ -147,28 +167,6 @@ void ListeningSocket::Process(const std::string& pMessage)
 	}
 
 	std::cout << "Connection " << mID << " Send Message " << pMessage << std::endl;
-}
-
-void ListeningSocket::Send()
-{
-	while(true)
-	{
-		//TODO: Deal with adding a delay
-		std::unique_lock<std::mutex> lock(mSendMutex);
-		mSendConditionVariable.wait(lock, [this] {return !mSendMessages.empty(); });
-
-		const auto message = mSendMessages[0];
-		mSendMessages.erase(mSendMessages.begin());
-
-		lock.unlock();
-
-		Process(message);
-
-		if (mClose)
-		{
-			return;
-		}
-	}
 }
 
 void ListeningSocket::AddSendMessage(const std::string& pMessage)
@@ -182,8 +180,9 @@ void ListeningSocket::AddSendMessage(const std::string& pMessage)
 
 void ListeningSocket::CloseConnection(const bool pFullClose)
 {
-	mClose = true;
-
+	mSendConnection.Close();
+	mRecieveConnection.Close();
+	
 	if (pFullClose)
 	{
 		Process("q");

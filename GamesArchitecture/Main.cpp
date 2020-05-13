@@ -18,6 +18,7 @@
 
 #include "PyramidScene.h"
 #include "SceneManager.h"
+#include "ThreadingManager.h"
 #include "UserInterfaceManager.h"
 
 
@@ -39,14 +40,15 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 	SceneManager::Instance()->Run(std::make_shared<PyramidScene>());
 
 	delete UserInterfaceManager::Instance();
-
-	//TODO: Why is it not closing properly
 	
 	client->CloseConnection();
 	
 	delete render;
 	delete window;
 	delete client;
+
+	ThreadingManager::Instance()->CloseAllThreads();
+	delete ThreadingManager::Instance();
 
 	return 0;
 }

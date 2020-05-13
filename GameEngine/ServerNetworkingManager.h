@@ -16,10 +16,7 @@ class ServerNetworkingManager final : public NetworkingManager
 
 	std::mutex mListeningMutex;
 	
-	bool mClose = false;
-	std::thread mConnection;
-
-	void Connect();
+	ThreadTask mConnection;
 
 	ServerNetworkingManager();
 	static ServerNetworkingManager * mInstance;

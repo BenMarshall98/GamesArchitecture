@@ -3,6 +3,7 @@
 
 #include "EntityManager.h"
 #include "SystemManager.h"
+#include "ThreadTask.h"
 #include "Win32Window.h"
 
 SceneManager * SceneManager::mInstance = nullptr;
@@ -20,7 +21,30 @@ void SceneManager::Run(const std::shared_ptr<Scene>& pScene)
 	QueryPerformanceCounter(&timer);
 	auto start = timer.QuadPart;
 
-	std::thread updateThread(&SceneManager::Update, this);
+	const auto updateFunction = [this](ThreadTask * pThread)
+	{
+		while (true)
+		{
+			std::unique_lock<std::mutex> lock(mMutex);
+			mCv.wait(lock, [this] {return mUpdateReady; });
+
+			if (mEnd)
+			{
+				lock.unlock();
+				return;
+			}
+
+			mScenes.top()->Update(mDeltaTime);
+
+			mUpdateProcessed = true;
+			mUpdateReady = false;
+			lock.unlock();
+			mCv.notify_one();
+		}
+	};
+
+	ThreadTask task;
+	task.Run(updateFunction);
 
 	while (Win32Window::WindowEvents())
 	{
@@ -80,27 +104,5 @@ void SceneManager::Run(const std::shared_ptr<Scene>& pScene)
 	lock.unlock();
 	mCv.notify_one();
 
-	updateThread.detach();
-}
-
-void SceneManager::Update()
-{
-	while(true)
-	{
-		std::unique_lock<std::mutex> lock(mMutex);
-		mCv.wait(lock, [this] {return mUpdateReady; });
-
-		if (mEnd)
-		{
-			lock.unlock();
-			return;
-		}
-		
-		mScenes.top()->Update(mDeltaTime);
-
-		mUpdateProcessed = true;
-		mUpdateReady = false;
-		lock.unlock();
-		mCv.notify_one();
-	}
+	task.Close();
 }

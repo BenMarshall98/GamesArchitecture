@@ -367,20 +367,28 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="PlaneFragmentShader.frag" />
-    <None Include="PlaneVertexShader.vert" />
-    <None Include="SimpleFragmentProgram.frag" />
-    <Text Include="SimpleVertexProgram.vert">
+    <CopyFileToFolders Include="PlaneFragmentShader.frag">
       <FileType>Document</FileType>
-    </Text>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="PlaneVertexShader.vert">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="SimpleFragmentProgram.frag">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="SimpleVertexProgram.vert">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Models\plane.obj">
+    <CopyFileToFolders Include="Assets\Models\plane.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release - OpenGL|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release - OpenGL|x64'">true</ExcludedFromBuild>
-    </None>
-    <Object Include="Assets\Models\sphere.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Assets\Models\sphere.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug - DirectX|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug - OpenGL|Win32'">true</ExcludedFromBuild>
@@ -393,7 +401,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release - DirectX|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release - OpenGL|x64'">true</ExcludedFromBuild>
-    </Object>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="SimpleFragmentProgram.hlsl">

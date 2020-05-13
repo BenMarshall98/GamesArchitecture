@@ -6,6 +6,7 @@
 
 #include "IpAddress.h"
 #include "NetworkingManager.h"
+#include "ThreadTask.h"
 
 class ClientNetworkingManager final : public NetworkingManager
 {
@@ -13,10 +14,9 @@ class ClientNetworkingManager final : public NetworkingManager
 	std::condition_variable mSendConditionVariable;
 	std::vector<std::string> mSendMessages;
 	
-	std::thread mRecieveConnection;
-	std::thread mSendConnection;
+	ThreadTask mRecieveConnection;
+	ThreadTask mSendConnection;
 	
-	bool mClose = false;
 	ClientNetworkingManager();
 	static ClientNetworkingManager * mInstance;
 
@@ -39,9 +39,7 @@ public:
 	ClientNetworkingManager& operator= (ClientNetworkingManager&&) = delete;
 
 	bool StartListening(const IpAddress & pAddress) override;
-	void Send();
 	void Process(const std::string & pMessage);
-	void Recieve();
 
 	void CloseConnection(bool pFullClose = true);
 	void AddSendMessage(const std::string& pMessage) override;

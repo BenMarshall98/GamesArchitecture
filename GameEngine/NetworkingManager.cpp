@@ -2,7 +2,6 @@
 
 void NetworkingManager::AddRecieveMessage(const std::string& pMessage)
 {
-	//TODO: See if there is a faster way
 	std::unique_lock<std::mutex> lock(mRecieveMutex);
 	
 	mRecieveMessages.push_back(pMessage);

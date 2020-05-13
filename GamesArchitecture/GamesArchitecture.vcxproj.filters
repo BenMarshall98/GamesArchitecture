@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Assets">
       <UniqueIdentifier>{2666b21a-4fbf-43ee-bb55-d0f72a12615e}</UniqueIdentifier>
     </Filter>
@@ -25,14 +21,14 @@
     <Filter Include="Entities">
       <UniqueIdentifier>{cf786737-ad58-43a4-a968-675b0aa04a93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Simple">
-      <UniqueIdentifier>{379663ee-972d-4c42-a2ea-861f30712844}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Plane">
-      <UniqueIdentifier>{b076189b-9e81-4107-9990-7781eac6d740}</UniqueIdentifier>
-    </Filter>
     <Filter Include="CustomSystem">
       <UniqueIdentifier>{82633992-5943-45dd-acec-11fde50dd2c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Shader\Plane">
+      <UniqueIdentifier>{b076189b-9e81-4107-9990-7781eac6d740}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Shader\Simple">
+      <UniqueIdentifier>{379663ee-972d-4c42-a2ea-861f30712844}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -67,15 +63,17 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="SimpleFragmentProgram.frag">
-      <Filter>Resource Files\Simple</Filter>
+      <Filter>Assets\Shader\Simple</Filter>
     </None>
     <None Include="PlaneFragmentShader.frag">
-      <Filter>Resource Files\Plane</Filter>
+      <Filter>Assets\Shader\Plane</Filter>
     </None>
     <None Include="PlaneVertexShader.vert">
-      <Filter>Resource Files\Plane</Filter>
+      <Filter>Assets\Shader\Plane</Filter>
     </None>
-    <None Include="Assets\Models\plane.obj" />
+    <None Include="Assets\Models\plane.obj">
+      <Filter>Assets\Models</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Object Include="Assets\Models\sphere.obj">
@@ -84,13 +82,17 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="SimpleFragmentProgram.hlsl">
-      <Filter>Resource Files\Simple</Filter>
+      <Filter>Assets\Shader\Simple</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="SimpleVertexProgram.hlsl">
-      <Filter>Resource Files\Simple</Filter>
+      <Filter>Assets\Shader\Simple</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="PlaneFragmentShader.hlsl" />
-    <CopyFileToFolders Include="PlaneVertexShader.hlsl" />
+    <CopyFileToFolders Include="PlaneFragmentShader.hlsl">
+      <Filter>Assets\Shader\Plane</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="PlaneVertexShader.hlsl">
+      <Filter>Assets\Shader\Plane</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PyramidScene.h">
@@ -120,7 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="SimpleVertexProgram.vert">
-      <Filter>Resource Files\Simple</Filter>
+      <Filter>Assets\Shader\Simple</Filter>
     </Text>
   </ItemGroup>
 </Project>

@@ -20,9 +20,6 @@ class SceneManager
 	std::shared_ptr<Scene> mNextScene;
 
 	bool mCloseScene = false;
-
-	void Update();
-	void Network();
 	
 	static SceneManager * mInstance;
 
