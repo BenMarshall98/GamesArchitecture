@@ -61,11 +61,9 @@ void DirectXModel::Render()
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext;
 	dynamic_cast<DirectXRenderManager*>(RenderManager::Instance())->GetDeviceContext(deviceContext);
 
-	static Model * lastModel = nullptr;
-
 	const auto numberBuffers = 1;
 
-	if (this != lastModel)
+	if (this != mLastModel)
 	{
 		std::vector<ID3D11Buffer *> bufferArray;
 		bufferArray.emplace_back(mMeshBuffer.Get());
@@ -78,7 +76,7 @@ void DirectXModel::Render()
 
 		deviceContext->IASetVertexBuffers(0, numberBuffers, bufferArray.data(), strideArray.data(), offsetArray.data());
 		deviceContext->IASetIndexBuffer(mIndicesBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
-		lastModel = this;
+		mLastModel = this;
 	}
 
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

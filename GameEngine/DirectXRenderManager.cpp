@@ -1,5 +1,7 @@
 #include "DirectXRenderManager.h"
 
+#include "DirectXModelInstanced.h"
+
 #ifdef DX_11
 
 #include "DirectXFragmentShader.h"
@@ -227,6 +229,11 @@ std::shared_ptr<FragmentShader> DirectXRenderManager::CreateFragmentShader(const
 std::shared_ptr<Shader> DirectXRenderManager::CreateShader(const std::string& pVertexShader, const std::string& pFragmentShader)
 {
 	return std::make_shared<DirectXShader>(pVertexShader, pFragmentShader);
+}
+
+std::shared_ptr<ModelInstanced> DirectXRenderManager::CreateInstancedModel(const std::string& pModel)
+{
+	return std::make_shared<DirectXModelInstanced>(pModel);
 }
 
 void DirectXRenderManager::ClearRenderTargetView(const DirectX::XMVECTORF32& pColor) const

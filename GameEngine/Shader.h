@@ -21,5 +21,15 @@ public:
 	virtual bool Load();
 	virtual void Reset() const = 0;
 	virtual void UseProgram() = 0;
+
+	std::string GetVertexShaderFilename() const
+	{
+		return mVertexShaderFile;
+	}
+
+	std::string GetFragmentShaderFilename() const
+	{
+		return mFragmentShaderFile;
+	}
 };
 

@@ -13,6 +13,7 @@ struct VertexData
 class Model
 {
 protected:
+	static Model * mLastModel;
 	std::string mModelFile;
 	unsigned int mIndicesSize = 0u;
 
@@ -27,4 +28,9 @@ public:
 
 	virtual bool Load() = 0;
 	virtual void Render() = 0;
+
+	std::string GetFilename() const
+	{
+		return mModelFile;
+	}
 };

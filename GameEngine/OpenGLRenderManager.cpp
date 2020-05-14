@@ -1,5 +1,7 @@
 #include "OpenGLRenderManager.h"
 
+
+#include "OpenGLModelInstanced.h"
 #include "Win32Window.h"
 
 #ifdef GL_430
@@ -37,6 +39,11 @@ std::shared_ptr<FragmentShader> OpenGLRenderManager::CreateFragmentShader(const 
 std::shared_ptr<Shader> OpenGLRenderManager::CreateShader(const std::string& pVertexShader, const std::string& pFragmentShader)
 {
 	return std::make_shared<OpenGLShader>(pVertexShader, pFragmentShader);
+}
+
+std::shared_ptr<ModelInstanced> OpenGLRenderManager::CreateInstancedModel(const std::string& pModel)
+{
+	return std::make_shared<OpenGLModelInstanced>(pModel);
 }
 
 bool OpenGLRenderManager::Load()

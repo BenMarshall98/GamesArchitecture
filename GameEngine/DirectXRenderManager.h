@@ -42,6 +42,7 @@ public:
 	std::shared_ptr<VertexShader> CreateVertexShader(const std::string& pVertexShader) override;
 	std::shared_ptr<FragmentShader> CreateFragmentShader(const std::string& pFragmentShader) override;
 	std::shared_ptr<Shader> CreateShader(const std::string& pVertexShader, const std::string& pFragmentShader) override;
+	std::shared_ptr<ModelInstanced> CreateInstancedModel(const std::string& pModel) override;
 
 	void ClearRenderTargetView(const DirectX::XMVECTORF32& pColor) const override;
 

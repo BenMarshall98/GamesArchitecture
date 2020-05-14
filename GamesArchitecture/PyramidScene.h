@@ -20,8 +20,8 @@ enum class ProjectileType
 
 class PyramidScene final : public Scene
 {
-	int mCurrentSizePyramid = 3;
-	int mNextSizePyramid = 3;
+	int mCurrentSizePyramid = 30;
+	int mNextSizePyramid = 30;
 	bool mMainCamera = false;
 
 	bool mSimulation = false;

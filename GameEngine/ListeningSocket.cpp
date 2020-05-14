@@ -115,7 +115,6 @@ ListeningSocket::ListeningSocket(const SOCKET & pSocket, const std::function<boo
 		
 		while (true)
 		{
-			//TODO: Deal with adding a delay
 			std::unique_lock<std::mutex> lock(mSendMutex);
 			//mSendConditionVariable.wait(lock, [this] {return !mSendMessages.empty(); });
 
@@ -128,6 +127,8 @@ ListeningSocket::ListeningSocket(const SOCKET & pSocket, const std::function<boo
 			{
 				Process(message[i]);
 			}
+
+			
 
 			QueryPerformanceCounter(&timer);
 			auto stop = timer.QuadPart;
@@ -166,12 +167,15 @@ ListeningSocket::ListeningSocket(const SOCKET & pSocket, const std::function<boo
 			str << std::setw(8) << std::setfill('0') << std::hex << num;
 			
 			const auto timeMessage = str.str();
-			AddSendMessage(timeMessage);
 
 			if (pThread->GetClose())
 			{
 				return;
 			}
+			
+			AddSendMessage(timeMessage);
+
+			
 		}
 	};
 

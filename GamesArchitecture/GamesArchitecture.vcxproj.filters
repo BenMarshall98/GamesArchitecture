@@ -62,23 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="SimpleFragmentProgram.frag">
+    <None Include="SimpleVertexProgramInstanced.vert">
       <Filter>Assets\Shader\Simple</Filter>
     </None>
-    <None Include="PlaneFragmentShader.frag">
-      <Filter>Assets\Shader\Plane</Filter>
-    </None>
-    <None Include="PlaneVertexShader.vert">
-      <Filter>Assets\Shader\Plane</Filter>
-    </None>
-    <None Include="Assets\Models\plane.obj">
-      <Filter>Assets\Models</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="Assets\Models\sphere.obj">
-      <Filter>Assets\Models</Filter>
-    </Object>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="SimpleFragmentProgram.hlsl">
@@ -93,6 +79,12 @@
     <CopyFileToFolders Include="PlaneVertexShader.hlsl">
       <Filter>Assets\Shader\Plane</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="PlaneFragmentShader.frag" />
+    <CopyFileToFolders Include="PlaneVertexShader.vert" />
+    <CopyFileToFolders Include="SimpleFragmentProgram.frag" />
+    <CopyFileToFolders Include="SimpleVertexProgram.vert" />
+    <CopyFileToFolders Include="Assets\Models\plane.obj" />
+    <CopyFileToFolders Include="Assets\Models\sphere.obj" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PyramidScene.h">
@@ -121,8 +113,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="SimpleVertexProgram.vert">
+    <FxCompile Include="SimpleVertexProgramInstanced.hlsl">
       <Filter>Assets\Shader\Simple</Filter>
-    </Text>
+    </FxCompile>
   </ItemGroup>
 </Project>

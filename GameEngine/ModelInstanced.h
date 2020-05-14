@@ -1,25 +1,26 @@
 #pragma once
 
-#ifdef DX_11
-
-#include <d3d11.h>
-#include <DirectXMath.h>
-#include <wrl/client.h>
+#include <glm/mat4x4.hpp>
+#include <string>
 #include <vector>
+
 #include "Model.h"
 
-class ModelInstanced
+class ModelInstanced : public Model
 {
-	Microsoft::WRL::ComPtr<ID3D11Buffer> mVertexBuffer = nullptr;
-	Microsoft::WRL::ComPtr<ID3D11Buffer> mIndicesBuffer = nullptr;
-	int mIndicesSize;
+protected:
+	unsigned int mIndicesSize = 0u;
 
 public:
-	ModelInstanced() = default;
-	~ModelInstanced() = default;
+	explicit ModelInstanced(const std::string & pModelFile);
+	virtual ~ModelInstanced() = default;
 
-	bool loadModel(const std::vector<VertexData> & pMesh, const std::vector<unsigned int> & pIndices);
-	void render(unsigned int pInstances) const;
+	ModelInstanced(const ModelInstanced&) = delete;
+	ModelInstanced(ModelInstanced &&) = delete;
+	ModelInstanced & operator= (const ModelInstanced &) = delete;
+	ModelInstanced & operator= (ModelInstanced &&) = delete;
+
+	bool Load() override = 0;
+	virtual void Render(const std::vector<glm::mat4> & pBuffer) = 0;
+	void Render() override {};
 };
-
-#endif

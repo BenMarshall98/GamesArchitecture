@@ -52,12 +52,10 @@ bool OpenGLModel::Load()
 
 void OpenGLModel::Render()
 {
-	static Model * lastModel = nullptr;
-
-	if (this != lastModel)
+	if (this != mLastModel)
 	{
 		glBindVertexArray(VAO);
-		lastModel = this;
+		mLastModel = this;
 	}
 
 	glDrawElements(GL_TRIANGLES, mIndexSize, GL_UNSIGNED_INT, nullptr);

@@ -364,6 +364,7 @@
     <ClCompile Include="DirectXConstantBuffer.cpp" />
     <ClCompile Include="DirectXFragmentShader.cpp" />
     <ClCompile Include="DirectXModel.cpp" />
+    <ClCompile Include="DirectXModelInstanced.cpp" />
     <ClCompile Include="DirectXRenderManager.cpp" />
     <ClCompile Include="DirectXShader.cpp" />
     <ClCompile Include="DirectXTexture.cpp" />
@@ -386,6 +387,7 @@
     <ClCompile Include="OpenGLConstantBuffer.cpp" />
     <ClCompile Include="OpenGLFragmentShader.cpp" />
     <ClCompile Include="OpenGLModel.cpp" />
+    <ClCompile Include="OpenGLModelInstanced.cpp" />
     <ClCompile Include="OpenGLRenderManager.cpp" />
     <ClCompile Include="OpenGLShader.cpp" />
     <ClCompile Include="OpenGLTexture.cpp" />
@@ -431,6 +433,7 @@
     <ClInclude Include="DirectXConstantBuffer.h" />
     <ClInclude Include="DirectXFragmentShader.h" />
     <ClInclude Include="DirectXModel.h" />
+    <ClInclude Include="DirectXModelInstanced.h" />
     <ClInclude Include="DirectXRenderManager.h" />
     <ClInclude Include="DirectXShader.h" />
     <ClInclude Include="DirectXTexture.h" />
@@ -453,6 +456,7 @@
     <ClInclude Include="OpenGLConstantBuffer.h" />
     <ClInclude Include="OpenGLFragmentShader.h" />
     <ClInclude Include="OpenGLModel.h" />
+    <ClInclude Include="OpenGLModelInstanced.h" />
     <ClInclude Include="OpenGLRenderManager.h" />
     <ClInclude Include="OpenGLShader.h" />
     <ClInclude Include="OpenGLTexture.h" />

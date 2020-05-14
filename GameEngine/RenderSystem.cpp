@@ -8,12 +8,11 @@
 
 #include "glm/gtc/matrix_transform.hpp"
 #include "LightingManager.h"
+#include "RenderManager.h"
 
 RenderSystem::RenderSystem() : System({ComponentType::POSITION, ComponentType::RENDER}),
-                               mModelBuffer(std::move(ConstantBufferLoader<ModelMatrix>::CreateConstantBuffer(0))),
                                mViewBuffer(std::move(ConstantBufferLoader<ViewProjectionMatrix>::CreateConstantBuffer(1)))
 {
-	mModelBuffer->Load();
 	mViewBuffer->Load();
 }
 
@@ -48,9 +47,8 @@ void RenderSystem::Action(const float pDeltaTime)
 		modelMat.mModel = glm::translate(glm::mat4(1.0f), position);
 		modelMat.mModel = glm::scale(modelMat.mModel, scale);
 
-		mModelBuffer->UpdateBuffer(modelMat);
-		
-		shader->UseProgram();
-		model->Render();
+		RenderManager::Instance()->AddRenderSetup(model, shader, modelMat.mModel);
 	}
+
+	RenderManager::Instance()->Render();
 }
