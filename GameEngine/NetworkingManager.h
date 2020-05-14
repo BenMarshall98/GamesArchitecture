@@ -14,6 +14,8 @@ class NetworkingManager
 	
 protected:
 	SOCKET mSocket;
+	
+	
 	NetworkingManager() = default;
 
 public:

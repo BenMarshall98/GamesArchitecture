@@ -16,13 +16,16 @@ class ListeningSocket
 	std::mutex mSendMutex;
 	std::condition_variable mSendConditionVariable;
 	std::vector<std::string> mSendMessages;
+	std::function<bool(const std::string &, ListeningSocket *)> mRecieveMessageFunction;
+
+	float mTargetTime = 0.016f;
 	
 	SOCKET mSocket;
 	ThreadTask mRecieveConnection;
 	ThreadTask mSendConnection;
 
 public:
-	explicit ListeningSocket(const SOCKET & pSocket);
+	explicit ListeningSocket(const SOCKET & pSocket, const std::function<bool(const std::string &, ListeningSocket *)> & pRecieveMessageFunction);
 	~ListeningSocket();
 
 	ListeningSocket(const ListeningSocket&) = delete;
@@ -34,5 +37,10 @@ public:
 
 	void CloseConnection(bool pFullClose = true);
 	void AddSendMessage(const std::string & pMessage);
+
+	void SetTargetTime(const float pTargetTime)
+	{
+		mTargetTime = pTargetTime;
+	}
 };
 

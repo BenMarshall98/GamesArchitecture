@@ -63,7 +63,17 @@ void ClientSystem::Action(const float pDeltaTime)
 		const auto type = messages[i].substr(offset, 4);
 
 		//TODO: Playback controls and other messages
-		if (type == "AddP")
+		if (type == "NetA")
+		{
+			const auto val = messages[i].substr(offset += 4, 8);
+
+			uint32_t num = strtoul(val.c_str(), nullptr, 16);
+
+			const auto time = *((float*)&num);
+
+			mScene->SetNetworkActualTime(time);
+		}
+		else if (type == "AddP")
 		{
 			const auto projectileType = messages[i].substr(offset += 4, 1);
 

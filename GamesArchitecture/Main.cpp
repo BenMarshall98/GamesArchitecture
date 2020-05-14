@@ -28,6 +28,13 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 
 	IpAddress address(7500, "127.0.0.1");
 
+	const auto recieveFunction = [](const std::string & pMessage)
+	{
+		return false;
+	};
+
+	client->SetRecieveMessageFunction(recieveFunction);
+
 	if (!client->StartListening(address))
 	{
 		return -1;

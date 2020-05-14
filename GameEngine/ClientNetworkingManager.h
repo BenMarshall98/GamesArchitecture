@@ -16,6 +16,8 @@ class ClientNetworkingManager final : public NetworkingManager
 	
 	ThreadTask mRecieveConnection;
 	ThreadTask mSendConnection;
+
+	std::function<bool(const std::string &)> mRecieveMessageFunction;
 	
 	ClientNetworkingManager();
 	static ClientNetworkingManager * mInstance;
@@ -43,4 +45,9 @@ public:
 
 	void CloseConnection(bool pFullClose = true);
 	void AddSendMessage(const std::string& pMessage) override;
+
+	void SetRecieveMessageFunction(const std::function<bool(const std::string &)> & pRecieveMessageFunction)
+	{
+		mRecieveMessageFunction = pRecieveMessageFunction;
+	}
 };

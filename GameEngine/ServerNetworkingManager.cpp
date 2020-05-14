@@ -61,7 +61,7 @@ bool ServerNetworkingManager::StartListening(const IpAddress& pAddress)
 
 			std::lock_guard<std::mutex> lock(mListeningMutex);
 
-			const auto listeningSocket = std::make_shared<ListeningSocket>(socket);
+			const auto listeningSocket = std::make_shared<ListeningSocket>(socket, mRecieveMessageFunction);
 			mListeningSockets.push_back(listeningSocket);
 		}
 	};

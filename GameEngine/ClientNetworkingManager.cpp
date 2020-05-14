@@ -111,7 +111,10 @@ bool ClientNetworkingManager::StartListening(const IpAddress& pAddress)
 				CloseConnection(false);
 			}
 
-			AddRecieveMessage(message);
+			if (!mRecieveMessageFunction(message))
+			{
+				AddRecieveMessage(message);
+			}
 		}
 	};
 

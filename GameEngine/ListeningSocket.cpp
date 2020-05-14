@@ -9,7 +9,7 @@
 
 int ListeningSocket::ID = 0;
 
-ListeningSocket::ListeningSocket(const SOCKET & pSocket) : mSocket(pSocket), mID(ID)
+ListeningSocket::ListeningSocket(const SOCKET & pSocket, const std::function<bool(const std::string &, ListeningSocket *)> & pRecieveMessageFunction) : mSocket(pSocket), mID(ID), mRecieveMessageFunction(pRecieveMessageFunction)
 {
 	std::cout << "Connection Started With ID " << mID << std::endl;
 
@@ -96,24 +96,77 @@ ListeningSocket::ListeningSocket(const SOCKET & pSocket) : mSocket(pSocket), mID
 				CloseConnection(false);
 			}
 
-			ServerNetworkingManager::Instance()->AddRecieveMessage(message);
+			if (!mRecieveMessageFunction(message, this))
+			{
+				ServerNetworkingManager::Instance()->AddRecieveMessage(message);
+			}
 		}
 	};
 
 	const auto sendFunction = [this](ThreadTask * pThread)
 	{
+		LARGE_INTEGER timer;
+		QueryPerformanceFrequency(&timer);
+
+		const auto freq = timer.QuadPart;
+
+		QueryPerformanceCounter(&timer);
+		auto start = timer.QuadPart;
+		
 		while (true)
 		{
 			//TODO: Deal with adding a delay
 			std::unique_lock<std::mutex> lock(mSendMutex);
-			mSendConditionVariable.wait(lock, [this] {return !mSendMessages.empty(); });
+			//mSendConditionVariable.wait(lock, [this] {return !mSendMessages.empty(); });
 
-			const auto message = mSendMessages[0];
-			mSendMessages.erase(mSendMessages.begin());
+			const auto message = mSendMessages;
+			mSendMessages.clear();
 
 			lock.unlock();
 
-			Process(message);
+			for (int i = 0; i < message.size(); i++)
+			{
+				Process(message[i]);
+			}
+
+			QueryPerformanceCounter(&timer);
+			auto stop = timer.QuadPart;
+
+			auto timeElapsed = static_cast<double>(stop - start) / freq;
+			auto difference = mTargetTime - timeElapsed;
+
+			if (difference > 0.005f)
+			{
+				std::this_thread::sleep_for(std::chrono::microseconds(static_cast<int>(difference * 1000000.0f)));
+				QueryPerformanceCounter(&timer);
+				stop = timer.QuadPart;
+			}
+			else if (difference > 0.0f)
+			{
+				while (difference > 0.0f)
+				{
+					QueryPerformanceCounter(&timer);
+					stop = timer.QuadPart;
+					timeElapsed = static_cast<double>(stop - start) / freq;
+					difference = mTargetTime - timeElapsed;
+				}
+			}
+
+			const auto deltaTime = static_cast<float>(static_cast<double>(stop - start) / freq);
+
+			start = stop;
+
+			std::ostringstream str;
+
+			str << "NetA";
+
+			const auto time = 1.0f / deltaTime;
+			
+			uint32_t num = *((uint32_t*)&time);
+			str << std::setw(8) << std::setfill('0') << std::hex << num;
+			
+			const auto timeMessage = str.str();
+			AddSendMessage(timeMessage);
 
 			if (pThread->GetClose())
 			{

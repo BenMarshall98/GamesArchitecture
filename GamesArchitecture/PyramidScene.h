@@ -31,6 +31,7 @@ class PyramidScene final : public Scene
 	float mDisplayPlaybackTime = 0.0f;
 	float mTargetGraphics = 1.8f;
 	float mTargetNetwork = 1.8f;
+	float mActualNetwork = 60.0f;
 
 	int mPlaybackSpeed = 9;
 	int mDisplayPlaybackSpeed = 9;
@@ -121,5 +122,10 @@ public:
 		{
 			mPlaybackTime = 4.0f;
 		}
+	}
+
+	void SetNetworkActualTime(const float pTime)
+	{
+		mActualNetwork = pTime;
 	}
 };

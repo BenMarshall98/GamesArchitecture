@@ -75,6 +75,7 @@ void PyramidScene::Render()
 	ImGui::Text("Target Frequency of Graphics %.2f Hz", pow(10.0f, mTargetGraphics));
 	ImGui::Text("Target Frequency of Network %.2f Hz", pow(10.0f, mTargetNetwork));
 	ImGui::Text("Actual Frequency of Graphics %.2f Hz", SceneManager::Instance()->GetFrameRate());
+	ImGui::Text("Actual Frequency of Network %.2f Hz", mActualNetwork);
 	
 	if (mSimulation)
 	{
@@ -515,7 +516,17 @@ void PyramidScene::Update(const float pDeltaTime)
 				mTargetNetwork = 0.0f;
 			}
 
-			//TODO
+			std::ostringstream str;
+
+			str << "NetT";
+
+			const auto time = 1.0f / pow(10.0f, mTargetNetwork);
+
+			uint32_t num = *((uint32_t*)&(time));
+			str << std::setw(8) << std::setfill('0') << std::hex << num;
+
+			const auto timeMessage = str.str();
+			ClientNetworkingManager::Instance()->AddSendMessage(timeMessage);
 		}
 		else if (!status)
 		{
@@ -541,7 +552,17 @@ void PyramidScene::Update(const float pDeltaTime)
 				mTargetNetwork = 3.0f;
 			}
 
-			//TODO
+			std::ostringstream str;
+
+			str << "NetT";
+
+			const auto time = 1.0f / pow(10.0f, mTargetNetwork);
+
+			uint32_t num = *((uint32_t*)&(time));
+			str << std::setw(8) << std::setfill('0') << std::hex << num;
+
+			const auto timeMessage = str.str();
+			ClientNetworkingManager::Instance()->AddSendMessage(timeMessage);
 		}
 		else if (!status)
 		{

@@ -9,6 +9,26 @@ int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCm
 	const auto server = ServerNetworkingManager::Instance();
 
 	IpAddress address(7500);
+
+	const auto recieveFunction = [](const std::string & pMessage, ListeningSocket * pSocket)
+	{
+		const auto type = pMessage.substr(0, 4);
+
+		if (type == "NetT")
+		{
+			const auto val = pMessage.substr(4, 8);
+
+			int num = strtoul(val.c_str(), nullptr, 16);
+
+			const auto time = *((float*)&num);
+
+			pSocket->SetTargetTime(time);
+		}
+		
+		return false;
+	};
+
+	server->SetRecieveMessageFunction(recieveFunction);
 	
 	if (!server->StartListening(address))
 	{

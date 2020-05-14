@@ -17,6 +17,8 @@ class ServerNetworkingManager final : public NetworkingManager
 	std::mutex mListeningMutex;
 	
 	ThreadTask mConnection;
+	
+	std::function<bool(const std::string &, ListeningSocket *)> mRecieveMessageFunction;
 
 	ServerNetworkingManager();
 	static ServerNetworkingManager * mInstance;
@@ -44,5 +46,10 @@ public:
 	void CloseServer();
 
 	void AddSendMessage(const std::string& pMessage) override;
+
+	void SetRecieveMessageFunction(const std::function<bool(const std::string &, ListeningSocket *)> & pRecieveMessageFunction)
+	{
+		mRecieveMessageFunction = pRecieveMessageFunction;
+	}
 };
 
