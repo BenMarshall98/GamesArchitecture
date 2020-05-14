@@ -70,7 +70,27 @@ void SceneManager::Run(const std::shared_ptr<Scene>& pScene)
 		}
 		
 		QueryPerformanceCounter(&timer);
-		const auto stop = timer.QuadPart;
+		auto stop = timer.QuadPart;
+
+		auto timeElapsed = static_cast<double>(stop - start) / freq;
+		auto difference = mTargetTime - timeElapsed;
+
+		if (difference > 0.005f)
+		{
+			std::this_thread::sleep_for(std::chrono::microseconds(static_cast<int>(difference * 1000000.0f)));
+			QueryPerformanceCounter(&timer);
+			stop = timer.QuadPart;
+		}
+		else if (difference > 0.0f)
+		{
+			while (difference > 0.0f)
+			{
+				QueryPerformanceCounter(&timer);
+				stop = timer.QuadPart;
+				timeElapsed = static_cast<double>(stop - start) / freq;
+				difference = mTargetTime - timeElapsed;
+			}
+		}
 
 		mDeltaTime = static_cast<double>(stop - start) / freq;
 

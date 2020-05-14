@@ -15,16 +15,17 @@ class SceneManager
 	bool mEnd = false;
 
 	float mDeltaTime;
-	
+	float mTargetTime = 0.016f;
+
 	std::stack<std::shared_ptr<Scene>> mScenes;
 	std::shared_ptr<Scene> mNextScene;
 
 	bool mCloseScene = false;
-	
+
 	static SceneManager * mInstance;
 
 	SceneManager() = default;
-	
+
 public:
 	static SceneManager * Instance()
 	{
@@ -49,7 +50,7 @@ public:
 	{
 		mNextScene = pScene;
 	}
-	
+
 	void CloseScene()
 	{
 		mCloseScene = true;
@@ -58,6 +59,16 @@ public:
 	std::shared_ptr<Scene> GetCurrentScene() const
 	{
 		return mScenes.top();
+	}
+
+	void SetTargetTime(const float pFrameRate)
+	{
+		mTargetTime = 1.0f / pFrameRate;
+	}
+
+	float GetFrameRate() const
+	{
+		return 1.0f / mDeltaTime;
 	}
 };
 

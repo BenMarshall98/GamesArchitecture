@@ -25,6 +25,7 @@
 #include "PyramidShapeEntity.h"
 #include "RenderManager.h"
 #include "RenderSystem.h"
+#include "SceneManager.h"
 #include "SmallProjectileEntity.h"
 #include "SystemManager.h"
 #include "UserEntity.h"
@@ -53,6 +54,8 @@ void PyramidScene::Load()
 	const auto renderSystem = std::make_shared<RenderSystem>();
 	systemManager->AddRenderSystem(renderSystem);
 
+	SceneManager::Instance()->SetTargetTime(pow(10.0f, mTargetGraphics));
+
 	Reset();
 
 	CameraManager::Instance()->SetPerspective(0.01f, 100.0f);
@@ -65,10 +68,10 @@ void PyramidScene::Render()
 	UserInterfaceManager::Instance()->NewFrame();
 
 	ImGui::Begin("Games Architecture and Networking");
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::Text("Current Size of Pyramid %i. Size of Pyramid After Reset %i", mCurrentSizePyramid, mNextSizePyramid);
 	ImGui::Text("Target Frequency of Graphics %.2f Hz", pow(10.0f, mTargetGraphics));
 	ImGui::Text("Target Frequency of Network %.2f Hz", pow(10.0f, mTargetNetwork));
+	ImGui::Text("Actual Frequency of Graphics %.2f Hz", SceneManager::Instance()->GetFrameRate());
 	
 	if (mSimulation)
 	{
@@ -292,12 +295,9 @@ void PyramidScene::Update(const float pDeltaTime)
 
 		const auto status = Win32Window::Instance()->GetKeyStatus(VK_SPACE);
 
-		static auto first = true;
-
-		if (delay <= 0.0f && status && first && mMainCamera && !mPlayback)
+		if (delay <= 0.0f && status && mMainCamera && !mPlayback)
 		{
 			delay = 0.5f;
-			first = false;
 
 			auto cameraPosition = CameraManager::Instance()->GetViewPosition();
 
@@ -460,7 +460,7 @@ void PyramidScene::Update(const float pDeltaTime)
 				mTargetGraphics = 0.0f;
 			}
 
-			//TODO
+			SceneManager::Instance()->SetTargetTime(pow(10.0f, mTargetGraphics));
 		}
 		else if (!status)
 		{
@@ -486,7 +486,7 @@ void PyramidScene::Update(const float pDeltaTime)
 				mTargetGraphics = 3.0f;
 			}
 
-			//TODO
+			SceneManager::Instance()->SetTargetTime(pow(10.0f, mTargetGraphics));
 		}
 		else if (!status)
 		{
