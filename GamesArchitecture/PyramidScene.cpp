@@ -17,6 +17,7 @@
 #include "GrenageProjectileEntity.h"
 #include "InputSystem.h"
 #include "LargeProjectileEntity.h"
+#include "LightingManager.h"
 #include "ModelLoader.h"
 #include "Octree.h"
 #include "PhysicsManager.h"
@@ -59,6 +60,8 @@ void PyramidScene::Load()
 	Reset();
 
 	CameraManager::Instance()->SetPerspective(0.01f, 100.0f);
+
+	LightingManager::Instance()->SetPointLight({ glm::vec3(100.0f, 100.0f, 100.0f), glm::vec3(1.0f, 1.0f, 1.0f) });
 }
 
 void PyramidScene::Render()

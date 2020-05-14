@@ -7,10 +7,11 @@
 #include "RenderComponent.h"
 
 #include "glm/gtc/matrix_transform.hpp"
+#include "LightingManager.h"
 
 RenderSystem::RenderSystem() : System({ComponentType::POSITION, ComponentType::RENDER}),
-	mModelBuffer(std::move(ConstantBufferLoader<ModelMatrix>::CreateConstantBuffer(0))),
-	mViewBuffer(std::move(ConstantBufferLoader<ViewProjectionMatrix>::CreateConstantBuffer(1)))
+                               mModelBuffer(std::move(ConstantBufferLoader<ModelMatrix>::CreateConstantBuffer(0))),
+                               mViewBuffer(std::move(ConstantBufferLoader<ViewProjectionMatrix>::CreateConstantBuffer(1)))
 {
 	mModelBuffer->Load();
 	mViewBuffer->Load();
@@ -27,6 +28,8 @@ void RenderSystem::Action(const float pDeltaTime)
 	vpMat.mProjection = cameraManager->GetPerspectiveMatrix();
 
 	mViewBuffer->UpdateBuffer(vpMat);
+
+	LightingManager::Instance()->UseLights();
 
 	for (auto & entity : mEntities)
 	{

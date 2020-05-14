@@ -375,6 +375,7 @@
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="IpAddress.cpp" />
+    <ClCompile Include="LightingManager.cpp" />
     <ClCompile Include="ListeningSocket.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelInstanced.cpp" />
@@ -441,6 +442,7 @@
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="IpAddress.h" />
+    <ClInclude Include="LightingManager.h" />
     <ClInclude Include="ListeningSocket.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelInstanced.h" />

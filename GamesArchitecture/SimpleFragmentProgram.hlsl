@@ -5,9 +5,15 @@ struct VS_OUTPUT
 	float3 FragPos : POSITION0;
 };
 
+cbuffer pointLightBuffer : register(b2)
+{
+	float3 lightPosition;
+	float3 lightColour;
+}
+
 float4 main(VS_OUTPUT input) : SV_Target
 {
-	float3 lightDir = normalize(float3(100.0f, 100.0f, 100.0f) - input.FragPos);
+	float3 lightDir = normalize(lightPosition - input.FragPos);
 	float diff = max(dot(input.Normal, lightDir), 0.0f);
-	return float4(diff, diff, diff, 1.0f);
+	return float4(lightColour * diff, 1.0f);
 }
