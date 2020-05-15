@@ -6,10 +6,10 @@
 
 class CameraManager
 {
-	std::shared_ptr<Camera> mCamera;
-
 	glm::mat4 mPerspective = glm::mat4(1.0f);
-
+	
+	std::shared_ptr<Camera> mCamera;
+	
 	float mNearPlane = 1.0f;
 	float mFarPlane = 100.0f;
 

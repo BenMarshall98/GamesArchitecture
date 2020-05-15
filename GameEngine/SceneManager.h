@@ -10,15 +10,15 @@ class SceneManager
 	std::mutex mMutex;
 	std::condition_variable mCv;
 
+	std::stack<std::shared_ptr<Scene>> mScenes;
+	std::shared_ptr<Scene> mNextScene;
+
 	bool mUpdateReady = false;
 	bool mUpdateProcessed = false;
 	bool mEnd = false;
 
 	float mDeltaTime;
 	float mTargetTime = 0.016f;
-
-	std::stack<std::shared_ptr<Scene>> mScenes;
-	std::shared_ptr<Scene> mNextScene;
 
 	bool mCloseScene = false;
 

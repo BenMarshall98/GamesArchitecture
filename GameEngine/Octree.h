@@ -8,10 +8,11 @@ class Octree final : public PhysicsTree
 	std::unique_ptr<Octree> mChildren[8];
 	std::vector<CollisionObject *> mCollisionObjects;
 	std::vector<Octree *> mNeighbours;
-	Octree * mParent;
 
 	glm::vec3 mCenter;
 	glm::vec3 mSize;
+	
+	Octree * mParent;
 
 	bool mChecked = false;
 

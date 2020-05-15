@@ -7,13 +7,12 @@
 
 class Win32Window
 {
-	HWND mHwnd;
 	const char * mClassName = "GamesArchitecture";
+	std::map<WPARAM, bool> mStatus;
+	HWND mHwnd;
 	int mWidth = 800;
 	int mHeight = 600;
 	int mCmdShow;
-
-	std::map<WPARAM, bool> mStatus;
 
 	static Win32Window * mInstance;
 

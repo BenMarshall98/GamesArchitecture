@@ -12,11 +12,10 @@
 
 class ServerNetworkingManager final : public NetworkingManager
 {
-	std::vector<std::shared_ptr<ListeningSocket>> mListeningSockets;
-
+	ThreadTask mConnection;
 	std::mutex mListeningMutex;
 	
-	ThreadTask mConnection;
+	std::vector<std::shared_ptr<ListeningSocket>> mListeningSockets;
 	
 	std::function<bool(const std::string &, ListeningSocket *)> mRecieveMessageFunction;
 
@@ -50,6 +49,13 @@ public:
 	void SetRecieveMessageFunction(const std::function<bool(const std::string &, ListeningSocket *)> & pRecieveMessageFunction)
 	{
 		mRecieveMessageFunction = pRecieveMessageFunction;
+	}
+
+	int NumberOfConnections()
+	{
+		std::lock_guard<std::mutex> lock(mListeningMutex);
+
+		return mListeningSockets.size();
 	}
 };
 

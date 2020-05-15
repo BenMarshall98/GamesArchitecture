@@ -6,6 +6,7 @@
 
 class PyramidServerScene final : public Scene
 {
+	std::shared_ptr<PhysicsSystem> mPhysicsSystem;
 	int mCurrentSizePyramid = 3;
 	int mNextSizePyramid = 3;
 
@@ -20,8 +21,6 @@ class PyramidServerScene final : public Scene
 	bool mPlaybackPlay = true;
 
 	bool mReset = true;
-
-	std::shared_ptr<PhysicsSystem> mPhysicsSystem;
 	
 	void Reset();
 	

@@ -8,11 +8,11 @@
 class Shader
 {
 protected:
-	std::string mVertexShaderFile;
-	std::string mFragmentShaderFile;
-
 	std::shared_ptr<VertexShader> mVertexShader;
 	std::shared_ptr<FragmentShader> mFragmentShader;
+	
+	std::string mVertexShaderFile;
+	std::string mFragmentShaderFile;
 
 public:
 	Shader(const std::string & pVertexShaderFile, const std::string & pFragmentShaderFile) : mVertexShaderFile(pVertexShaderFile), mFragmentShaderFile(pFragmentShaderFile) {}

@@ -7,11 +7,12 @@
 
 class Entity
 {
+protected:
+	std::shared_ptr<Component> mComponents[static_cast<int>(ComponentType::NONE)];
+
+private:
 	static uint32_t mStaticId;
 	uint32_t mId;
-	
-protected:
-	std::shared_ptr<Component> mComponents [static_cast<int>(ComponentType::NONE)];
 
 public:
 	Entity();

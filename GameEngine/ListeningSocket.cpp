@@ -98,7 +98,7 @@ ListeningSocket::ListeningSocket(const SOCKET & pSocket, const std::function<boo
 
 			if (!mRecieveMessageFunction(message, this))
 			{
-				ServerNetworkingManager::Instance()->AddRecieveMessage(message);
+				ServerNetworkingManager::Instance()->AddRecieveMessage("C" + std::to_string(ID) + message);
 			}
 		}
 	};
@@ -127,8 +127,6 @@ ListeningSocket::ListeningSocket(const SOCKET & pSocket, const std::function<boo
 			{
 				Process(message[i]);
 			}
-
-			
 
 			QueryPerformanceCounter(&timer);
 			auto stop = timer.QuadPart;
@@ -211,7 +209,7 @@ void ListeningSocket::Process(const std::string& pMessage)
 
 	auto message = str.str();
 
-	if (send(mSocket, str.str().c_str(), size, 0) == SOCKET_ERROR)
+	if (send(mSocket, message.c_str(), size, 0) == SOCKET_ERROR)
 	{
 		if (mSendConnection.GetClose())
 		{

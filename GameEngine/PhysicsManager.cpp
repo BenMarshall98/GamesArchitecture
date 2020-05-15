@@ -107,6 +107,11 @@ void PhysicsManager::Update(float pDeltaTime)
 	mRemoveDynamicCollisionObjects.shrink_to_fit();
 	mRemoveInfiniteCollisionObjects.shrink_to_fit();
 
+	for (auto& dynamicCollisionObject : mDynamicCollisionObjects)
+	{
+		dynamicCollisionObject->Swap();
+	}
+
 	mPhysicsTree->UpdateTree();
 
 	for (auto& dynamicCollisionObject : mDynamicCollisionObjects)
@@ -150,11 +155,6 @@ void PhysicsManager::Update(float pDeltaTime)
 	for (int i = 0; i < collisions.size(); i++)
 	{
 		CollisionObject::CollisionResponse(collisions[i], pDeltaTime);
-	}
-	
-	for (auto& dynamicCollisionObject : mDynamicCollisionObjects)
-	{
-		dynamicCollisionObject->Swap();
 	}
 }
 

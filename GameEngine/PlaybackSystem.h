@@ -33,6 +33,14 @@ public:
 		mPlayback = true;
 	}
 
+	void StopSimulation()
+	{
+		mSimulation = false;
+		mPlayback = false;
+		mPlaybackTime = 0.0f;
+		mSimulationTime = 0.0f;
+	}
+
 	void SetPlaybackTime(const float pTime)
 	{
 		mPlaybackTime = pTime;

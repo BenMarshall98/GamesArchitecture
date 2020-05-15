@@ -11,18 +11,18 @@
 class ListeningSocket
 {
 	static int ID;
-	int mID;
+	
+	ThreadTask mRecieveConnection;
+	ThreadTask mSendConnection;
 
 	std::mutex mSendMutex;
-	std::condition_variable mSendConditionVariable;
 	std::vector<std::string> mSendMessages;
+	std::condition_variable mSendConditionVariable;
 	std::function<bool(const std::string &, ListeningSocket *)> mRecieveMessageFunction;
 
 	float mTargetTime = 0.016f;
-	
+	int mID;
 	SOCKET mSocket;
-	ThreadTask mRecieveConnection;
-	ThreadTask mSendConnection;
 
 public:
 	explicit ListeningSocket(const SOCKET & pSocket, const std::function<bool(const std::string &, ListeningSocket *)> & pRecieveMessageFunction);

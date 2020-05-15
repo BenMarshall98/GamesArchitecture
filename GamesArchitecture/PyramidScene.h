@@ -20,8 +20,11 @@ enum class ProjectileType
 
 class PyramidScene final : public Scene
 {
-	int mCurrentSizePyramid = 30;
-	int mNextSizePyramid = 30;
+	std::shared_ptr<PlaybackSystem> mPlaybackSystem;
+	std::shared_ptr<PhysicsSystem> mPhysicsSystem;
+	
+	int mCurrentSizePyramid = 3;
+	int mNextSizePyramid = 3;
 	bool mMainCamera = false;
 
 	bool mSimulation = false;
@@ -32,6 +35,7 @@ class PyramidScene final : public Scene
 	float mTargetGraphics = 1.8f;
 	float mTargetNetwork = 1.8f;
 	float mActualNetwork = 60.0f;
+	float mMaxTime = 0.0f;
 
 	int mPlaybackSpeed = 9;
 	int mDisplayPlaybackSpeed = 9;
@@ -42,9 +46,6 @@ class PyramidScene final : public Scene
 
 	ProjectileType mProjectile = ProjectileType::SMALL;
 	bool mReset = false;
-
-	std::shared_ptr<PlaybackSystem> mPlaybackSystem;
-	std::shared_ptr<PhysicsSystem> mPhysicsSystem;
 	
 	void Reset();
 
@@ -72,8 +73,9 @@ public:
 		mPhysicsSystem->StartSimulation();
 	}
 
-	void StartPlayback()
+	void StartPlayback(const float pMaxTime)
 	{
+		mMaxTime = pMaxTime;
 		mPlayback = true;
 		mSimulation = false;
 		mPhysicsSystem->StopSimulation();
@@ -127,5 +129,11 @@ public:
 	void SetNetworkActualTime(const float pTime)
 	{
 		mActualNetwork = pTime;
+	}
+
+	void SetReset(const int pSize)
+	{
+		mNextSizePyramid = pSize;
+		mReset = true;
 	}
 };

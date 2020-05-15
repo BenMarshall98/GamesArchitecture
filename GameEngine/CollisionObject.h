@@ -12,9 +12,9 @@ class CollisionObject;
 
 struct CollisionData
 {
+	glm::vec3 mCollisionNormal;
 	CollisionObject * mObject1;
 	CollisionObject * mObject2;
-	glm::vec3 mCollisionNormal;
 	float mTime;
 	float mDepth;
 };

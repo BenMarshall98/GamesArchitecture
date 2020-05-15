@@ -11,8 +11,6 @@ class PhysicsManager
 	PhysicsManager() = default;
 	static PhysicsManager * mInstance;
 
-	std::unique_ptr<PhysicsTree> mPhysicsTree;
-
 	std::vector<std::shared_ptr<CollisionObject>> mInfiniteCollisionObjects;
 	std::vector<std::shared_ptr<CollisionObject>> mStaticCollisionObjects;
 	std::vector<std::shared_ptr<CollisionObject>> mDynamicCollisionObjects;
@@ -23,6 +21,8 @@ class PhysicsManager
 	std::vector<std::shared_ptr<CollisionObject>> mRemoveStaticCollisionObjects;
 	std::vector<std::shared_ptr<CollisionObject>> mRemoveDynamicCollisionObjects;
 	std::vector<CollisionObject *> mNonTreeCollisionObjects;
+
+	std::unique_ptr<PhysicsTree> mPhysicsTree;
 	
 public:
 	~PhysicsManager() = default;

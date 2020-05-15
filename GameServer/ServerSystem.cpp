@@ -22,17 +22,41 @@ void ServerSystem::Action(float pDeltaTime)
 	//Get Networking Messages
 	std::vector<std::string> messages = ServerNetworkingManager::Instance()->GetRecievedMessages();
 
+	if (!mResetComplete)
+	{
+		mResetComplete = mResetCount == ServerNetworkingManager::Instance()->NumberOfConnections();
+	}
+	
 	//Go Through Networking Messages
 	for (int i = 0; i < messages.size(); i++)
 	{
+		const auto idMessage = messages[i].substr(1, 1);
+
+		const auto id = std::stoi(idMessage);
+
+		messages[i] = messages[i].substr(2);
+		
 		auto offset = 0;
 
 		if (messages[i] == "ResetPyramid")
 		{
 			const auto size = mScene->SetReset();
 
-			//TODO: Message
+			mResetCount = 0;
+			mResetComplete = false;
+
+			std::ostringstream str;
+			str << "RPyr" << std::setw(2) << std::setfill('0') << size;
+
+			const auto message = str.str();
+
+			ServerNetworkingManager::Instance()->AddSendMessage(message);
+			
 			continue;
+		}
+		if (messages[i] == "ResetComplete")
+		{
+			mResetCount++;
 		}
 		if (messages[i] == "IncreasePyramid")
 		{
@@ -122,7 +146,7 @@ void ServerSystem::Action(float pDeltaTime)
 		const auto type = messages[i].substr(offset, 4);
 
 		//TODO: Playback controls and other messages
-		if (type == "AddP")
+		if (type == "AddP" && mResetComplete)
 		{
 			const auto projectileType = messages[i].substr(offset += 4, 1);
 
@@ -183,67 +207,110 @@ void ServerSystem::Action(float pDeltaTime)
 	
 	System::Action(pDeltaTime);
 
-	if (mScene->GetSimulationTime() > 4.0f && mScene->GetSimulation())
+	if (mScene->GetSimulationTime() > 60.0f && mScene->GetSimulation())
 	{
-		ServerNetworkingManager::Instance()->AddSendMessage("StartPlayback");
+		std::ostringstream str;
+		str << "SPla";
+
+		const auto simulationTime = mScene->GetSimulationTime();
+		uint32_t num = *((uint32_t*)&simulationTime);
+		str << std::setw(8) << std::setfill('0') << std::hex << num;
+		
+		const auto message = str.str();
+
+		ServerNetworkingManager::Instance()->AddSendMessage(message);
+		
 		mScene->StartPlayback();
 	}
 
 	if (mScene->GetSimulation())
 	{
+		auto moving = false;
 		const auto simulationTime = mScene->GetSimulationTime();
 
-		std::ostringstream str;
-		str << "Time";
-
-		uint32_t num = *((uint32_t*)&simulationTime);
-		str << std::setw(8) << std::setfill('0') << std::hex << num;
-
-		for (auto & entity : mEntities)
+		for (int i = 0; i < mEntities.size() / 100 + 1; i++)
 		{
-			const auto physicsComponent = std::dynamic_pointer_cast<PhysicsComponent>(entity->GetComponentByType(ComponentType::PHYSICS));
+			std::ostringstream str;
+			str << "Time";
 
-			const auto collisionObject = physicsComponent->GetCollisionObject();
+			uint32_t num = *((uint32_t*)&simulationTime);
+			str << std::setw(8) << std::setfill('0') << std::hex << num;
 
-			if (collisionObject->GetType() == RigidBodyType::STATIC)
+			for (int j = i * 100; j < mEntities.size() && j < (i + 1) * 100; j++)
 			{
-				continue;
-			}
+				const auto physicsComponent = std::dynamic_pointer_cast<PhysicsComponent>(mEntities[j]->GetComponentByType(ComponentType::PHYSICS));
 
-			const auto currentPosition = collisionObject->GetCurrentPosition();
-			const auto currentVelocity = collisionObject->GetCurrentVelocity();
+				const auto collisionObject = physicsComponent->GetCollisionObject();
 
-			//TODO: Check epsilon
-
-			const auto moving = true;// glm::length(currentPosition - collisionObject->GetLastPosition()) > 0.001f;
-			const auto id = entity->GetId();
-
-			str << std::setw(8) << std::setfill('0') << std::hex << id;
-
-			if (moving)
-			{
-				str << "1";
-
-				for (int i = 0; i < 3; i++)
+				if (collisionObject->GetType() == RigidBodyType::STATIC)
 				{
-					uint32_t num = *((uint32_t*)&currentPosition[i]);
-					str << std::setw(8) << std::setfill('0') << std::hex << num;
+					continue;
 				}
 
-				for (int i = 0; i < 3; i++)
+				const auto currentPosition = collisionObject->GetCurrentPosition();
+				const auto currentVelocity = collisionObject->GetCurrentVelocity();
+
+				//TODO: Check epsilon
+
+				const auto length = glm::length(currentPosition - collisionObject->GetLastPosition());
+				
+				moving |= length > FLT_EPSILON;
+
+				if (!moving)
 				{
-					uint32_t num = *((uint32_t*)&currentVelocity[i]);
-					str << std::setw(8) << std::setfill('0') << std::hex << num;
+					int i = 0;
+				}
+				
+				const auto id = mEntities[j]->GetId();
+
+				str << std::setw(8) << std::setfill('0') << std::hex << id;
+
+				{
+					str << "1";
+
+					for (int i = 0; i < 3; i++)
+					{
+						uint32_t num = *((uint32_t*)&currentPosition[i]);
+						str << std::setw(8) << std::setfill('0') << std::hex << num;
+					}
+
+					for (int i = 0; i < 3; i++)
+					{
+						uint32_t num = *((uint32_t*)&currentVelocity[i]);
+						str << std::setw(8) << std::setfill('0') << std::hex << num;
+					}
 				}
 			}
-			else
-			{
-				str << "0";
-			}
+
+			const auto message = str.str();
+
+			ServerNetworkingManager::Instance()->AddSendMessage(message);
 		}
 
-		const auto message = str.str();
+		static auto count = 0;
 
-		ServerNetworkingManager::Instance()->AddSendMessage(message);
+		if (moving)
+		{
+			count = 0;
+		}
+		else
+		{
+			count++;
+		}
+
+		if (count > 10)
+		{
+			std::ostringstream str;
+			str << "SPla";
+			
+			uint32_t num = *((uint32_t*)&simulationTime);
+			str << std::setw(8) << std::setfill('0') << std::hex << num;
+
+			const auto message = str.str();
+
+			ServerNetworkingManager::Instance()->AddSendMessage(message);
+			
+			mScene->StartPlayback();
+		}
 	}
 }

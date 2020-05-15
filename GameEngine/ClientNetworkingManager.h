@@ -10,12 +10,12 @@
 
 class ClientNetworkingManager final : public NetworkingManager
 {
-	std::mutex mSendMutex;
-	std::condition_variable mSendConditionVariable;
-	std::vector<std::string> mSendMessages;
-	
 	ThreadTask mRecieveConnection;
 	ThreadTask mSendConnection;
+	
+	std::vector<std::string> mSendMessages;
+	std::mutex mSendMutex;
+	std::condition_variable mSendConditionVariable;
 
 	std::function<bool(const std::string &)> mRecieveMessageFunction;
 	

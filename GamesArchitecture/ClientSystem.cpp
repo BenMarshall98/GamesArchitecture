@@ -33,11 +33,6 @@ void ClientSystem::Action(const float pDeltaTime)
 			mScene->StartSimulation();
 			continue;
 		}
-		if (messages[i] == "StartPlayback")
-		{
-			mScene->StartPlayback();
-			continue;
-		}
 		if (messages[i] == "PausePlayback")
 		{
 			mScene->PausePlayback();
@@ -72,6 +67,16 @@ void ClientSystem::Action(const float pDeltaTime)
 			const auto time = *((float*)&num);
 
 			mScene->SetNetworkActualTime(time);
+		}
+		else if (type == "SPla")
+		{
+			const auto val = messages[i].substr(offset += 4, 8);
+
+			uint32_t num = strtoul(val.c_str(), nullptr, 16);
+
+			const auto time = *((float*)&num);
+
+			mScene->StartPlayback(time);
 		}
 		else if (type == "AddP")
 		{
@@ -211,6 +216,16 @@ void ClientSystem::Action(const float pDeltaTime)
 			int num = strtoul(val.c_str(), nullptr, 10);
 
 			mScene->SetPyramidSize(num);
+		}
+		else if (type == "RPyr")
+		{
+			offset = 4;
+
+			const auto val = messages[i].substr(offset, 2);
+
+			int num = strtoul(val.c_str(), nullptr, 10);
+
+			mScene->SetReset(num);
 		}
 		else if (type == "IPla")
 		{

@@ -72,9 +72,9 @@ bool ClientNetworkingManager::StartListening(const IpAddress& pAddress)
 
 			while (message.size() != size)
 			{
-				char tempBuffer[11] = "";
+				char tempBuffer[101] = "";
 				int left = size - message.size();
-				left = left > 10 ? 10 : left;
+				left = left > 100 ? 100 : left;
 
 				if (recv(mSocket, tempBuffer, left, 0) == SOCKET_ERROR)
 				{

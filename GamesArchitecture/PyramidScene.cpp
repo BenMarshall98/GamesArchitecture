@@ -187,7 +187,7 @@ void PyramidScene::Update(const float pDeltaTime)
 
 		const auto status = Win32Window::Instance()->GetKeyStatus('R');
 
-		if (delay <= 0.0f && status)
+		if (delay <= 0.0f && status && mMainCamera)
 		{
 			delay = 0.5f;
 
@@ -207,7 +207,7 @@ void PyramidScene::Update(const float pDeltaTime)
 
 		const auto status = Win32Window::Instance()->GetKeyStatus('T');
 
-		if (delay <= 0.0f && status)
+		if (delay <= 0.0f && status && mMainCamera)
 		{
 			delay = 0.1f;
 
@@ -226,7 +226,7 @@ void PyramidScene::Update(const float pDeltaTime)
 
 		const auto status = Win32Window::Instance()->GetKeyStatus('G');
 
-		if (delay <= 0.0f && status)
+		if (delay <= 0.0f && status && mMainCamera)
 		{
 			delay = 0.1f;
 
@@ -577,9 +577,9 @@ void PyramidScene::Update(const float pDeltaTime)
 	
 	mSimulationTime += pDeltaTime;
 	
-	if (mPlaybackTime > 4.0f)
+	if (mPlaybackTime > mMaxTime)
 	{
-		mPlaybackTime = 4.0f;
+		mPlaybackTime = mMaxTime;
 	}
 	if (mPlaybackTime < 0.0f)
 	{
@@ -599,6 +599,18 @@ void PyramidScene::Unload()
 void PyramidScene::Reset()
 {
 	mCurrentSizePyramid = mNextSizePyramid;
+	mSimulation = false;
+	mSimulationTime = 0.0f;
+	mMaxTime = 0.0f;
+	mPlaybackTime = 0.0f;
+	mDisplaySimulationTime = 0.0f;
+	mDisplayPlaybackTime = 0.0f;
+	mPlaybackSpeed = 9;
+	mDisplayPlaybackSpeed = 9;
+	mPlayback = false;
+	mPlaybackPlay = true;
+	mPhysicsSystem->StopSimulation();
+	mPlaybackSystem->StopSimulation();
 
 	auto entityManager = EntityManager::Instance();
 
@@ -633,6 +645,8 @@ void PyramidScene::Reset()
 
 		mass = true;
 	}
+
+	ClientNetworkingManager::Instance()->AddSendMessage("ResetComplete");
 }
 
 void PyramidScene::Swap()

@@ -50,6 +50,13 @@ void PyramidServerScene::Unload()
 void PyramidServerScene::Reset()
 {
 	mCurrentSizePyramid = mNextSizePyramid;
+	mSimulation = false;
+	mSimulationTime = 0.0f;
+	mPlaybackTime = 0.0f;
+	mPlaybackSpeed = 9;
+	mPlayback = false;
+	mPlaybackPlay = true;
+	mPhysicsSystem->StopSimulation();
 
 	auto entityManager = EntityManager::Instance();
 
@@ -86,11 +93,12 @@ void PyramidServerScene::Reset()
 
 void PyramidServerScene::Swap()
 {
-	//TODO
-
-	EntityManager::Instance()->Swap();
-
-	//TODO: Remove
-
-	std::this_thread::sleep_for(std::chrono::milliseconds(16));                                                                                      
+	if (mReset)
+	{
+		Reset();
+		mReset = false;
+		return;
+	}
+	
+	EntityManager::Instance()->Swap();                                                                                   
 }
