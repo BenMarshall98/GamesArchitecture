@@ -1,5 +1,8 @@
 #include "PyramidServerScene.h"
 
+
+#include <iomanip>
+#include <sstream>
 #include <thread>
 
 
@@ -7,6 +10,7 @@
 #include "../GameEngine/Octree.h"
 #include "../GameEngine/PhysicsManager.h"
 #include "../GameEngine/PhysicsSystem.h"
+#include "../GameEngine/ServerNetworkingManager.h"
 #include "../GameEngine/SystemManager.h"
 #include "PlaneServerEntity.h"
 #include "PyramidShapeServerEntity.h"
@@ -38,6 +42,35 @@ void PyramidServerScene::Update(const float pDeltaTime)
 	if (mSimulation)
 	{
 		mSimulationTime += pDeltaTime;
+	}
+
+	if (mPlaybackPlay)
+	{
+		mPlaybackTime += pDeltaTime * mPlaybackSpeeds[mPlaybackSpeed];
+	}
+
+	if (mPlaybackTime > mMaxPlayback)
+	{
+		mPlaybackTime = mMaxPlayback;
+	}
+	if (mPlaybackTime < 0.0f)
+	{
+		mPlaybackTime = 0.0f;
+	}
+
+	if (mPlayback)
+	{
+		std::ostringstream str;
+
+		str << "CPla";
+
+		const auto time = mPlaybackTime;
+
+		uint32_t num = *((uint32_t*)&(time));
+		str << std::setw(8) << std::setfill('0') << std::hex << num;
+
+		const auto timeMessage = str.str();
+		ServerNetworkingManager::Instance()->AddSendMessage(timeMessage);
 	}
 	
 	EntityManager::Instance()->Update(pDeltaTime);

@@ -1,3 +1,5 @@
+#include <fstream>
+
 #include "../GameEngine/SceneManager.h"
 #include "../GameEngine/ServerNetworkingManager.h"
 #include "../GameEngine/ThreadingManager.h"
@@ -6,9 +8,28 @@
 
 int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCmdShow)
 {
+	std::string ip;
+	int port;
+	std::ifstream reader("NetConfig.txt");
+
+	if (reader.good())
+	{
+		std::string temp;
+		reader >> temp >> ip;
+
+		reader >> temp >> port;
+	}
+	else
+	{
+		ip = "localhost";
+		port = 1234;
+	}
+
+	reader.close();
+	
 	const auto server = ServerNetworkingManager::Instance();
 
-	IpAddress address(7500);
+	IpAddress address(port);
 
 	const auto recieveFunction = [](const std::string & pMessage, ListeningSocket * pSocket)
 	{

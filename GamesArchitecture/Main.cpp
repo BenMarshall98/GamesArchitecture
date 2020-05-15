@@ -7,6 +7,7 @@
 #include "RenderManager.h"
 #include <DirectXColors.h>
 #include <DirectXMath.h>
+#include <fstream>
 #include <memory>
 
 #include "DearImGui/imgui.h"
@@ -24,9 +25,28 @@
 
 int WINAPI wWinMain(const HINSTANCE pHInstance, HINSTANCE, LPWSTR, const int pCmdShow)
 {
+	std::string ip;
+	int port;
+	std::ifstream reader("NetConfig.txt");
+
+	if (reader.good())
+	{
+		std::string temp;
+		reader >> temp >> ip;
+
+		reader >> temp >> port;
+	}
+	else
+	{
+		ip = "localhost";
+		port = 1234;
+	}
+
+	reader.close();
+	
 	const auto client = ClientNetworkingManager::Instance();
 
-	IpAddress address(7500, "127.0.0.1");
+	IpAddress address(port, ip);
 
 	const auto recieveFunction = [](const std::string & pMessage)
 	{

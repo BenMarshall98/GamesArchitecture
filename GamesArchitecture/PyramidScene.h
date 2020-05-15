@@ -35,6 +35,7 @@ class PyramidScene final : public Scene
 	float mTargetGraphics = 1.8f;
 	float mTargetNetwork = 1.8f;
 	float mActualNetwork = 60.0f;
+	float mServerTime = 0.0f;
 	float mMaxTime = 0.0f;
 
 	int mPlaybackSpeed = 9;
@@ -145,5 +146,10 @@ public:
 	void RemoveMainCamera()
 	{
 		mMainCamera = false;
+	}
+
+	void SetServerTime(float pTime)
+	{
+		mServerTime = pTime;
 	}
 };

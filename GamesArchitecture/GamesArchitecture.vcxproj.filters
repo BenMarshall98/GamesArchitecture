@@ -117,4 +117,7 @@
       <Filter>Assets\Shader\Simple</Filter>
     </FxCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="NetConfig.txt" />
+  </ItemGroup>
 </Project>

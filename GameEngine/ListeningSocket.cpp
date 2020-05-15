@@ -34,6 +34,11 @@ ListeningSocket::ListeningSocket(const SOCKET & pSocket, const std::function<boo
 
 			std::string message = buffer;
 
+			if (message.empty())
+			{
+				continue;
+			}
+
 			std::istringstream str(message.substr(0, 4));
 
 			int size;
@@ -172,8 +177,6 @@ ListeningSocket::ListeningSocket(const SOCKET & pSocket, const std::function<boo
 			}
 			
 			AddSendMessage(timeMessage);
-
-			
 		}
 	};
 

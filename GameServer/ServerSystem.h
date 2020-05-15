@@ -8,6 +8,7 @@ class ServerSystem final : public System
 	PyramidServerScene * mScene;
 	int mResetCount = 0;
 	bool mResetComplete = true;
+	int count = 0;
 	
 public:
 	explicit ServerSystem(PyramidServerScene * pScene);

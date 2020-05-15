@@ -72,4 +72,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="NetConfig.txt" />
+  </ItemGroup>
 </Project>

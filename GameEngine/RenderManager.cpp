@@ -129,5 +129,9 @@ void RenderManager::Render()
 		}
 	}
 
-	mRenderObjects.clear();
+	for (auto it = mRenderObjects.begin(); it != mRenderObjects.end(); ++it)
+	{
+		it->second.shrink_to_fit();
+		it->second.clear();
+	}
 }

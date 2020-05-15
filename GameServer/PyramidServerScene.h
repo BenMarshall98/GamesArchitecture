@@ -13,6 +13,7 @@ class PyramidServerScene final : public Scene
 	bool mSimulation = false;
 	float mSimulationTime = 0.0f;
 	float mPlaybackTime = 0.0f;
+	float mMaxPlayback = 0.0f;
 
 	int mPlaybackSpeed = 9;
 	const float mPlaybackSpeeds[12] = { -4.0f, -2.0f, -1.0f, -0.5f, -0.25f, -0.1f, 0.1f, 0.25f, 0.5f, 1.0f, 2.0f, 4.0f };
@@ -59,6 +60,7 @@ public:
 
 	void StartPlayback()
 	{
+		mMaxPlayback = mSimulationTime;
 		mSimulation = false;
 		mPlayback = true;
 		mPhysicsSystem->StopSimulation();

@@ -43,6 +43,7 @@ void ServerSystem::Action(float pDeltaTime)
 			const auto size = mScene->SetReset();
 
 			mResetCount = 0;
+			count = 0;
 			mResetComplete = false;
 
 			std::ostringstream str;
@@ -298,8 +299,6 @@ void ServerSystem::Action(float pDeltaTime)
 
 			ServerNetworkingManager::Instance()->AddSendMessage(message);
 		}
-
-		static auto count = 0;
 
 		if (moving)
 		{

@@ -86,6 +86,16 @@ void ClientSystem::Action(const float pDeltaTime)
 
 			mScene->StartPlayback(time);
 		}
+		else if (type == "CPla")
+		{
+			const auto val = messages[i].substr(offset += 4, 8);
+
+			uint32_t num = strtoul(val.c_str(), nullptr, 16);
+
+			const auto time = *((float*)&num);
+
+			mScene->SetServerTime(time);
+		}
 		else if (type == "AddP")
 		{
 			const auto projectileType = messages[i].substr(offset += 4, 1);

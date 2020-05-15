@@ -588,6 +588,11 @@ void PyramidScene::Update(const float pDeltaTime)
 	if (mPlaybackPlay)
 	{
 		mPlaybackTime += pDeltaTime * mPlaybackSpeeds[mPlaybackSpeed];
+		mServerTime += pDeltaTime * mPlaybackSpeeds[mPlaybackSpeed];
+	}
+	else
+	{
+		mPlaybackTime = mServerTime;
 	}
 	
 	mSimulationTime += pDeltaTime;
@@ -600,6 +605,17 @@ void PyramidScene::Update(const float pDeltaTime)
 	{
 		mPlaybackTime = 0.0f;
 	}
+
+	if (mServerTime > mMaxTime)
+	{
+		mServerTime = mMaxTime;
+	}
+	if (mServerTime < 0.0f)
+	{
+		mServerTime = 0.0f;
+	}
+
+	mPlaybackTime = glm::mix(mPlaybackTime, mServerTime, 0.1f);
 	
 	mPlaybackSystem->SetPlaybackTime(mPlaybackTime);
 
