@@ -53,6 +53,14 @@ void ClientSystem::Action(const float pDeltaTime)
 			mScene->StepUpPlayback();
 			continue;
 		}
+		if (messages[i] == "MainCamera")
+		{
+			mScene->SetMainCamera();
+		}
+		if (messages[i] == "RemoveMainCamera")
+		{
+			mScene->RemoveMainCamera();
+		}
 		
 		auto offset = 0;
 		const auto type = messages[i].substr(offset, 4);

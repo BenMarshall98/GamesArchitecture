@@ -87,8 +87,23 @@ void PyramidScene::Render()
 		ImGui::Text("Current Playback Speed %.2f", mPlaybackSpeeds[mDisplayPlaybackSpeed]);
 		ImGui::Text("Playback Status: %s", mPlaybackPlay ? "Playing" : "Paused");
 	}
+
+	bool check = mMainCamera;
 	
 	ImGui::Checkbox("Main Camera", &mMainCamera);
+
+	if (check != mMainCamera)
+	{
+		if (mMainCamera)
+		{
+			ClientNetworkingManager::Instance()->AddSendMessage("MainCamera");
+		}
+		else
+		{
+			ClientNetworkingManager::Instance()->AddSendMessage("RemoveMainCamera");
+		}
+		mMainCamera = check;
+	}
 
 	if (mMainCamera)
 	{
@@ -593,7 +608,7 @@ void PyramidScene::Update(const float pDeltaTime)
 
 void PyramidScene::Unload()
 {
-
+	ClientNetworkingManager::Instance()->AddSendMessage("RemoveMainCamera");
 }
 
 void PyramidScene::Reset()

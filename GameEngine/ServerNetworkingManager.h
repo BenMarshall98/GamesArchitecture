@@ -57,5 +57,7 @@ public:
 
 		return mListeningSockets.size();
 	}
+
+	void AddSendMessage(const std::string & pMessage, int pId);
 };
 

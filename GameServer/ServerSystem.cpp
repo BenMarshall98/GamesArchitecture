@@ -142,6 +142,20 @@ void ServerSystem::Action(float pDeltaTime)
 
 			continue;
 		}
+		if (messages[i] == "MainCamera")
+		{
+			if(mScene->SetMainCamera(id))
+			{
+				ServerNetworkingManager::Instance()->AddSendMessage("MainCamera", id);
+			}
+		}
+		if (messages[i] == "RemoveMainCamera")
+		{
+			if (mScene->RemoveMainCamera(id))
+			{
+				ServerNetworkingManager::Instance()->AddSendMessage("RemoveMainCamera", id);
+			}
+		}
 		
 		const auto type = messages[i].substr(offset, 4);
 
@@ -249,8 +263,6 @@ void ServerSystem::Action(float pDeltaTime)
 
 				const auto currentPosition = collisionObject->GetCurrentPosition();
 				const auto currentVelocity = collisionObject->GetCurrentVelocity();
-
-				//TODO: Check epsilon
 
 				const auto length = glm::length(currentPosition - collisionObject->GetLastPosition());
 				

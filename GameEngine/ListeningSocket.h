@@ -42,5 +42,10 @@ public:
 	{
 		mTargetTime = pTargetTime;
 	}
+
+	int GetId() const
+	{
+		return mID;
+	}
 };
 

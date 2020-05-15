@@ -21,6 +21,8 @@ class PyramidServerScene final : public Scene
 	bool mPlaybackPlay = true;
 
 	bool mReset = true;
+
+	int mMainCamera = -1;
 	
 	void Reset();
 	
@@ -147,6 +149,27 @@ public:
 		{
 			mPlaybackTime = 4.0f;
 		}
+	}
+
+	bool SetMainCamera(int pID)
+	{
+		if (mMainCamera == -1)
+		{
+			mMainCamera = pID;
+			return true;
+		}
+
+		return false;
+	}
+
+	bool RemoveMainCamera(int pID)
+	{
+		if (mMainCamera == pID)
+		{
+			mMainCamera = -1;
+			return true;
+		}
+		return false;
 	}
 };
 

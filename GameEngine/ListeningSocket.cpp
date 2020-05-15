@@ -98,7 +98,7 @@ ListeningSocket::ListeningSocket(const SOCKET & pSocket, const std::function<boo
 
 			if (!mRecieveMessageFunction(message, this))
 			{
-				ServerNetworkingManager::Instance()->AddRecieveMessage("C" + std::to_string(ID) + message);
+				ServerNetworkingManager::Instance()->AddRecieveMessage("C" + std::to_string(mID) + message);
 			}
 		}
 	};

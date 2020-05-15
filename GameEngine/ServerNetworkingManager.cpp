@@ -105,3 +105,17 @@ void ServerNetworkingManager::AddSendMessage(const std::string& pMessage)
 		mListeningSockets[i]->AddSendMessage(pMessage);
 	}
 }
+
+
+void ServerNetworkingManager::AddSendMessage(const std::string& pMessage, int pId)
+{
+	std::lock_guard<std::mutex> lock(mListeningMutex);
+
+	for (int i = 0; i < mListeningSockets.size(); i++)
+	{
+		if (mListeningSockets[i]->GetId() == pId)
+		{
+			mListeningSockets[i]->AddSendMessage(pMessage);
+		}
+	}
+}

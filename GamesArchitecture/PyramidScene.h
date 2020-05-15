@@ -136,4 +136,14 @@ public:
 		mNextSizePyramid = pSize;
 		mReset = true;
 	}
+
+	void SetMainCamera()
+	{
+		mMainCamera = true;
+	}
+
+	void RemoveMainCamera()
+	{
+		mMainCamera = false;
+	}
 };

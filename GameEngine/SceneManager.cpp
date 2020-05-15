@@ -125,4 +125,10 @@ void SceneManager::Run(const std::shared_ptr<Scene>& pScene)
 	mCv.notify_one();
 
 	task.Close();
+
+	while(!mScenes.empty())
+	{
+		mScenes.top()->Unload();
+		mScenes.pop();
+	}
 }
